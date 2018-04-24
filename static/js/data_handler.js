@@ -9,19 +9,47 @@ let dataHandler = {
     _loadData: function() {
         // it is not called from outside
         // loads data from local storage, parses it and put into this._data property
+        let jsonString = localStorage.getItem(this.keyInLocalStorage);
+        this._data = JSON.parse(jsonString);
     },
     _saveData: function() {
         // it is not called from outside
         // saves the data from this._data to local storage
+        localStorage.setItem(this.keyInLocalStorage, JSON.stringify(this._data));
     },
     init: function() {
         this._loadData();
     },
     getBoards: function(callback) {
         // the boards are retrieved and then the callback function is called with the boards
+        let boards = this._data.boards;
+
+        if (typeof(boards) == 'undefined') {
+            console.log("There's no boards");
+        }
+        else {
+            if (callback) {
+                return callback(boards);
+            }
+            else {
+                return boards;
+            }
+        }
     },
     getBoard: function(boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
+        return this.getBoards(function(boards) {
+            for (let i = 0; i < boards.length; i++) {
+                if (boards[i].id == boardId) {
+                    if (callback) {
+                        return callback(boards[i]);
+                    }
+                    else {
+                        return boards[i];
+                    }
+                }
+            }
+        });
     },
     getStatuses: function(callback) {
         // the statuses are retrieved and then the callback function is called with the statuses

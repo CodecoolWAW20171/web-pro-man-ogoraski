@@ -4,7 +4,6 @@ function init() {
     dataHandler.init();
     // loads the boards to the screen
     dom.loadBoards();
-
 }
 
 init();
