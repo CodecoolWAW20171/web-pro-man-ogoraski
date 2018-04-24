@@ -10,13 +10,16 @@ let dataHandler = {
         // it is not called from outside
         // loads data from local storage, parses it and put into this._data property
         let jsonString = localStorage.getItem(this.keyInLocalStorage);
+
         if (jsonString != null) {
             this._data = JSON.parse(jsonString);
         }
         else {
-            this._data = {"statuses": [],
+            this._data = {
+                          "statuses": [],
                           "boards": [],
-                          "cards": []}
+                          "cards": []
+                         }
         }
     },
     _saveData: function() {
@@ -36,6 +39,9 @@ let dataHandler = {
             return null;
         }
         else {
+            for (let i = 0; i < boards.length; i++) {
+                boards[i].is_active = false;
+            }
             if (callback) {
                 return callback(boards);
             }
@@ -68,21 +74,133 @@ let dataHandler = {
     },
     getStatuses: function(callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
+        let statuses = this._data.statuses;
+
+        if (typeof(statuses) == "undefined") {
+            console.log("There's no statuses");
+            return null;
+        }
+        else {
+            if (callback) {
+                return callback(statuses);
+            }
+            else {
+                return statuses;
+            }
+        }
     },
     getStatus: function(statusId, callback) {
         // the status is retrieved and then the callback function is called with the status
+        let status = this.getStatuses(function(statuses) {
+            for (let i = 0; i < statuses.length; i++) {
+                if (statuses[i].id == statusId) {
+                    if (callback) {
+                        return callback(statuses[i]);
+                    }
+                    else {
+                        return statuses[i];
+                    }
+                }
+            }
+        });
+        if (status) {
+            return status;
+        }
+        else {
+            console.log("There's no status with id " + statusId);
+            return null;
+        }
     },
     getCardsByBoardId: function(boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
+        let cards = this._data.cards,
+            results = [];
+
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].board_id == boardId) {
+                results.push(cards[i]);
+            }
+        }
+
+        if (results.length == 0) {
+            console.log("There's no cards in board with id " + boardId);
+            return null;
+        }
+        else {
+            if (callback) {
+                return callback(results);
+            }
+            else {
+                return results;
+            }
+        }
     },
     getCard: function(cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
+        let cards = this._data.cards;
+
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].id == cardId) {
+                if (callback) {
+                    return callback(cards[i]);
+                }
+                else {
+                    return cards[i];
+                }                
+            }
+        }
+
+        console.log("There's no card with id " + cardId);
+        return null;
     },
     createNewBoard: function(boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
+        let boards = this._data.boards,
+            lastId = boards[boards.length-1].id + 1;
+
+        boards.push({
+                     "id": lastId,
+                     "title": boardTitle,
+                     "is_active": false
+                    });
+        
+        this._saveData();
+        if (callback) {
+            return callback(this._data);
+        }
     },
     createNewCard: function(cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
-    }
+        let cards = this._data.cards,
+            lastId = cards[cards.length-1].id + 1;
+
+        cards.push({
+                     "id": lastId,
+                     "title": cardTitle,
+                     "board_id": boardId,
+                     "status_id": statusId,
+                     "order": this.getLastCardsOrder(boardId)
+                    });
+
+        this._saveData();
+        if (callback) {
+            return callback(this._data);
+        }
+    },
     // here comes more features
+    getLastCardsOrder(boardId) {
+        return this.getCardsByBoardId(boardId, function(cards=results) {
+            let lastOrder = 0; 
+
+            for (let i = 0; i < cards.length; i++) {
+                if (lastOrder < cards[i].order) {
+                    lastOrder = cards[i].order;
+                    console.log(lastOrder)
+                }
+            }
+            lastOrder++;
+
+            return lastOrder;
+        });
+    }
 };

@@ -26,12 +26,12 @@ let sampleData = {
         {
             "id": 1,
             "title": "Test Board 1",
-            "is_active": true
+            "is_active": false
         },
         {
             "id": 2,
             "title": "Test Board 2",
-            "is_active": true
+            "is_active": false
         }
     ],
     "cards": [
@@ -81,4 +81,3 @@ let sampleData = {
 };
 
 localStorage.setItem(keyInLocalStorage, JSON.stringify(sampleData));
-
