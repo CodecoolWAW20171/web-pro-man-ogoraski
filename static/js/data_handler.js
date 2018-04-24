@@ -4,13 +4,20 @@
 // (watch out: when you would like to use a property/function of an object from the
 // object itself then you must use the 'this' keyword before. For example: 'this._data' below)
 let dataHandler = {
-    keyInLocalStorage: 'proman-data', // the string that you use as a key in localStorage to save your application data
+    keyInLocalStorage: "proman-data", // the string that you use as a key in localStorage to save your application data
     _data: {}, // it contains the boards and their cards and statuses. It is not called from outside.
     _loadData: function() {
         // it is not called from outside
         // loads data from local storage, parses it and put into this._data property
         let jsonString = localStorage.getItem(this.keyInLocalStorage);
-        this._data = JSON.parse(jsonString);
+        if (jsonString != null) {
+            this._data = JSON.parse(jsonString);
+        }
+        else {
+            this._data = {"statuses": [],
+                          "boards": [],
+                          "cards": []}
+        }
     },
     _saveData: function() {
         // it is not called from outside
@@ -24,8 +31,9 @@ let dataHandler = {
         // the boards are retrieved and then the callback function is called with the boards
         let boards = this._data.boards;
 
-        if (typeof(boards) == 'undefined') {
+        if (typeof(boards) == "undefined") {
             console.log("There's no boards");
+            return null;
         }
         else {
             if (callback) {
@@ -38,7 +46,7 @@ let dataHandler = {
     },
     getBoard: function(boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
-        return this.getBoards(function(boards) {
+        let board = this.getBoards(function(boards) {
             for (let i = 0; i < boards.length; i++) {
                 if (boards[i].id == boardId) {
                     if (callback) {
@@ -50,6 +58,13 @@ let dataHandler = {
                 }
             }
         });
+        if (board) {
+            return board;
+        }
+        else {
+            console.log("There's no board with id " + boardId);
+            return null;
+        }
     },
     getStatuses: function(callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
