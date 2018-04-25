@@ -25,7 +25,7 @@ let dom = {
     showCards: function(cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        let status = document.getElementById("statuses").lastChild;
+        let status = document.getElementById("statuses");
         
         cards.forEach(card => {
             let div = document.createElement("div");
