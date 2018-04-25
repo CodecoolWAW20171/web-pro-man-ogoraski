@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif&subset=latin-ext');
+@import 'w3-normalize.css';
+@import 'w3-color-theme';
+@import 'w3-columns';
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 300px;
+}
+
+body {
+    @extend %w3-theme-l5;
+    font: {
+        family: 'Bree Serif', 'serif';
+        size: 12pt;
+    }
+    line-height: 1.5;
+}
+
+.wrapper {
+    padding: 0 5%;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    margin: 8px 0;
+}
+
+h1 {
+    display: inline;
+}
+
+header {
+    @extend %w3-theme-d5;
+    padding: 8px;
+}
+
+.page-title {
+    padding: 10px;
+}
+
+.row {
+    margin-bottom: 10px;
+    & > * {
+        padding: 0.1em 8px;
+    }
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+select {
+    display: block;
+    padding: 6px 0;
+    width:100%;
+    border:none;
+    border-bottom:1px solid $d5;
+    background-color: $l5;
+}
+
+button {
+    border: none;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    
+    &.btn {
+        @extend %w3-theme-d1;
+        width: 100%;
+        margin: 12px auto;
+        padding: 12px 24px;
+
+        &:hover {
+            @extend %w3-theme-l2;
+        }
+    }
+
+    &.btn-add {
+        float: right;
+        position: relative;
+        top: 12px;
+    }
+    
+}
+
+footer {
+    @extend %w3-theme-d5;
+    margin-top: 24px;
+    font-size: 0.8em;
+    text-align: center;
+    padding: 4px 8px;
+    .copyright {
+        margin: 0;
+    }
+}
