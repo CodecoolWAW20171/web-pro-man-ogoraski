@@ -56,11 +56,21 @@ let dom = {
     },
     loadCards: function(boardId) {
         // retrieves cards and makes showCards called
-        
+        this.showCards(dataHandler.getCardsByBoardId(boardId));
     },
     showCards: function(cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        let status = document.getElementById("statuses");
+        
+        cards.forEach(card => {
+            let div = document.createElement("div");
+            let text = document.createTextNode(card.title); 
+            div.appendChild(text);
+            div.id = "card" + card.id;
+            
+            status.appendChild(div);
+        });
     },
     // here comes more features
     toggleViewBoard: function(boardId) {

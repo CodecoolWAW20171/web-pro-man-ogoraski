@@ -4,6 +4,10 @@ function init() {
     dataHandler.init();
     // loads the boards to the screen
     dom.loadBoards();
+    document.getElementById("new-board").addEventListener('click', function() {
+        dataHandler.createNewBoard(prompt('board name:'))
+    });
+
 }
 
 init();
