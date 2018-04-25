@@ -162,8 +162,37 @@ header {
   padding: 8px;
 }
 
-.page-title {
-  padding: 10px;
+#loading {
+  text-align: center;
+}
+
+.board-container {
+  width: 100%;
+  margin: 8px 0;
+  padding: 6px 12px;
+  background-color: #496a82;
+}
+.board-container .board-bar {
+  cursor: pointer;
+}
+.board-container .board-bar h3 {
+  display: inline;
+}
+.board-container .board-bar i {
+  float: right;
+  transition: 0.3s;
+}
+.board-container .board-bar::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.board-container .board-details {
+  display: none;
+}
+
+.open i {
+  transform: rotate(180deg);
 }
 
 .row {
@@ -178,13 +207,10 @@ header {
   clear: both;
 }
 
-select {
-  display: block;
-  padding: 6px 0;
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #344b5d;
-  background-color: #f7f9fa;
+.status-title {
+  background-color: #c7d5df;
+  text-align: center;
+  border: 1px solid #344b5d;
 }
 
 button {

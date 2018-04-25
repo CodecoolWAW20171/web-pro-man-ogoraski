@@ -39,8 +39,43 @@ header {
     padding: 8px;
 }
 
-.page-title {
-    padding: 10px;
+
+#loading {
+    text-align: center;
+}
+
+.board-container {
+    width: 100%;
+    margin: 8px 0;
+    padding: 6px 12px;
+    background-color: $d3;
+
+    .board-bar {
+        cursor: pointer;
+        h3 {
+            display: inline;
+        }
+        i {
+            float: right;
+            transition: 0.3s;
+        }
+        &::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    }
+
+    .board-details {
+        display: none;
+    }
+
+}
+
+.open {
+    i {
+        transform: rotate(180deg);
+    }
 }
 
 .row {
@@ -55,13 +90,10 @@ header {
     }
 }
 
-select {
-    display: block;
-    padding: 6px 0;
-    width:100%;
-    border:none;
-    border-bottom:1px solid $d5;
-    background-color: $l5;
+.status-title {
+    background-color: $l3;
+    text-align: center;
+    border: 1px solid $d5;
 }
 
 button {

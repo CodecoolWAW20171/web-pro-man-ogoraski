@@ -39,9 +39,6 @@ let dataHandler = {
             return null;
         }
         else {
-            for (let i = 0; i < boards.length; i++) {
-                boards[i].is_active = false;
-            }
             if (callback) {
                 return callback(boards);
             }
