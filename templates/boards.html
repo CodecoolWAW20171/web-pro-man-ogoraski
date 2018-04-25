@@ -4,15 +4,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ProMan</title>
+        <title>Trollo</title>
 
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
         <script src="{{ url_for('static', filename='js/data_handler.js') }}" defer></script>
         <script src="{{ url_for('static', filename='js/dom.js') }}" defer></script>
         <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <h1>ProMan</h1>
+        <div class="wrapper">
+            <header>
+                <h1>Trollo</h1>
+                <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> New board</button>
+            </header>
         <div id="boards">Boards are loading...</div>
+        <footer>
+            <p class="copyright">&copy; 2018 Sejsmogrzmoty. All rights reserved.</p>
+        </footer>
     </body>
 </html>

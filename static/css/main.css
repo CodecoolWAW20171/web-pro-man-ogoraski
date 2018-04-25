@@ -1,3 +1,218 @@
-#boards {
-    background-color: green;
+@import url("https://fonts.googleapis.com/css?family=Bree+Serif&subset=latin-ext");
+@import 'w3-normalize.css';
+body {
+  color: #000 !important;
+  background-color: #f7f9fa !important;
+}
+
+button.btn:hover {
+  color: #000 !important;
+  background-color: #abc0d0 !important;
+}
+
+button.btn {
+  color: #fff !important;
+  background-color: #6087a6 !important;
+}
+
+footer, header {
+  color: #fff !important;
+  background-color: #344b5d !important;
+}
+
+/* For mobile phones: */
+[class*=col-] {
+  display: block;
+  width: 100%;
+}
+@media only screen and (min-width: 601px) {
+  [class*=col-] {
+    float: left;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  /* For tablets: */
+  .col-s-1 {
+    width: 8.33%;
+  }
+
+  .col-s-2 {
+    width: 16.66%;
+  }
+
+  .col-s-3 {
+    width: 25%;
+  }
+
+  .col-s-4 {
+    width: 33.33%;
+  }
+
+  .col-s-5 {
+    width: 41.66%;
+  }
+
+  .col-s-6 {
+    width: 50%;
+  }
+
+  .col-s-7 {
+    width: 58.33%;
+  }
+
+  .col-s-8 {
+    width: 66.66%;
+  }
+
+  .col-s-9 {
+    width: 75%;
+  }
+
+  .col-s-10 {
+    width: 83.33%;
+  }
+
+  .col-s-11 {
+    width: 91.66%;
+  }
+
+  .col-s-12 {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 993px) {
+  /* For desktop: */
+  .col-1 {
+    width: 8.33%;
+  }
+
+  .col-2 {
+    width: 16.66%;
+  }
+
+  .col-3 {
+    width: 25%;
+  }
+
+  .col-4 {
+    width: 33.33%;
+  }
+
+  .col-5 {
+    width: 41.66%;
+  }
+
+  .col-6 {
+    width: 50%;
+  }
+
+  .col-7 {
+    width: 58.33%;
+  }
+
+  .col-8 {
+    width: 66.66%;
+  }
+
+  .col-9 {
+    width: 75%;
+  }
+
+  .col-10 {
+    width: 83.33%;
+  }
+
+  .col-11 {
+    width: 91.66%;
+  }
+
+  .col-12 {
+    width: 100%;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 300px;
+}
+
+body {
+  font-family: "Bree Serif", "serif";
+  font-size: 12pt;
+  line-height: 1.5;
+}
+
+.wrapper {
+  padding: 0 5%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  margin: 8px 0;
+}
+
+h1 {
+  display: inline;
+}
+
+header {
+  padding: 8px;
+}
+
+.page-title {
+  padding: 10px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+.row > * {
+  padding: 0.1em 8px;
+}
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+select {
+  display: block;
+  padding: 6px 0;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #344b5d;
+  background-color: #f7f9fa;
+}
+
+button {
+  border: none;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+button.btn {
+  width: 100%;
+  margin: 12px auto;
+  padding: 12px 24px;
+}
+button.btn-add {
+  float: right;
+  position: relative;
+  top: 12px;
+}
+
+footer {
+  margin-top: 24px;
+  font-size: 0.8em;
+  text-align: center;
+  padding: 4px 8px;
+}
+footer .copyright {
+  margin: 0;
 }
