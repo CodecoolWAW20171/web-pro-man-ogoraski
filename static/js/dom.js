@@ -1,21 +1,25 @@
 // It uses data_handler.js to visualize elements
 let dom = {
     init: function() {
-        this.loadBoards();
-        createBoardForm();
+        var afterLoad = function() {
+            createBoardForm();
+            createTaskBtn();
+            dom.resizeTextareas();
+        }
+        this.loadBoards(afterLoad);
         this.resizeTextareas();
     },
 
-    loadBoards: function() {
+    loadBoards: function(callback) {
         // retrieves boards and makes showBoards called
         let boards = dataHandler.getBoards();
         setTimeout(function() {
             document.getElementById("boards").innerHTML = "";
-            dom.showBoards(boards);
+            dom.showBoards(boards, callback);
         }, 500);
     },
 
-    showBoards: function(boards) {
+    showBoards: function(boards, callback) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
         
@@ -39,6 +43,7 @@ let dom = {
             buttonAddCard.id = "add-card-" + board.id;
             buttonAddCard.className = "btn-hidden";
             buttonAddCard.innerHTML = "<i class=\"fas fa-plus\"></i> &nbsp;New card";
+
             
             boardsListContainer.appendChild(boardListElement);
             boardListElement.appendChild(boardBar);
@@ -87,10 +92,12 @@ let dom = {
                 dom.hideBoards(boards, board.id);
                 dom.toggleViewBoard(board.id);
             });
+            buttonAddCard.addEventListener("click", function (event){
+                event.stopPropagation();
+            });
             dom.loadCards(board.id);
         });
-        dom.resizeTextareas();
-        createTaskBtn();
+        callback();
     },
 
     loadCards: function(boardId) {
