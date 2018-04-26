@@ -1,5 +1,11 @@
 // It uses data_handler.js to visualize elements
 let dom = {
+    init: function() {
+        this.loadBoards();
+        createBoardForm();
+        this.resizeTextareas();
+    },
+
     loadBoards: function() {
         // retrieves boards and makes showBoards called
         let boards = dataHandler.getBoards();
@@ -8,6 +14,7 @@ let dom = {
             dom.showBoards(boards);
         }, 500);
     },
+
     showBoards: function(boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
@@ -40,6 +47,7 @@ let dom = {
             boardBar.appendChild(buttonAddCard);
             boardHeader.appendChild(boardTitle);
 
+            // Board detailed container with statuses and cards
             let boardDetails = document.createElement("div");
             boardDetails.className = "board-details";
             boardDetails.style.height = 0;
@@ -113,6 +121,7 @@ let dom = {
                     cardText.setAttribute("rows", "1");
                     let cardTitle = document.createTextNode(card.title);
                     let submitCardButton = document.createElement("button");
+                    submitCardButton.card
                     submitCardButton.className = "btn-submit";
                     submitCardButton.innerHTML = "Save";
                     
@@ -163,14 +172,14 @@ let dom = {
         });
     },
     hideModal: function(){
-        let modal = document.getElementById('myModal');
-        modal.style.display = 'none';
+        let modal = document.getElementById("myModal");
+        modal.style.display = "none";
         
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = 'none';
+                modal.style.display = "none";
             }
-        }
+        };
     },
     addNewBoard: function() {
         document.getElementById("new-board-btn").addEventListener("click", function() {
@@ -221,66 +230,47 @@ function expandSection(element) {
 function OnInput() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-function debounce(func, wait, immediate) {
-    var timeout;
-    return function() {
-        var context = this, args = arguments;
-        var later = function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
 }
 
-
 // ------- Create board --------
-document.getElementById('new-board').addEventListener('click', function() {
-    var modal = document.getElementById('myModal'),
-        closeBtn = document.getElementsByClassName('close')[0];
+function createBoardForm() {
+    document.getElementById("new-board").addEventListener("click", function() {
+        var modal = document.getElementById("myModal");
+        var closeBtn = document.getElementsByClassName("close")[0];
 
-    modal.style.display = 'block';
-    
-    closeBtn.onclick = function() {
-        modal.style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
+        modal.style.display = "block";
+        
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
         }
-    }
-});
 
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    });
 
-document.getElementById("tableTitle").addEventListener("input", function() {
-    let input = document.getElementById("tableTitle").value,
-        submitBtn = document.getElementById('create');
+    document.getElementById("new-board-title").addEventListener("input", function() {
+        let input = document.getElementById("new-board-title").value;
+        let submitBtn = document.getElementById("create-board");
+        let caption = document.getElementById("input-caption");
 
-    if (input.length > 2) {
-        submitBtn.className = "create";
-        submitBtn.disabled = false;
+        if (input.length > 2) {
+            submitBtn.disabled = false;
+            caption.style.display = "none";
 
-        submitBtn.onclick = function() {
-            dataHandler.createNewBoard(input);
-            location.reload();
+            submitBtn.onclick = function() {
+                dataHandler.createNewBoard(input);
+                location.reload();
+            };
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.onclick = function() {};
+            caption.style.display = "block";
         }
-    }
-    else {
-        submitBtn.className = "createDisabled";
-        submitBtn.disabled = true;
-        submitBtn.onclick = function() {};
-    }
-});
-}}
-
+    });
+}
 
 // Drag and drop
 function drag(ev) {

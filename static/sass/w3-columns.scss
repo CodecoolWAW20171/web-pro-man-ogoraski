@@ -1,3 +1,19 @@
+%clearfix {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.row2 {
+    & > * {
+        vertical-align: middle;
+        padding: 2px 8px;
+    }
+    &::after {
+        @extend %clearfix;
+    }
+}
+
 /* Main cointer for columns */
 .row {
     margin-bottom: 10px;
@@ -5,9 +21,7 @@
         padding: 0.1em 8px;
     }
     &::after {
-        content: "";
-        display: table;
-        clear: both;
+        @extend %clearfix;
     }
 }
 

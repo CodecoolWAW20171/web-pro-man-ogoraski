@@ -13,13 +13,12 @@ let dataHandler = {
 
         if (jsonString != null) {
             this._data = JSON.parse(jsonString);
-        }
-        else {
+        } else {
             this._data = {
-                          "statuses": [],
-                          "boards": [],
-                          "cards": []
-                         }
+                "statuses": [],
+                "boards": [],
+                "cards": []
+            };
         }
     },
     _saveData: function() {
@@ -34,18 +33,16 @@ let dataHandler = {
         // the boards are retrieved and then the callback function is called with the boards
         let boards = this._data.boards;
 
-        for (let i = 0; i < boards.length; i++) {
-            boards.is_active = false;
-        }
-        if (typeof(boards) == "undefined") {
+        // for (let i = 0; i < boards.length; i++) {
+        //     boards.is_active = false;
+        // }
+        if (typeof(boards) === "undefined") {
             console.log("There's no boards");
             return null;
-        }
-        else {
+        } else {
             if (callback) {
                 return callback(boards);
-            }
-            else {
+            } else {
                 return boards;
             }
         }
@@ -54,11 +51,10 @@ let dataHandler = {
         // the board is retrieved and then the callback function is called with the board
         let board = this.getBoards(function(boards) {
             for (let i = 0; i < boards.length; i++) {
-                if (boards[i].id == boardId) {
+                if (boards[i].id === boardId) {
                     if (callback) {
                         return callback(boards[i]);
-                    }
-                    else {
+                    } else {
                         return boards[i];
                     }
                 }
@@ -66,8 +62,7 @@ let dataHandler = {
         });
         if (board) {
             return board;
-        }
-        else {
+        } else {
             console.log("There's no board with id " + boardId);
             return null;
         }
@@ -76,15 +71,13 @@ let dataHandler = {
         // the statuses are retrieved and then the callback function is called with the statuses
         let statuses = this._data.statuses;
 
-        if (typeof(statuses) == "undefined") {
+        if (typeof(statuses) === "undefined") {
             console.log("There's no statuses");
             return null;
-        }
-        else {
+        } else {
             if (callback) {
                 return callback(statuses);
-            }
-            else {
+            } else {
                 return statuses;
             }
         }
@@ -96,8 +89,7 @@ let dataHandler = {
                 if (statuses[i].id == statusId) {
                     if (callback) {
                         return callback(statuses[i]);
-                    }
-                    else {
+                    } else {
                         return statuses[i];
                     }
                 }
@@ -159,10 +151,10 @@ let dataHandler = {
             lastId = boards[boards.length-1].id + 1;
 
         boards.push({
-                     "id": lastId,
-                     "title": boardTitle,
-                     "is_active": false
-                    });
+            "id": lastId,
+            "title": boardTitle,
+            "is_active": false
+        });
         
         this._saveData();
         if (callback) {
@@ -175,12 +167,12 @@ let dataHandler = {
             lastId = cards[cards.length-1].id + 1;
 
         cards.push({
-                     "id": lastId,
-                     "title": cardTitle,
-                     "board_id": boardId,
-                     "status_id": statusId,
-                     "order": this.getLastCardsOrder(boardId)
-                    });
+            "id": lastId,
+            "title": cardTitle,
+            "board_id": boardId,
+            "status_id": statusId,
+            "order": this.getLastCardsOrder(boardId)
+        });
 
         this._saveData();
         if (callback) {
@@ -189,13 +181,13 @@ let dataHandler = {
     },
     // here comes more features
     getLastCardsOrder(boardId) {
-        return this.getCardsByBoardId(boardId, function(cards=results) {
+        return this.getCardsByBoardId(boardId, function(cards) {
             let lastOrder = 0; 
 
             for (let i = 0; i < cards.length; i++) {
                 if (lastOrder < cards[i].order) {
                     lastOrder = cards[i].order;
-                    console.log(lastOrder)
+                    console.log(lastOrder);
                 }
             }
             lastOrder++;
