@@ -121,7 +121,6 @@ let dom = {
                     cardText.setAttribute("rows", "1");
                     let cardTitle = document.createTextNode(card.title);
                     let submitCardButton = document.createElement("button");
-                    submitCardButton.card
                     submitCardButton.className = "btn-submit";
                     submitCardButton.innerHTML = "Save";
                     
@@ -242,7 +241,7 @@ function createBoardForm() {
         
         closeBtn.onclick = function() {
             modal.style.display = "none";
-        }
+        };
 
         window.onclick = function(event) {
             if (event.target == modal) {
@@ -279,8 +278,11 @@ function drag(ev) {
 
 function drop(ev) {
     ev.preventDefault();
-    let data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    if (ev.target.classList.contains("card-new")) {
+        let data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+    
 }
 
 function allowDrop(ev) {
