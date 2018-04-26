@@ -90,6 +90,7 @@ let dom = {
             dom.loadCards(board.id);
         });
         dom.resizeTextareas();
+        createTaskBtn();
     },
 
     loadCards: function(boardId) {
@@ -170,6 +171,7 @@ let dom = {
             }
         });
     },
+
     hideModal: function(){
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
@@ -180,12 +182,14 @@ let dom = {
             }
         };
     },
+
     addNewBoard: function() {
         document.getElementById("new-board-btn").addEventListener("click", function() {
             dataHandler.createNewBoard(prompt("board name:"));
             location.reload();
         });
     },
+
     resizeTextareas: function() {
         var tx = document.getElementsByTagName("textarea");
         for (var i = 0; i < tx.length; i++) {
@@ -226,28 +230,20 @@ function expandSection(element) {
     });   
 }
 
+
 function OnInput() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
 }
 
-// ------- Create board --------
+
+// ------- Create functions --------
 function createBoardForm() {
     document.getElementById("new-board").addEventListener("click", function() {
-        var modal = document.getElementById("myModal");
-        var closeBtn = document.getElementsByClassName("close")[0];
-
-        modal.style.display = "block";
+        let modal = document.getElementById("myModal"),
+            closeBtn = document.getElementsByClassName("close")[0];
         
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
-        };
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        };
+        displayForm(modal, closeBtn);
     });
 
     document.getElementById("new-board-title").addEventListener("input", function() {
@@ -271,10 +267,63 @@ function createBoardForm() {
     });
 }
 
+
+function createTaskBtn() {
+    let modal = document.getElementById("myModal2"),
+        closeBtn = document.getElementsByClassName("close")[1];
+
+    document.querySelectorAll(".btn-hidden").forEach(function(cardBtn) {
+        cardBtn.addEventListener("click", function() {
+            document.getElementById("new-task-boardId").value = parseInt(cardBtn.id.slice(9));
+            
+            displayForm(modal, closeBtn);
+        });
+    });
+
+    document.getElementById("new-task-title").addEventListener("input", function(){
+        let input = document.getElementById("new-task-title").value,
+            submitBtn = document.getElementById("create-task"),
+            caption = document.getElementById("input-caption"),
+            select = parseInt(document.getElementById("new-task-status").value),
+            boardId = parseInt(document.getElementById("new-task-boardId").value);
+
+        if (input.length > 2) {
+            submitBtn.disabled = false;
+            caption.style.display = "none";
+            submitBtn.onclick = function() {
+                dataHandler.createNewCard(input, boardId, select);
+                location.reload();
+            };
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.onclick = function() {};
+            caption.style.display = "block";
+        }
+    });
+}
+
+
+function displayForm(modal, closeBtn) {
+    modal.style.display = "block";
+    
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+    
+}
+
+
 // Drag and drop
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
+
 
 function drop(ev) {
     ev.preventDefault();
@@ -284,6 +333,7 @@ function drop(ev) {
     }
     
 }
+
 
 function allowDrop(ev) {
     ev.preventDefault();

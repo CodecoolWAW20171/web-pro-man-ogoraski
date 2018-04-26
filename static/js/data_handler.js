@@ -21,14 +21,17 @@ let dataHandler = {
             };
         }
     },
+
     _saveData: function() {
         // it is not called from outside
         // saves the data from this._data to local storage
         localStorage.setItem(this.keyInLocalStorage, JSON.stringify(this._data));
     },
+
     init: function() {
         this._loadData();
     },
+
     getBoards: function(callback) {
         // the boards are retrieved and then the callback function is called with the boards
         let boards = this._data.boards;
@@ -47,6 +50,7 @@ let dataHandler = {
             }
         }
     },
+
     getBoard: function(boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
         let board = this.getBoards(function(boards) {
@@ -67,6 +71,7 @@ let dataHandler = {
             return null;
         }
     },
+
     getStatuses: function(callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
         let statuses = this._data.statuses;
@@ -82,6 +87,7 @@ let dataHandler = {
             }
         }
     },
+
     getStatus: function(statusId, callback) {
         // the status is retrieved and then the callback function is called with the status
         let status = this.getStatuses(function(statuses) {
@@ -103,6 +109,7 @@ let dataHandler = {
             return null;
         }
     },
+
     getCardsByBoardId: function(boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
         let cards = this._data.cards,
@@ -127,6 +134,7 @@ let dataHandler = {
             }
         }
     },
+
     getCard: function(cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
         let cards = this._data.cards;
@@ -145,6 +153,7 @@ let dataHandler = {
         console.log("There's no card with id " + cardId);
         return null;
     },
+
     createNewBoard: function(boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         let boards = this._data.boards,
@@ -161,6 +170,7 @@ let dataHandler = {
             return callback(this._data);
         }
     },
+
     createNewCard: function(cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
         let cards = this._data.cards,
@@ -179,6 +189,7 @@ let dataHandler = {
             return callback(this._data);
         }
     },
+    
     // here comes more features
     getLastCardsOrder(boardId) {
         return this.getCardsByBoardId(boardId, function(cards) {

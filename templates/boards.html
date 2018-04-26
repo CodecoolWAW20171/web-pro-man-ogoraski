@@ -29,6 +29,30 @@
             </div>
         
         </div>
+        <div id="myModal2" class="modal">
+        
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <input type="hidden" id="new-task-boardId" value="">
+                    <h2>Add new task!</h2>
+                    <label for="new-task-title">Task title:</label>
+                    <input type="text" id="new-task-title">
+                    <span id="input-caption">* Required (minimum 3 characters)</span><br>
+                    <label for="new-task-status">Select status:</label><br>
+                    <select id="new-task-status">
+                        <option value="1">New</option>
+                        <option value="2">In progress</option>
+                        <option value="3">Testing</option>
+                        <option value="4">Done</option>
+                    </select>
+                    
+                    <div class="row2">
+                        <button id="create-task" disabled>Create!</button>
+                        <button class="close btn-flat">Cancel</button>
+                    </div>
+                </div>
+            
+            </div>
         <div class="wrapper">
 
             <header>
