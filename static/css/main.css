@@ -203,12 +203,12 @@ h2 {
 }
 .board-container .board-bar i.arrow {
   float: right;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 .board-container .board-details {
   display: block;
   overflow: hidden;
-  transition: 0.2s ease-out;
+  transition: 0.3s ease-out;
   height: auto;
 }
 
@@ -228,11 +228,23 @@ h2 {
   border: 1px solid #9a0007;
 }
 
-.card {
+.card, .card-new {
   margin: 4px 0;
   padding: 6px;
   background-color: #62eeff;
   border-radius: 4px;
+}
+.card textarea, .card-new textarea {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+}
+
+.card-new {
+  border: 1px dashed #d32f2f;
+  background-color: transparent;
 }
 
 button {
@@ -253,8 +265,10 @@ button.btn-hidden {
   display: none;
   margin-left: 20px;
   opacity: 0;
-  transition: opacity 0.2s ease-out;
-  z-index: 50;
+  transition: opacity 0.3s ease-out;
+}
+button.btn-submit {
+  display: none;
 }
 
 footer {

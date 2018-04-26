@@ -59,9 +59,14 @@ let dom = {
                 let statusHeader = document.createElement("h3");
                 statusHeader.className = "status-title";
                 let statusTitle = document.createTextNode(status.name);
+                
+                let cardsContainer = document.createElement("div");
+                cardsContainer.id = "b-" + board.id + "-cards-" + status.id;
+                cardsContainer.className = "cards-container";
 
                 statusesContainer.appendChild(statusContainer);
                 statusContainer.appendChild(statusHeader);
+                statusContainer.appendChild(cardsContainer);
                 statusHeader.appendChild(statusTitle);
             });
 
@@ -71,7 +76,9 @@ let dom = {
             });
             dom.loadCards(board.id);
         });
+        dom.resizeTextareas();
     },
+
     loadCards: function(boardId) {
         // retrieves cards and makes showCards called
         let cards = dataHandler.getCardsByBoardId(boardId);
@@ -79,14 +86,15 @@ let dom = {
             this.showCards(cards);
         }
     },
+
     showCards: function(cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
         let statuses = dataHandler.getStatuses();
 
         statuses.forEach(status => {
-            let statusContainer = document
-                .getElementById("b-" + cards[0].board_id + "-status-" + status.id);
+            let cardsContainer = document
+                .getElementById("b-" + cards[0].board_id + "-cards-" + status.id);
             
             cards.forEach(card => {
                 if (card.status_id === status.id) {
@@ -94,12 +102,34 @@ let dom = {
                     cardContainer.id = "card-" + card.id;
                     cardContainer.className = "card";
                     cardContainer.setAttribute("draggable", "true");
-                    let cardTitle = document.createTextNode(card.title); 
+                    let cardText = document.createElement("textarea");
+                    cardText.className = "edit-card";
+                    cardText.setAttribute("rows", "1");
+                    let cardTitle = document.createTextNode(card.title);
+                    let submitCardButton = document.createElement("button");
+                    submitCardButton.className = "btn-submit";
+                    submitCardButton.innerHTML = "Save";
                     
-                    cardContainer.appendChild(cardTitle);
-                    statusContainer.appendChild(cardContainer);
+                    cardsContainer.appendChild(cardContainer);
+                    cardContainer.appendChild(cardText);
+                    cardText.appendChild(cardTitle);
+                    cardContainer.appendChild(submitCardButton);
+
+                    cardText.addEventListener("focus", () => {
+                        submitCardButton.style.display = "block";
+                    });
+                    cardText.addEventListener("blur", () => {
+                        submitCardButton.style.display = "none";
+                    });
                 }
             });
+
+            let newCardContainer = document.createElement("div");
+            newCardContainer.className = "card-new";
+            newCardContainer.innerHTML = "&nbsp;";
+
+            cardsContainer.appendChild(newCardContainer);
+
         });
     },
     // here comes more features
@@ -118,12 +148,28 @@ let dom = {
             collapseSection(boardDetails);
         }
     },
+
     hideBoards: function(boards, board_id) {
         boards.forEach(board => {
             if (board.is_active && board.id !== board_id) {
                 dom.toggleViewBoard(board.id);
             }
         });
+    },
+
+    addNewBoard: function() {
+        document.getElementById("new-board-btn").addEventListener("click", function() {
+            dataHandler.createNewBoard(prompt("board name:"));
+            location.reload();
+        });
+    },
+
+    resizeTextareas: function() {
+        var tx = document.getElementsByTagName("textarea");
+        for (var i = 0; i < tx.length; i++) {
+            tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+            tx[i].addEventListener("input", OnInput, false);
+        }        
     }
 };
 
@@ -156,21 +202,7 @@ function expandSection(element) {
     });   
 }
 
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-function debounce(func, wait, immediate) {
-    var timeout;
-    return function() {
-        var context = this, args = arguments;
-        var later = function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
+function OnInput() {
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px";
 }
