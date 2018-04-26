@@ -221,6 +221,7 @@ function expandSection(element) {
 function OnInput() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
+}
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
@@ -239,6 +240,7 @@ function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 }
+
 
 
 // ------- Create board --------
@@ -279,7 +281,6 @@ document.getElementById("tableTitle").addEventListener("input", function() {
         submitBtn.onclick = function() {};
     }
 });
-}}
 
 
 // Drag and drop
