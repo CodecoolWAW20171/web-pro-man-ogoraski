@@ -42,7 +42,7 @@ let dom = {
 
             statuses.forEach(status => {
                 let stausHeader = document.createElement("div");
-                stausHeader.id = "status-" + status.id;
+                stausHeader.id ="board-" + board.id + "status-" + status.id;
                 stausHeader.className = "col-3 status-title";
                 let statusTitle = document.createTextNode(status.name);
                 statusesContainer.appendChild(stausHeader);
@@ -61,15 +61,40 @@ let dom = {
     showCards: function(cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        let status = document.getElementById("statuses");
         
-        cards.forEach(card => {
-            let div = document.createElement("div");
-            let text = document.createTextNode(card.title); 
-            div.appendChild(text);
-            div.id = "card" + card.id;
+        cards.forEach((card, ind) => {
             
-            status.appendChild(div);
+            let status1 = document.getElementById("board-" + card.board_id + "status-1");
+            let status2 = document.getElementById("board-" + card.board_id + "status-2");
+            let status3 = document.getElementById("board-" + card.board_id + "status-3");
+            let status4 = document.getElementById("board-" + card.board_id + "status-4");
+
+            let Cell = document.createElement("div");
+            Cell.className = "board-" + card.board_id + "status-1" + "row-" + ind;
+            Cell.innerHTML ='</br>'
+            status1.appendChild(Cell);
+            Cell = document.createElement("div");
+            Cell.className = "board-" + card.board_id + "status-2" + "row-" + ind;
+            Cell.innerHTML ='</br>'
+            status2.appendChild(Cell);
+            Cell = document.createElement("div");
+            Cell.className = "board-" + card.board_id + "status-3" + "row-" + ind;
+            Cell.innerHTML ='</br>'
+            status3.appendChild(Cell);
+            Cell = document.createElement("div");
+            Cell.className = "board-" + card.board_id + "status-4" + "row-" + ind;
+            Cell.innerHTML ='</br>'
+            status4.appendChild(Cell);
+
+            let oneCard = document.createElement("div");
+            let text = document.createTextNode(card.title); 
+            oneCard.appendChild(text);
+            oneCard.id = "card" + card.id;
+            
+            let cardSlot
+            cardSlot = document.getElementsByClassName( "board-" + card.board_id + "status-" + card.status_id + "row-" + ind)[0]
+            cardSlot.innerHTML = ''
+            cardSlot.appendChild(oneCard);
         });
     },
     // here comes more features
