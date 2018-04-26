@@ -2,6 +2,7 @@
 @import 'w3-normalize.css';
 @import 'color-theme';
 @import 'w3-columns';
+@import 'modal';
 
 * {
     box-sizing: border-box;
@@ -125,7 +126,9 @@ button {
     text-align: center;
     cursor: pointer;
     @extend %secondary;
+    border-radius: 2px;
 
+    &:disabled {@extend %disabled;}
     &:hover {@extend %secondary-light;}
 
     &.btn-add {
@@ -139,6 +142,12 @@ button {
         margin-left: 20px;
         opacity: 0;
         transition: opacity 0.3s ease-out;
+    }
+
+    &.btn-flat {
+        @extend %flat;
+        outline: none;
+        font-size: 0.9em;
     }
 
     &.btn-submit {
