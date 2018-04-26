@@ -66,6 +66,8 @@ let dom = {
                 cardsContainer.id = "b-" + board.id + "-cards-" + status.id;
                 cardsContainer.setAttribute("data-board", board.id);
                 cardsContainer.setAttribute("data-status", status.id);
+                cardsContainer.setAttribute("ondrop", "drop(event)");
+                cardsContainer.setAttribute("ondragover", "allowDrop(event)");
                 cardsContainer.className = "cards-container";
 
                 statusesContainer.appendChild(statusContainer);
@@ -106,6 +108,7 @@ let dom = {
                     cardContainer.id = "card-" + card.id;
                     cardContainer.className = "card";
                     cardContainer.setAttribute("draggable", "true");
+                    cardContainer.setAttribute("ondragstart", "drag(event)");
                     let cardText = document.createElement("textarea");
                     cardText.className = "edit-card";
                     cardText.setAttribute("rows", "1");
@@ -209,4 +212,36 @@ function expandSection(element) {
 function OnInput() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}}
+
+// Drag and drop
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    let data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
 }
