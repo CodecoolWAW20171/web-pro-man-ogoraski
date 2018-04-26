@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif&subset=latin-ext');
 @import 'w3-normalize.css';
-@import 'w3-color-theme';
+@import 'color-theme';
 @import 'w3-columns';
 
 * {
@@ -12,7 +12,7 @@ html {
 }
 
 body {
-    @extend %w3-theme-l5;
+    background-color: $bg;
     font: {
         family: 'Bree Serif', 'serif';
         size: 12pt;
@@ -25,19 +25,22 @@ body {
 }
 
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 400;
-    margin: 8px 0;
+// ------ header ------
+header {
+    @extend %primary-dark;
+    padding: 8px 18px;
+    text-align: center;
+    img {
+        vertical-align: middle;
+    }
 }
 
 h1 {
     display: inline;
 }
 
-header {
-    @extend %w3-theme-d5;
-    padding: 8px;
-}
+h2 {margin: 0;}
+
 
 
 #loading {
@@ -48,52 +51,55 @@ header {
     width: 100%;
     margin: 8px 0;
     padding: 6px 12px;
-    background-color: $d3;
+    @extend %primary;
 
     .board-bar {
+        padding-bottom: 8px; 
         cursor: pointer;
-        h3 {
+        * {
             display: inline;
+            vertical-align: middle;
         }
-        i {
+        i.arrow {
             float: right;
             transition: 0.3s;
-        }
-        &::after {
-            content: "";
-            display: table;
-            clear: both;
         }
     }
 
     .board-details {
-        display: none;
+        display: block;
+        overflow: hidden;
+        transition: 0.3s ease-out;
+        height: auto;
     }
 
 }
 
 .open {
-    i {
+    i.arrow {
         transform: rotate(180deg);
     }
+    button.btn-hidden {
+        display: inline;
+        opacity: 1;
+    }
 }
 
-.row {
-    margin-bottom: 10px;
-    & > * {
-        padding: 0.1em 8px;
-    }
-    &::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-}
+
 
 .status-title {
-    background-color: $l3;
+    margin: 6px 0;
+    padding: 4px;
     text-align: center;
-    border: 1px solid $d5;
+    background-color: $bg;
+    border: 1px solid $sd;
+}
+
+.card {
+    margin: 4px 0;
+    padding: 6px;
+    background-color: $pl;
+    border-radius: 4px;
 }
 
 button {
@@ -104,28 +110,29 @@ button {
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    
-    &.btn {
-        @extend %w3-theme-d1;
-        width: 100%;
-        margin: 12px auto;
-        padding: 12px 24px;
+    @extend %secondary;
 
-        &:hover {
-            @extend %w3-theme-l2;
-        }
-    }
+    &:hover {@extend %secondary-light;}
 
     &.btn-add {
         float: right;
         position: relative;
         top: 12px;
     }
+
+    &.btn-hidden {
+        display: none;
+        margin-left: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+        z-index: 50;
+    }
     
 }
 
+// ------ footer ------
 footer {
-    @extend %w3-theme-d5;
+    @extend %primary-light;
     margin-top: 24px;
     font-size: 0.8em;
     text-align: center;

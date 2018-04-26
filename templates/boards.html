@@ -15,8 +15,10 @@
     <body>
         <div class="wrapper">
             <header>
-                <h1>Trollo</h1>
-                <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> New board</button>
+                <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
+                width="150px" alt="">
+                <!-- <h1>Trollo</h1> -->
+                <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
             </header>
         <div id="boards">
             <div id="loading">
@@ -25,7 +27,7 @@
             </div>
         </div>
         <footer>
-            <p class="copyright">&copy; 2018 Sejsmogrzmoty. All rights reserved.</p>
+            <p class="copyright">&copy; 2018 Ogórasy. All rights reserved.</p>
         </footer>
     </body>
 </html>

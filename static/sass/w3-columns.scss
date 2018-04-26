@@ -1,3 +1,16 @@
+/* Main cointer for columns */
+.row {
+    margin-bottom: 10px;
+    & > * {
+        padding: 0.1em 8px;
+    }
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
 /* For mobile phones: */
 [class*="col-"] {
     display: block;
