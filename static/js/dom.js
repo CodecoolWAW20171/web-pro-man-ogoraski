@@ -8,7 +8,6 @@ let dom = {
             dom.showBoards(boards);
         }, 500);
     },
-
     showBoards: function(boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
@@ -124,8 +123,19 @@ let dom = {
                 dom.toggleViewBoard(board.id);
             }
         });
+    },
+    hideModal: function(){
+        let modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     }
 };
+
 
 // Collapse and expand animations
 function collapseSection(element) {
@@ -143,6 +153,7 @@ function collapseSection(element) {
         });
     });
 }
+
 
 function expandSection(element) {
     var sectionHeight = element.scrollHeight;
@@ -174,3 +185,43 @@ function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 }
+
+
+// ------- Create board --------
+document.getElementById('new-board').addEventListener('click', function() {
+    var modal = document.getElementById('myModal'),
+        closeBtn = document.getElementsByClassName('close')[0];
+
+    modal.style.display = 'block';
+    
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+});
+
+
+document.getElementById("tableTitle").addEventListener("input", function() {
+    let input = document.getElementById("tableTitle").value,
+        submitBtn = document.getElementById('create');
+
+    if (input.length > 2) {
+        submitBtn.className = "create";
+        submitBtn.disabled = false;
+
+        submitBtn.onclick = function() {
+            dataHandler.createNewBoard(input);
+            location.reload();
+        }
+    }
+    else {
+        submitBtn.className = "createDisabled";
+        submitBtn.disabled = true;
+        submitBtn.onclick = function() {};
+    }
+});

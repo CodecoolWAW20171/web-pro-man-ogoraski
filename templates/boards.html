@@ -12,14 +12,74 @@
         <script src="{{ url_for('static', filename='js/dom.js') }}" defer></script>
         <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
+    <style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 320px;
+    align-content: center;
+}
+
+h3 {
+    margin: 0;
+    font-size: 2em;
+}
+
+input {
+    width: 260px;
+}
+
+.create, .close, .createDisabled{
+    margin-top: 15px;
+    /* float: right; */
+}
+
+.create {
+    background-color: greenyellow;
+    color: black;
+}
+.createDisabled {
+    background-color: grey;
+    color: black;
+}
+.createDisabled:hover {background-color: grey;}
+    </style>
     <body>
+         <!-- The Modal -->
+            <div id="myModal" class="modal">
+            
+              <!-- Modal content -->
+              <div class="modal-content">
+                <h3>Create new board!</h3>
+                <label>Board title:</label>
+                <input type="text" id="tableTitle" name="tableTitle" placeholder="Board title..."><br>
+                <button class="close">Cancel</button><button class="createDisabled" id="create" disabled>Create!</button>
+              </div>
+            
+            </div>
         <div class="wrapper">
             <header>
                 <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
                 width="150px" alt="">
                 <!-- <h1>Trollo</h1> -->
                 <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
-            </header>
+            </header>           
         <div id="boards">
             <div id="loading">
                 <p>Boards are loading...</p>
