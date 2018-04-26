@@ -202,5 +202,23 @@ let dataHandler = {
 
             return lastOrder;
         });
+    },
+
+    updateCard: function(id, newTitle, newStatus, callback) {
+        // creates new card, saves it and calls the callback function with its data
+        card = this.getCard(id)
+        cards.push({
+                     "id": id,
+                     "title": newTitle,
+                     "board_id": card.boardId,
+                     "status_id": newStatus,
+                     "order": card.order
+                    });
+
+        this._saveData();
+        if (callback) {
+            return callback(this._data);
+        }
     }
+
 };
