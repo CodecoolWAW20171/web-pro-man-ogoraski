@@ -204,17 +204,18 @@ let dataHandler = {
         });
     },
 
-    updateCard: function(id, newTitle, newStatus, callback) {
+    updateCard: function(id, newTitle=card.title, newStatus=card.status_id, callback) {
         // creates new card, saves it and calls the callback function with its data
-        card = this.getCard(id)
-        cards.push({
-                     "id": id,
+        let card = this.getCard(id)
+        let cards = this._data.cards
+        cards[parseInt(id)-1]={
+                     "id": parseInt(id),
                      "title": newTitle,
-                     "board_id": card.boardId,
-                     "status_id": newStatus,
+                     "board_id": parseInt(card.board_id),
+                     "status_id": parseInt(newStatus),
                      "order": card.order
-                    });
-
+                    };
+        console.log(cards);
         this._saveData();
         if (callback) {
             return callback(this._data);

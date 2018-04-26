@@ -291,8 +291,13 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     if (ev.target.classList.contains("card-new")) {
-        let data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
+        let cardId = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(cardId));
+        let newStatus = ev.target.parentElement.dataset.status;
+        let id = cardId.slice(5);
+        let newTitle = ev.target.getElementsByClassName("edit-card")[ev.target.getElementsByClassName("edit-card").length-1].value
+        dataHandler.updateCard(id, newTitle, newStatus);
+
     };
     
 }
