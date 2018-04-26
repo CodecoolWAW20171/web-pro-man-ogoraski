@@ -55,6 +55,8 @@ let dom = {
             statuses.forEach(status => {
                 let statusContainer = document.createElement("div");
                 statusContainer.id = "b-" + board.id + "-status-" + status.id;
+                statusContainer.setAttribute("data-board", board.id);
+                statusContainer.setAttribute("data-status", status.id);
                 statusContainer.className = "col-s-3";
                 let statusHeader = document.createElement("h3");
                 statusHeader.className = "status-title";
@@ -62,6 +64,8 @@ let dom = {
                 
                 let cardsContainer = document.createElement("div");
                 cardsContainer.id = "b-" + board.id + "-cards-" + status.id;
+                cardsContainer.setAttribute("data-board", board.id);
+                cardsContainer.setAttribute("data-status", status.id);
                 cardsContainer.className = "cards-container";
 
                 statusesContainer.appendChild(statusContainer);
