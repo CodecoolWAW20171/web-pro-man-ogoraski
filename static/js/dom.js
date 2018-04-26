@@ -290,8 +290,13 @@ function drag(ev) {
 
 function drop(ev) {
     ev.preventDefault();
-    let data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    this.addEventListener("drop", function() {
+        if (ev.target.classList.contains("cards-container")) {
+            let data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    });
+    
 }
 
 function allowDrop(ev) {
