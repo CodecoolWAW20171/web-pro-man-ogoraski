@@ -8,7 +8,6 @@ let dom = {
             dom.showBoards(boards);
         }, 500);
     },
-
     showBoards: function(boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
@@ -163,14 +162,22 @@ let dom = {
             }
         });
     },
-
+    hideModal: function(){
+        let modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    },
     addNewBoard: function() {
         document.getElementById("new-board-btn").addEventListener("click", function() {
             dataHandler.createNewBoard(prompt("board name:"));
             location.reload();
         });
     },
-
     resizeTextareas: function() {
         var tx = document.getElementsByTagName("textarea");
         for (var i = 0; i < tx.length; i++) {
@@ -179,6 +186,7 @@ let dom = {
         }        
     }
 };
+
 
 // Collapse and expand animations
 function collapseSection(element) {
@@ -197,6 +205,7 @@ function collapseSection(element) {
     });
 }
 
+
 function expandSection(element) {
     var sectionHeight = element.scrollHeight;
     
@@ -212,6 +221,7 @@ function expandSection(element) {
 function OnInput() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
+}
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
@@ -229,7 +239,49 @@ function debounce(func, wait, immediate) {
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
     };
-}}
+}
+
+
+
+// ------- Create board --------
+document.getElementById('new-board').addEventListener('click', function() {
+    var modal = document.getElementById('myModal'),
+        closeBtn = document.getElementsByClassName('close')[0];
+
+    modal.style.display = 'block';
+    
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+});
+
+
+document.getElementById("tableTitle").addEventListener("input", function() {
+    let input = document.getElementById("tableTitle").value,
+        submitBtn = document.getElementById('create');
+
+    if (input.length > 2) {
+        submitBtn.className = "create";
+        submitBtn.disabled = false;
+
+        submitBtn.onclick = function() {
+            dataHandler.createNewBoard(input);
+            location.reload();
+        }
+    }
+    else {
+        submitBtn.className = "createDisabled";
+        submitBtn.disabled = true;
+        submitBtn.onclick = function() {};
+    }
+});
+
 
 // Drag and drop
 function drag(ev) {

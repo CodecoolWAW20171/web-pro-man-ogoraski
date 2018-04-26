@@ -34,6 +34,9 @@ let dataHandler = {
         // the boards are retrieved and then the callback function is called with the boards
         let boards = this._data.boards;
 
+        for (let i = 0; i < boards.length; i++) {
+            boards.is_active = false;
+        }
         if (typeof(boards) == "undefined") {
             console.log("There's no boards");
             return null;
