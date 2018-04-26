@@ -198,12 +198,18 @@ let dataHandler = {
             for (let i = 0; i < cards.length; i++) {
                 if (lastOrder < cards[i].order) {
                     lastOrder = cards[i].order;
-                    console.log(lastOrder);
                 }
             }
             lastOrder++;
-
-            return lastOrder;
+            
+            if(lastOrder) {
+                console.log(lastOrder);
+                return lastOrder;
+            }
+            else {
+                return 1;
+            }
+            
         });
     },
 
