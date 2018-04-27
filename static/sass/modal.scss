@@ -15,21 +15,24 @@
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+    padding: 20px 20px 10px;
     border: 1px solid #888;
     width: 300px;
 
-    input {
+    label {
+        font-size: 0.9em;
+    }
+    input, select {
         width: 100%;
         border: none;
         border-bottom: 1px solid $sd;
         outline: none;
     }
     button {
-        margin: 12px 8px;
+        margin: 12px 8px 8px;
         float: right;
     }
-    #input-caption {
+    .input-caption {
         display: block;
         font-size: 0.8em;
         color: $s0;

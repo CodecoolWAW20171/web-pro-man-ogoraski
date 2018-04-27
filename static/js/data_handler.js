@@ -36,9 +36,6 @@ let dataHandler = {
         // the boards are retrieved and then the callback function is called with the boards
         let boards = this._data.boards;
 
-        // for (let i = 0; i < boards.length; i++) {
-        //     boards.is_active = false;
-        // }
         if (typeof(boards) === "undefined") {
             console.log("There's no boards");
             return null;
@@ -159,10 +156,14 @@ let dataHandler = {
         let boards = this._data.boards,
             lastId = boards[boards.length-1].id + 1;
 
+        boards.forEach(board => {
+            board.is_active = false;
+        });
+        
         boards.push({
             "id": lastId,
             "title": boardTitle,
-            "is_active": false
+            "is_active": true
         });
         
         this._saveData();
@@ -175,6 +176,14 @@ let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
         let cards = this._data.cards,
             lastId = cards[cards.length-1].id + 1;
+
+        this._data.boards.forEach(board => {
+            if (board.id === parseInt(boardId)) {
+                board.is_active = true;
+            } else {
+                board.is_active = false;
+            }
+        });
 
         cards.push({
             "id": lastId,
@@ -203,7 +212,6 @@ let dataHandler = {
             lastOrder++;
             
             if(lastOrder) {
-                console.log(lastOrder);
                 return lastOrder;
             }
             else {
@@ -215,16 +223,15 @@ let dataHandler = {
 
     updateCard: function(id, newTitle=card.title, newStatus=card.status_id, callback) {
         // creates new card, saves it and calls the callback function with its data
-        let card = this.getCard(id)
-        let cards = this._data.cards
+        let card = this.getCard(id);
+        let cards = this._data.cards;
         cards[parseInt(id)-1]={
-                     "id": parseInt(id),
-                     "title": newTitle,
-                     "board_id": parseInt(card.board_id),
-                     "status_id": parseInt(newStatus),
-                     "order": card.order
-                    };
-        console.log(cards);
+            "id": parseInt(id),
+            "title": newTitle,
+            "board_id": parseInt(card.board_id),
+            "status_id": parseInt(newStatus),
+            "order": card.order
+        };
         this._saveData();
         if (callback) {
             return callback(this._data);

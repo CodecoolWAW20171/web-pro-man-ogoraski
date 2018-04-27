@@ -51,16 +51,21 @@ h2 {margin: 0;}
 
 .board-container {
     width: 100%;
-    margin: 8px 0;
+    margin: 20px 0;
     padding: 6px 12px;
     @extend %primary;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
 
     .board-bar {
-        padding-bottom: 8px; 
+        padding-bottom: 8px;
         cursor: pointer;
         * {
-            display: inline;
             vertical-align: middle;
+        }
+        h2 {
+            display: inline;
         }
         i.arrow {
             float: right;
@@ -78,6 +83,7 @@ h2 {margin: 0;}
 }
 
 .open {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     i.arrow {
         transform: rotate(180deg);
     }
@@ -89,32 +95,42 @@ h2 {margin: 0;}
 
 
 
-.status-title {
+.list-title {
     margin: 6px 0;
     padding: 4px;
     text-align: center;
     background-color: $bg;
     border: 1px solid $sd;
+    border-radius: 2px;
 }
 
-.card, .card-new {
-    margin: 4px 0;
-    padding: 6px;
-    background-color: $pl;
-    border-radius: 4px;
+.cards-container {
+    padding: 1px;
+    .card {
+        display: block;
+        margin: 4px auto;
+        padding: 4px;
+        background-color: $pl;
+        border-radius: 4px;
 
-    textarea {
-        width: 100%;
-        border: none;
-        background-color: transparent;
-        resize: none;
-        outline: none;
+        textarea {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+        }
     }
 }
 
-.card-new {
+.dragarea {
+    padding: 0;
     border: 1px dashed $s0;
-    background-color: transparent;
+    border-radius: 4px;
+}
+
+.over-drop {
+    border: 2px solid $sd;
 }
 
 button {
@@ -128,7 +144,10 @@ button {
     @extend %secondary;
     border-radius: 2px;
 
-    &:disabled {@extend %disabled;}
+    &:disabled {
+        @extend %disabled;
+        cursor: default;
+    }
     &:hover {@extend %secondary-light;}
 
     &.btn-add {

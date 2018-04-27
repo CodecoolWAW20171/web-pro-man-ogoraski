@@ -1,13 +1,12 @@
 // It uses data_handler.js to visualize elements
 let dom = {
     init: function() {
-        var afterLoad = function() {
+        let afterLoad = function() {
             createBoardForm();
-            createTaskBtn();
+            createCardBtn();
             dom.resizeTextareas();
-        }
+        };
         this.loadBoards(afterLoad);
-        this.resizeTextareas();
     },
 
     loadBoards: function(callback) {
@@ -26,78 +25,149 @@ let dom = {
         // Top level container for all boards
         let boardsListContainer = document.getElementById("boards");
 
-        boards.forEach(board => {
-            // Container for a single board
-            let boardListElement = document.createElement("div");
-            boardListElement.className = "board-container";
-            boardListElement.id = "board-" + board.id;
-            
-            //Top bar to control board
-            let boardBar = document.createElement("div");
-            boardBar.className = "board-bar";
-            let boardHeader = document.createElement("h2");
-            let boardTitle = document.createTextNode(board.title);
-            let dropIcon = document.createElement("i");
-            dropIcon.className = "fas fa-caret-down fa-2x arrow";
-            let buttonAddCard = document.createElement("button");
-            buttonAddCard.id = "add-card-" + board.id;
-            buttonAddCard.className = "btn-hidden";
-            buttonAddCard.innerHTML = "<i class=\"fas fa-plus\"></i> &nbsp;New card";
+        boards.forEach((board) => {
 
-            
-            boardsListContainer.appendChild(boardListElement);
-            boardListElement.appendChild(boardBar);
-            boardBar.appendChild(boardHeader);
-            boardBar.appendChild(dropIcon);
-            boardBar.appendChild(buttonAddCard);
-            boardHeader.appendChild(boardTitle);
-
-            // Board detailed container with statuses and cards
-            let boardDetails = document.createElement("div");
-            boardDetails.className = "board-details";
-            boardDetails.style.height = 0;
-            boardListElement.appendChild(boardDetails);
-            
-            let statusesContainer = document.createElement("div");
-            statusesContainer.className = "row";
-            boardDetails.appendChild(statusesContainer);
+            let boardContainer = dom.buildBoard(board);
+            boardsListContainer.appendChild(boardContainer);
 
             let statuses = dataHandler.getStatuses();
 
-            statuses.forEach(status => {
-                let statusContainer = document.createElement("div");
-                statusContainer.id = "b-" + board.id + "-status-" + status.id;
-                statusContainer.setAttribute("data-board", board.id);
-                statusContainer.setAttribute("data-status", status.id);
-                statusContainer.className = "col-s-3";
-                let statusHeader = document.createElement("h3");
-                statusHeader.className = "status-title";
-                let statusTitle = document.createTextNode(status.name);
-                
-                let cardsContainer = document.createElement("div");
-                cardsContainer.id = "b-" + board.id + "-cards-" + status.id;
-                cardsContainer.setAttribute("data-board", board.id);
-                cardsContainer.setAttribute("data-status", status.id);
-                cardsContainer.setAttribute("ondrop", "drop(event)");
-                cardsContainer.setAttribute("ondragover", "allowDrop(event)");
-                cardsContainer.className = "cards-container";
+            statuses.forEach((status) => {
 
-                statusesContainer.appendChild(statusContainer);
-                statusContainer.appendChild(statusHeader);
-                statusContainer.appendChild(cardsContainer);
-                statusHeader.appendChild(statusTitle);
+                let listsContainer = document
+                    .getElementById("board-" + board.id)
+                    .getElementsByClassName("row")[0];
+                let listContainer = dom.buildList(status, board.id);
+                listsContainer.appendChild(listContainer);
             });
 
+            let boardBar = boardContainer.firstChild;
             boardBar.addEventListener("click", function() {
                 dom.hideBoards(boards, board.id);
                 dom.toggleViewBoard(board.id);
             });
-            buttonAddCard.addEventListener("click", function (event){
+
+            let buttonAddCard = 
+                document.getElementById("add-card-" + board.id);
+            buttonAddCard.addEventListener("click", function(event) {
                 event.stopPropagation();
             });
+
             dom.loadCards(board.id);
         });
         callback();
+    },
+
+    buildBoard: function(board) {
+        // Container for a single board
+        var boardContainer = document.createElement("div");
+        boardContainer.id = "board-" + board.id;
+        boardContainer.className = "board-container";
+        
+        // Top bar to control board
+        let boardBar = document.createElement("div");
+        boardBar.className = "board-bar";
+        let boardHeader = document.createElement("h2");
+        let boardTitle = document.createTextNode(board.title);
+        let dropIcon = document.createElement("i");
+        dropIcon.className = "fas fa-caret-down fa-2x arrow";
+        
+        boardContainer.appendChild(boardBar);
+        boardBar.appendChild(boardHeader);
+        boardBar.appendChild(dropIcon);
+        boardHeader.appendChild(boardTitle);
+
+        // Add new card button
+        let buttonAddCard = document.createElement("button");
+        buttonAddCard.id = "add-card-" + board.id;
+        buttonAddCard.className = "btn-hidden";
+        buttonAddCard.innerHTML = "<i class=\"fas fa-plus\"></i> &nbsp;New card";
+        buttonAddCard.setAttribute("data-board-id", board.id);
+        
+        boardBar.appendChild(buttonAddCard);
+
+        let modal = document.getElementById("myModal2"),
+            closeBtn = document.getElementsByClassName("close")[1];
+
+        buttonAddCard.addEventListener("click", function() {
+            let submitBtn = document.getElementById("create-task");
+            submitBtn.onclick = function() {
+                let input = document.getElementById("new-task-title");
+                let select = parseInt(document.getElementById("new-task-status").value);
+                dataHandler.createNewCard(input.value, board.id, select);
+                location.reload();
+            };
+            displayForm(modal, closeBtn);
+        });
+
+        // Board detailed container with statuses and cards
+        let boardDetails = document.createElement("div");
+        boardDetails.className = "board-details";
+        boardDetails.style.height = 0;
+        boardContainer.appendChild(boardDetails);
+
+        if (board.is_active) {
+            boardContainer.classList.add("open");
+            boardDetails.style.height = null;
+        }
+
+        // Lists container
+        let listsContainer = document.createElement("div");
+        listsContainer.className = "row";
+        boardDetails.appendChild(listsContainer);
+
+        return boardContainer;
+    },
+
+    buildList: function(list, board_id) {
+        // List container
+        var listContainer = document.createElement("div");
+        listContainer.className = "col-s-3";
+        listContainer.setAttribute("data-board", board_id);
+        listContainer.setAttribute("data-list", list.id);
+
+        // List header
+        let listHeader = document.createElement("h3");
+        listHeader.className = "list-title";
+        let listTitle = document.createTextNode(list.name);
+        
+        // Cards container
+        let cardsContainer = document.createElement("div");
+        cardsContainer.id = "board-" + board_id + "-list-" + list.id;
+        cardsContainer.className = "cards-container";
+        cardsContainer.setAttribute("data-board", board_id);
+        cardsContainer.setAttribute("data-list", list.id);
+        cardsContainer.setAttribute("ondrop", "drop(event)");
+        cardsContainer.setAttribute("ondragover", "allowDrop(event)");
+
+        listContainer.appendChild(listHeader);
+        listContainer.appendChild(cardsContainer);
+        listHeader.appendChild(listTitle);
+
+        return listContainer;
+    },
+
+    buildCard: function(card) {
+        let cardContainer = document.createElement("div");
+        cardContainer.id = "card-" + card.id;
+        cardContainer.className = "card";
+        cardContainer.setAttribute("draggable", "true");
+        cardContainer.setAttribute("ondragstart", "drag(event)");
+        let cardText = document.createElement("textarea");
+        cardText.className = "edit-card";
+        cardText.setAttribute("rows", "1");
+        let cardTitle = document.createTextNode(card.title);
+
+        // Save edit button
+        let submitCardButton = document.createElement("button");
+        submitCardButton.className = "btn-submit";
+        submitCardButton.innerHTML = "Save";
+        
+        cardContainer.appendChild(cardText);
+        cardText.appendChild(cardTitle);
+        cardContainer.appendChild(submitCardButton);
+
+        return cardContainer;
     },
 
     loadCards: function(boardId) {
@@ -111,48 +181,43 @@ let dom = {
     showCards: function(cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        let statuses = dataHandler.getStatuses();
-
-        statuses.forEach(status => {
-            let cardsContainer = document
-                .getElementById("b-" + cards[0].board_id + "-cards-" + status.id);
-            
-            cards.forEach(card => {
-                if (card.status_id === status.id) {
-                    let cardContainer = document.createElement("div");
-                    cardContainer.id = "card-" + card.id;
-                    cardContainer.className = "card";
-                    cardContainer.setAttribute("draggable", "true");
-                    cardContainer.setAttribute("ondragstart", "drag(event)");
-                    let cardText = document.createElement("textarea");
-                    cardText.className = "edit-card";
-                    cardText.setAttribute("rows", "1");
-                    let cardTitle = document.createTextNode(card.title);
-                    let submitCardButton = document.createElement("button");
-                    submitCardButton.className = "btn-submit";
-                    submitCardButton.innerHTML = "Save";
-                    
+        let board_id = cards[0].board_id;
+        let cardsContainers = document
+            .getElementById("board-" + board_id)
+            .getElementsByClassName("cards-container");
+        [].forEach.call(cardsContainers, (cardsContainer) => {
+            cards.forEach((card) => {
+                if (card.status_id === parseInt(cardsContainer.dataset.list)) {
+                    let cardContainer = dom.buildCard(card);
                     cardsContainer.appendChild(cardContainer);
-                    cardContainer.appendChild(cardText);
-                    cardText.appendChild(cardTitle);
-                    cardContainer.appendChild(submitCardButton);
-
+                    
+                    let cardText = cardContainer
+                        .getElementsByTagName("textarea")[0];
+                    let submitCardButton = cardContainer
+                        .getElementsByClassName("btn-submit")[0];
                     cardText.addEventListener("focus", () => {
                         submitCardButton.style.display = "block";
                     });
                     cardText.addEventListener("blur", () => {
                         submitCardButton.style.display = "none";
                     });
+                    cardContainer.addEventListener("dragstart", () => {
+                        submitCardButton.style.display = "none";
+                    });
+
                 }
             });
-
-            let newCardContainer = document.createElement("div");
-            newCardContainer.className = "card-new";
-            newCardContainer.innerHTML = "&nbsp;";
-
-            cardsContainer.appendChild(newCardContainer);
-
+            window.addEventListener("dragstart", () => {
+                let height = cardsContainer.offsetHeight + 40;
+                cardsContainer.style.height = height + "px";
+                cardsContainer.classList.add("dragarea");
+            });
+            window.addEventListener("dragend", () => {
+                cardsContainer.style.height = null;
+                cardsContainer.classList.remove("dragarea");
+            });
         });
+        
     },
     // here comes more features
     toggleViewBoard: function(boardId) {
@@ -179,7 +244,89 @@ let dom = {
         });
     },
 
-    hideModal: function(){
+    createBoardForm: function() {
+        document.getElementById("new-board").addEventListener("click", function() {
+            dom.buildModal(dom.modals[0], () => {
+                let modal = document.getElementById("myModal");
+                let closeBtn = modal.getElementsByClassName("close")[0];
+                
+                dom.displayForm(modal, closeBtn);
+            });
+        });
+    },
+
+    createCardForm: function() {
+        document.querySelectorAll(".btn-hidden").forEach((cardBtn) => {
+            cardBtn.addEventListener("click", function() {
+                dom.buildModal(dom.modals[1], () => {
+                    let modal = document.getElementById("myModal");
+                    let closeBtn = modal.getElementsByClassName("close")[0];
+                    
+                    dom.displayForm(modal, closeBtn);
+                });
+            });
+        });
+    },
+
+    modals: [
+        {
+            "type": "board",
+            "title": "Create new board",
+            "label": "Board title",
+            "caption": "* Required (minimum 3 characters)",
+        },
+        {
+            "type": "card",
+            "title": "Create new card",
+            "label": "Card title",
+            "caption": "* Required",
+        }
+    ],
+
+    buildModal: function(modalData, callback) {
+        let modalContent = document.getElementById("myModal")
+            .getElementsByClassName("modal-content")[0];
+        // Clear existing modal data
+        modalContent.innerHTML = "";
+
+        // Build header with title
+        let modalHTML = [
+            `<h2>${modalData.title}</h2>`,
+            `<label for="new-title">${modalData.label}</label>`,
+            `<input type="text" name="new-title" id="new-${modalData.type}-title">`,
+            `<span class="input-caption">${modalData.caption}</span>`
+        ];
+        modalContent.innerHTML = modalHTML.join();
+        modalHTML = [
+            `<div class="row-btn">`,
+            `<button id="create-${modalData.type}" disabled>Create</button>`,
+            `<button class="close btn-flat">Cancel</button>`,
+            `</div>`
+        ];
+        modalContent.innerHTML += modalHTML.join();
+
+        if (callback) {
+            callback();
+        }
+    },
+
+    displayModal: function(modal, closeBtn) {
+        // let modal = document.getElementById("myModal");
+        // let closeBtn = document.getElementsByClassName("close")[0];
+        modal.style.display = "block";
+        
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        };
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    },
+
+    hideModal: function() {
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
         
@@ -190,18 +337,36 @@ let dom = {
         };
     },
 
-    addNewBoard: function() {
-        document.getElementById("new-board-btn").addEventListener("click", function() {
-            dataHandler.createNewBoard(prompt("board name:"));
-            location.reload();
-        });
+    validateInput: function(modalData, inLength) {
+        document.getElementById("new-" + modalData.type + "-title")
+            .addEventListener("input", function() {
+                let input = document.getElementById("new-board-title").value;
+                let submitBtn = document.getElementById("create-board");
+                let caption = document.getElementsByClassName("input-caption");
+                let captionText = caption.innerHTML;
+        
+                if (input.length >= inLength) {
+                    submitBtn.disabled = false;
+                    caption.innerHTML = "&nbsp;";
+        
+                    submitBtn.onclick = function() {
+                        dataHandler.createNewBoard(input);
+                        location.reload();
+                    };
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.onclick = function() {};
+                    caption.innerHTML = captionText;
+                }
+            });
+        
     },
 
     resizeTextareas: function() {
         var tx = document.getElementsByTagName("textarea");
         for (var i = 0; i < tx.length; i++) {
             tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
-            tx[i].addEventListener("input", OnInput, false);
+            tx[i].addEventListener("input", setHeightOnInput, false);
         }        
     }
 };
@@ -238,13 +403,14 @@ function expandSection(element) {
 }
 
 
-function OnInput() {
+function setHeightOnInput() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
 }
 
 
 // ------- Create functions --------
+
 function createBoardForm() {
     document.getElementById("new-board").addEventListener("click", function() {
         let modal = document.getElementById("myModal"),
@@ -253,60 +419,61 @@ function createBoardForm() {
         displayForm(modal, closeBtn);
     });
 
-    document.getElementById("new-board-title").addEventListener("input", function() {
-        let input = document.getElementById("new-board-title").value;
-        let submitBtn = document.getElementById("create-board");
-        let caption = document.getElementById("input-caption");
+    let input = document.getElementById("new-board-title");
+    let submitBtn = document.getElementById("create-board");
+    let caption = document.getElementsByClassName("input-caption")[0];
 
-        if (input.length > 2) {
+    enterClick(input, submitBtn);
+
+    input.addEventListener("input", function() {    
+        if (input.value.length > 2) {
             submitBtn.disabled = false;
-            caption.style.display = "none";
-
-            submitBtn.onclick = function() {
-                dataHandler.createNewBoard(input);
-                location.reload();
-            };
+            caption.innerHTML = "&nbsp;";
         } else {
             submitBtn.disabled = true;
-            submitBtn.onclick = function() {};
-            caption.style.display = "block";
+            caption.innerHTML = "* Required (minimum 3 characters)";
         }
     });
+
+    submitBtn.onclick = function() {
+        dataHandler.createNewBoard(input.value);
+        location.reload();
+    };
 }
 
 
-function createTaskBtn() {
-    let modal = document.getElementById("myModal2"),
+function createCardBtn() {
+    /*let modal = document.getElementById("myModal2"),
         closeBtn = document.getElementsByClassName("close")[1];
 
-    document.querySelectorAll(".btn-hidden").forEach(function(cardBtn) {
+    let buttons = document.getElementsByClassName("btn-hidden");
+
+    [].forEach.call(buttons, (cardBtn) => {
         cardBtn.addEventListener("click", function() {
-            document.getElementById("new-task-boardId").value = parseInt(cardBtn.id.slice(9));
-            
+            document.getElementById("new-task-boardId").value = cardBtn.dataset.boardId;
+            console.log(document.getElementById("new-task-boardId").value);
             displayForm(modal, closeBtn);
         });
-    });
+    });*/
+    
+    let input = document.getElementById("new-task-title");
+    let submitBtn = document.getElementById("create-task");
+    let caption = document.getElementsByClassName("input-caption")[1];
 
-    document.getElementById("new-task-title").addEventListener("input", function(){
-        let input = document.getElementById("new-task-title").value,
-            submitBtn = document.getElementById("create-task"),
-            caption = document.getElementById("input-caption"),
-            select = parseInt(document.getElementById("new-task-status").value),
-            boardId = parseInt(document.getElementById("new-task-boardId").value);
-
-        if (input.length > 2) {
+    enterClick(input, submitBtn);
+    
+    input.addEventListener("input", function() {
+        if (input.value.length > 2) {
             submitBtn.disabled = false;
-            caption.style.display = "none";
-            submitBtn.onclick = function() {
-                dataHandler.createNewCard(input, boardId, select);
-                location.reload();
-            };
+            caption.innerHTML = "&nbsp;";
         } else {
             submitBtn.disabled = true;
-            submitBtn.onclick = function() {};
-            caption.style.display = "block";
+            caption.innerHTML = "* Required (minimum 3 characters)";
         }
     });
+
+    
+
 }
 
 
@@ -328,25 +495,32 @@ function displayForm(modal, closeBtn) {
 
 // Drag and drop
 function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
+    var dt = ev.dataTransfer;
+    dt.setData("text", ev.target.id);
 }
 
 
 function drop(ev) {
     ev.preventDefault();
-    if (ev.target.classList.contains("card-new")) {
+    if (ev.target.classList.contains("dragarea")) {
         let cardId = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(cardId));
-        let newStatus = ev.target.parentElement.dataset.status;
+        let newStatus = ev.target.parentElement.dataset.list;
         let id = cardId.slice(5);
-        let newTitle = ev.target.getElementsByClassName("edit-card")[ev.target.getElementsByClassName("edit-card").length-1].value
+        let newTitle = ev.target.getElementsByClassName("edit-card")[ev.target.getElementsByClassName("edit-card").length-1].value;
         dataHandler.updateCard(id, newTitle, newStatus);
-
-    };
-    
+    }
 }
-
 
 function allowDrop(ev) {
     ev.preventDefault();
+}
+
+
+function enterClick(elem, btn) {
+    elem.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            btn.click();
+        }
+    });
 }
