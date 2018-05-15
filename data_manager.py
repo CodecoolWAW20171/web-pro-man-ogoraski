@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 @database_connector.connection_handler
 def is_user_in_database(cursor, username):
     cursor.execute("""
-                    SELECT username FROM users
+                    SELECT username FROM accounts
                     WHERE LOWER(username) = LOWER(%(username)s);
                    """,
                    {'username': username})
@@ -17,7 +17,7 @@ def is_user_in_database(cursor, username):
 @database_connector.connection_handler
 def add_user(cursor, username, password):
     cursor.execute("""
-                    INSERT INTO users (username, password)
+                    INSERT INTO accounts (username, password)
                     VALUES (%(username)s, %(password)s);
                    """,
                    {'username': username, 'password': generate_password_hash(password)})
@@ -26,7 +26,7 @@ def add_user(cursor, username, password):
 @database_connector.connection_handler
 def signin(cursor, username, password):
     cursor.execute("""
-                    SELECT username, password FROM users
+                    SELECT username, password FROM accounts
                     WHERE LOWER(username) = LOWER(%(username)s);
                    """,
                    {'username': username})
