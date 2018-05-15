@@ -1,0 +1,115 @@
+input {
+    padding: 26px 12px 4px;
+    border: none;
+    border-bottom: 1px solid $pd;
+    background-color: transparent;
+    outline: none;
+    color: $fd;
+}
+
+.field-wrap {
+    position: relative;
+    margin-top: 4px;
+
+    input {
+        width: 100%;
+
+        &::placeholder {
+            color: transparent;
+            opacity: 0;
+        }
+
+        &:focus, &:not(:placeholder-shown) {
+            ~ label {
+                transform: translateY(-20px);
+                font-size: 12px;
+            }
+        }
+        &:focus ~ label {
+            color: $s0;
+        }
+
+        &:focus {
+            border-color: $s0;
+        }
+
+        &.inp-invalid {
+            border-color: $error;
+
+            & ~ label {
+                color: $error;
+            }
+        }
+    }
+
+    label {
+        position: absolute;
+        bottom: 12px + 30px;
+        left: 0 + 12px;
+        transition: 0.3s;
+        color: $inactive;
+    }
+
+    .card:hover {
+        background-color: $pl;
+    }
+
+    .helper {
+        padding: 4px 12px 8px;
+        height: 30px;
+    }
+}
+
+
+.helper {
+    font-size: 12px;
+
+}
+
+.error {
+    color: $error;
+}
+
+
+button {
+    @extend %secondary;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: none;
+    padding: 8px 16px;
+    
+    &:hover {
+        @extend %secondary-light;
+    }
+
+    &.btn-submit {
+        float: right;
+    }
+
+    &.btn-flat {
+        @extend %flat;
+        padding: 8px;
+    }
+
+    &.btn-flat-2 {
+        @extend %flat-2;
+        transition-property: background-color, color;
+        transition-duration: 0.2s;
+
+        &:hover {
+            @extend %hover;
+        }
+    }
+
+    &.btn-nopad {
+        padding: 0;
+    }
+    
+}

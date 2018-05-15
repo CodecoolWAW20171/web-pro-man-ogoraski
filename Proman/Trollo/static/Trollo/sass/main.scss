@@ -3,6 +3,7 @@
 @import 'color-theme';
 @import 'w3-columns';
 @import 'modal';
+@import 'forms';
 
 * {
     box-sizing: border-box;
@@ -16,7 +17,7 @@ body {
     background-color: $bg;
     font: {
         family: 'Bree Serif', 'serif';
-        size: 12pt;
+        size: 16px;
     }
     line-height: 1.5;
 }
@@ -31,17 +32,25 @@ header {
     @extend %primary-dark;
     padding: 8px 18px;
     text-align: center;
-    img {
+    position: relative;
+
+    & > * {
         vertical-align: middle;
     }
+
+    a {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+
+    img {
+        display: inline-block;
+    }
+
+    .login {
+        float: right;
+    }
 }
-
-h1 {
-    display: inline;
-}
-
-h2 {margin: 0;}
-
 
 
 #loading {
@@ -134,21 +143,11 @@ h2 {margin: 0;}
 }
 
 button {
-    border: none;
-    display: inline-block;
-    vertical-align: middle;
-    overflow: hidden;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    @extend %secondary;
-    border-radius: 2px;
 
     &:disabled {
         @extend %disabled;
         cursor: default;
     }
-    &:hover {@extend %secondary-light;}
 
     &.btn-add {
         float: right;
@@ -163,14 +162,9 @@ button {
         transition: opacity 0.3s ease-out;
     }
 
-    &.btn-flat {
-        @extend %flat;
-        outline: none;
-        font-size: 0.9em;
-    }
 
     &.btn-submit {
-        display: none;
+        // display: none;
     }
     
 }

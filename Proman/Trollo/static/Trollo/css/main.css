@@ -7,7 +7,7 @@
 
 footer {
   color: #000;
-  background-color: #62eeff;
+  background-color: #9fd8df;
 }
 
 header {
@@ -27,12 +27,22 @@ button:hover {
 
 button:disabled {
   color: #000;
-  background-color: grey;
+  background-color: #333333;
 }
 
 button.btn-flat {
   color: #9a0007;
   background-color: transparent;
+}
+
+button.btn-flat-2 {
+  color: #333333;
+  background-color: transparent;
+}
+
+button.btn-flat-2:hover {
+  color: #d32f2f;
+  background-color: #00bbd3;
 }
 
 .row::after, .row-btn::after {
@@ -203,6 +213,92 @@ button.btn-flat {
   color: #d32f2f;
 }
 
+input {
+  padding: 26px 12px 4px;
+  border: none;
+  border-bottom: 1px solid #008ba2;
+  background-color: transparent;
+  outline: none;
+  color: #000;
+}
+
+.field-wrap {
+  position: relative;
+  margin-top: 4px;
+}
+.field-wrap input {
+  width: 100%;
+}
+.field-wrap input::placeholder {
+  color: transparent;
+  opacity: 0;
+}
+.field-wrap input:focus ~ label, .field-wrap input:not(:placeholder-shown) ~ label {
+  transform: translateY(-20px);
+  font-size: 12px;
+}
+.field-wrap input:focus ~ label {
+  color: #d32f2f;
+}
+.field-wrap input:focus {
+  border-color: #d32f2f;
+}
+.field-wrap input.inp-invalid {
+  border-color: #B00020;
+}
+.field-wrap input.inp-invalid ~ label {
+  color: #B00020;
+}
+.field-wrap label {
+  position: absolute;
+  bottom: 42px;
+  left: 12px;
+  transition: 0.3s;
+  color: #333333;
+}
+.field-wrap .card:hover {
+  background-color: #9fd8df;
+}
+.field-wrap .helper {
+  padding: 4px 12px 8px;
+  height: 30px;
+}
+
+.helper {
+  font-size: 12px;
+}
+
+.error {
+  color: #B00020;
+}
+
+button {
+  border: none;
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  padding: 8px 16px;
+}
+button.btn-submit {
+  float: right;
+}
+button.btn-flat {
+  padding: 8px;
+}
+button.btn-flat-2 {
+  transition-property: background-color, color;
+  transition-duration: 0.2s;
+}
+button.btn-nopad {
+  padding: 0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -214,7 +310,7 @@ html {
 body {
   background-color: #f5f5f6;
   font-family: "Bree Serif", "serif";
-  font-size: 12pt;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -225,17 +321,20 @@ body {
 header {
   padding: 8px 18px;
   text-align: center;
+  position: relative;
 }
-header img {
+header > * {
   vertical-align: middle;
 }
-
-h1 {
-  display: inline;
+header a {
+  font-size: 32px;
+  line-height: 1.2;
 }
-
-h2 {
-  margin: 0;
+header img {
+  display: inline-block;
+}
+header .login {
+  float: right;
 }
 
 #loading {
@@ -298,7 +397,7 @@ h2 {
   display: block;
   margin: 4px auto;
   padding: 4px;
-  background-color: #62eeff;
+  background-color: #9fd8df;
   border-radius: 4px;
 }
 .cards-container .card textarea {
@@ -319,16 +418,6 @@ h2 {
   border: 2px solid #9a0007;
 }
 
-button {
-  border: none;
-  display: inline-block;
-  vertical-align: middle;
-  overflow: hidden;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 2px;
-}
 button:disabled {
   cursor: default;
 }
@@ -343,14 +432,6 @@ button.btn-hidden {
   opacity: 0;
   transition: opacity 0.3s ease-out;
 }
-button.btn-flat {
-  outline: none;
-  font-size: 0.9em;
-}
-button.btn-submit {
-  display: none;
-}
-
 footer {
   margin-top: 24px;
   font-size: 0.8em;

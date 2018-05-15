@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Trollo</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'Trollo/css/main.css' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+        <script src="{% static 'Trollo/js/main.js' %}" defer></script>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div class="wrapper">
+
+            <header>
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'Trollo/images/trollo-logo-black.svg' %}"
+                    width="150px" alt="Trollo">
+                </a>
+                <div class="login">
+                    {% if not user.is_authenticated %}
+                    <button class="btn-flat-2">Log In</button>
+                    <button class="btn-flat-2">Sign Up</button>
+                    {% else %}
+                    <span>Logged in as <span class="username">{{ user.username }}</span></span>
+                    <a href="{% url 'logout' %}">Log Out</a>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% block content %}{% endblock %}
+
+            <footer>
+                <p class="copyright">&copy; 2018 Ogóraski. All rights reserved.</p>
+            </footer>
+        </div>
+    </body>
+</html>

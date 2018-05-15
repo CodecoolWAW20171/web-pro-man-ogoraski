@@ -1,0 +1,22 @@
+$bg: #f5f5f6;
+$p0: #00bbd3;
+$pl: #9fd8df;
+$pd: #008ba2;
+$s0: #d32f2f;
+$sl: #ff6659;
+$sd: #9a0007;
+$error: #B00020;
+$fd: #000;
+$fl: #fff;
+$inactive: #333333;
+
+%primary {color: $fd; background-color: $p0;}
+%primary-light {color: $fd; background-color: $pl;}
+%primary-dark {color: $fd; background-color: $pd;}
+%secondary {color: $fl; background-color: $s0;}
+%secondary-light {color: $fd; background-color: $sl;}
+%secondary-dark {color: $fl; background-color: $sd;}
+%disabled {color: $fd; background-color: $inactive;}
+%flat {color: $sd; background-color: transparent;}
+%flat-2 {color: $inactive; background-color: transparent;}
+%hover {color: $s0; background-color: $p0;}

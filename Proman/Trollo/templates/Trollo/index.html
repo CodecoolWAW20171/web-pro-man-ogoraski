@@ -1,0 +1,46 @@
+{% extends "Trollo/base.html" %}
+
+{% load static %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4">
+      <h2>Log in to see your boards</h2>
+      <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
+          <div class="field-wrap">
+              <div class="card">
+                  <input type="text" name="username" id="username" placeholder="username"
+                  {% if form.errors %}
+                  value="{{ form.username.value }}" class="inp-invalid"
+                  {% endif %}
+                  autocomplete="off" required autofocus>
+                  <label for="username">username</label>
+              </div>
+              {% if form.errors %}
+              <div class="helper error">Invalid credentials</div>
+              {% else %}
+              <div class="helper"></div>
+              {% endif %}
+          </div>
+          <div class="field-wrap">
+              <div class="card">
+                  <input type="password" name="password" id="password" placeholder="password">
+                  <label for="password">password</label>
+              </div>
+              <div class="helper"></div>
+          </div>
+          <button class="btn-submit" type="submit">Log in</button>
+      </form>
+      <button class="btn-flat">Sign up</button>
+  </div>
+  <div class="col-4"></div>
+</div>
+
+{% endblock %}
