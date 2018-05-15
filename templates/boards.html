@@ -60,14 +60,38 @@
                 width="150px" alt="">
                 <!-- <h1>Trollo</h1> -->
                 <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
-            </header>           
-            
-            <div id="boards">
+                {% if username %}
+                Singed in as {{ username }} <a href="{{ url_for('logout') }}" id="logout">Logout</a>
+                {% endif %}
+            </header>
+
+            {% if username %}
+                <div id="boards">
                 <div id="loading">
                     <p>Boards are loading...</p>
                     <i class="fas fa-circle-notch fa-spin fa-3x"></i>
                 </div>
-            </div>
+                </div>
+            {% else %}
+                {% if msg %}
+                    <div class="alert alert-danger" role="alert">
+                      {{ msg }}
+                    </div>
+                {% endif %}
+                    <h2 id="formTitle" id="formTitle">Log in</h2>
+                    <form action="{{ url_for('signin') }}" method="POST" id="signin">
+                        <div class="form-group">
+                          <label for="Username">Username</label><br>
+                          <input type="text" class="form-control" placeholder="Enter username" name="username" pattern=".{3,}" required title="3 characters minimum">
+                        </div>
+                        <div class="form-group">
+                          <label for="Password">Password</label><br>
+                          <input type="password" class="form-control" placeholder="Password" name="password" pattern=".{3,}" required title="3 characters minimum">
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="loginBtn">Log in</button>
+                    </form>
+                    <button type="" class="btn btn-link" id="registerBtn">Register</button>
+            {% endif %}
 
             <footer>
                 <p class="copyright">&copy; 2018 Ogóraski. All rights reserved.</p>
