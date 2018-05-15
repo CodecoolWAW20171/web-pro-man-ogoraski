@@ -1,5 +1,8 @@
-from flask import Flask, render_template
-app = Flask(__name__)
+from flask import Flask, render_template, request, url_for, session
+import data_manager
+
+app = Flask(__name__, static_url_path='/static')
+app.secret_key = 'Don\'tTellAnyOne'
 
 
 @app.route("/")
@@ -11,7 +14,7 @@ def boards():
 # -------------- USER --------------
 @app.route('/user')
 def user():
-    return render_template('user.html')
+    return render_template('boards.html')
 
 
 @app.route('/signin', methods=['POST'])
@@ -20,15 +23,15 @@ def signin():
 
     if (not data_manager.is_user_in_database(new_account['username'])):
         msg = 'Something went wrong, try again!'
-        return render_template('user.html', msg=msg)
+        return render_template('boards.html', msg=msg)
     else:
         username = data_manager.signin(new_account['username'], new_account['password'])
         if (username):
             session['username'] = username
-            return render_template('index.html', username=username)
+            return render_template('boards.html', username=username)
         else:
             msg = 'Something went wrong, try again!'
-            return render_template('user.html', msg=msg)
+            return render_template('boards.html', msg=msg)
 
 
 @app.route('/register', methods=['POST'])
@@ -38,16 +41,16 @@ def register():
     if (not data_manager.is_user_in_database(new_account['username'])):
         data_manager.add_user(new_account['username'], new_account['password'])
         session['username'] = new_account['username']
-        return render_template('index.html', username=new_account['username'])
+        return render_template('boards.html', username=new_account['username'])
     else:
-        msg = 'There is user with ' + new_account['username'] + ' username! Try again'
-        return render_template('user.html', msg=msg)
+        msg = 'There is user with "' + new_account['username'] + '" username! Try again'
+        return render_template('boards.html', msg=msg)
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return render_template('index.html')
+    return render_template('boards.html')
 
 
 def main():
