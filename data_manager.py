@@ -36,3 +36,21 @@ def signin(cursor, username, password):
         return db_user['username']
     else:
         return None
+
+@database_connector.connection_handler
+def update_table(cursor, newName, table_id):
+    cursor.execute("""
+                    UPDATE boards
+                    SET name = %(newName)s
+                    WHERE id = %(table_id)s;
+                   """,
+                   {'table_id': table_id, 'newName': newName})
+
+@database_connector.connection_handler
+def update_card(cursor, new_name, status_id, card_id):
+    cursor.execute("""
+                    UPDATE cards
+                    SET name = %(new_name)s, status_id = %(status_id)s
+                    WHERE id = %(card_id)s;
+                   """,
+                   {'card_id': card_id, 'new_name': new_name, 'status_id' : status_id})
