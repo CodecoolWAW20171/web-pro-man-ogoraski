@@ -32,16 +32,16 @@ table_id integer
 );
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_table_id FOREIGN KEY (table_id) REFERENCES tables(id);
+    ADD CONSTRAINT fk_table_id FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE;
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+    ADD CONSTRAINT fk_status_id FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY tables_statuses
-    ADD CONSTRAINT fk_user_id FOREIGN KEY (table_id) REFERENCES tables(id);
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE;
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_statuses_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+    ADD CONSTRAINT fk_statuses_id FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE CASCADE;
 
 ALTER TABLE ONLY tables_users
-    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT fk_users_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_tables_id FOREIGN KEY (table_id) REFERENCES tables(id);
+    ADD CONSTRAINT fk_tables_id FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE;
