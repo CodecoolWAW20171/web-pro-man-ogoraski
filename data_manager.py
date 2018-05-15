@@ -36,3 +36,15 @@ def signin(cursor, username, password):
         return db_user['username']
     else:
         return None
+
+
+@database_connector.connection_handler
+def get_users_boards(cursor, username):
+    query="SELECT * FROM accounts WHERE username = %s;"
+    cursor.execute(query,[username])
+    user_id = cursor.fetchall()[0]['id']
+    query="""SELECT boards.* FROM boards 
+             INNER JOIN boards_accounts ON boards.id = boards_accounts.board_id
+             WHERE boards_accounts.account_id = %s;"""
+    cursor.execute(query,[user_id])
+    return cursor.fetchall()

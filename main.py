@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, session
+from flask import Flask, render_template, request, url_for, session, jsonify
 import data_manager
 
 app = Flask(__name__, static_url_path='/static')
@@ -52,6 +52,15 @@ def logout():
     session.pop('username', None)
     return render_template('boards.html')
 
+
+# -------------- API --------------
+
+
+@app.route('/api/get_boards/<username>')
+def get_boards(username):
+    boards = data_manager.get_users_boards(username)
+    boards = jsonify(boards)
+    return boards
 
 def main():
     app.run(debug=True)
