@@ -25,7 +25,10 @@ let dataHandler = {
 
             xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
             xhr.addEventListener('load', function (event) {
+                console.log('xxxxxxxxxxx')
                 dataHandler._data = JSON.parse(event.target.response)
+                console.log(dataHandler._data)
+                dom.init()
             })
             xhr.send();
         }
