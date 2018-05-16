@@ -98,7 +98,6 @@ let dom = {
                 let input = document.getElementById("new-task-title");
                 let select = parseInt(document.getElementById("new-task-status").value);
                 dataHandler.createNewCard(input.value, board.id, select);
-                location.reload();
             };
             displayForm(modal, closeBtn);
         });
@@ -354,7 +353,6 @@ let dom = {
 
                     submitBtn.onclick = function () {
                         dataHandler.createNewBoard(input);
-                        location.reload();
                     };
                 } else {
                     submitBtn.disabled = true;
@@ -441,7 +439,6 @@ function createBoardForm() {
 
     submitBtn.onclick = function () {
         dataHandler.createNewBoard(input.value);
-        location.reload();
     };
 }
 
