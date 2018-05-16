@@ -57,7 +57,6 @@ def logout():
 # --------------xhr from js --------------
 @app.route("/update", methods=['POST'])
 def update():
-
     data = json.loads(request.data.decode('utf-8'))
     print(data['newTitle'])
     print(data['newStatus'])

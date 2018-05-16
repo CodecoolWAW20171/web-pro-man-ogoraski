@@ -20,7 +20,7 @@ function init() {
             document.getElementById( "formTitle" ).innerHTML = "Log in";
             document.getElementById( "signin" ).setAttribute("action", "/signin");
         }
-        
+
     });
 }
 
