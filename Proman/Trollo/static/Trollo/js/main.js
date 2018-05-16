@@ -6,6 +6,7 @@ function init() {
     // dom.loadBoards();
     // createBoardForm();
     // dom.init();
+
 }
 
 init();

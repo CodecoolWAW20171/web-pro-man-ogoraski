@@ -1,0 +1,61 @@
+
+<h2>Sign up to start using Trollo</h2>
+
+<form action="{% url 'signup' %}" method="post">
+    {% csrf_token %}
+
+    <div class="field-wrap">
+        <div class="input-field">
+            <input type="text" name="username" id="username" placeholder="username"
+            {% if form.errors %}
+                value="{{ form.username.value }}"
+                {% if form.non_field_errors %}class="inp-invalid"{% endif %}
+            {% endif %}
+            autocomplete="off" required autofocus>
+            <label for="username">username</label>
+            <div class="input-bar"></div>
+        </div>
+        {% if form.username.errors %}
+        <div class="helper error">
+            {% for error in form.username.errors %}{{ error|escape }}<br>{% endfor %}
+        </div>
+        {% else %}
+        <div class="helper"></div>
+        {% endif %}
+    </div>
+
+    <div class="field-wrap">
+        <div class="input-field">
+            <input type="password" name="password1" id="password1" placeholder="password"
+            {% if form.password.errors %} class="inp-invalid" autofocus{% endif %}>
+            <label for="password1">password</label>
+            <div class="input-bar"></div>            
+        </div>
+        {% if form.password1.errors %}
+        <div class="helper error">{% for error in form.password1.errors %}{{ error|escape }}<br>{% endfor %}</div>
+        {% else %}
+        <div class="helper"></div>
+        {% endif %}
+    </div>
+
+    <div class="field-wrap">
+        <div class="input-field">
+            <input type="password" name="password2" id="password2" placeholder="repeat password"
+            {% if form.password.errors %} class="inp-invalid" autofocus{% endif %}>
+            <label for="password2">repeat password</label>
+            <div class="input-bar"></div>            
+        </div>
+        {% if form.password2.errors %}
+        <div class="helper error">{% for error in form.password2.errors %}{{ error|escape }}<br>{% endfor %}</div>
+        {% else %}
+        <div class="helper"></div>
+        {% endif %}
+    </div>
+
+    <input type="hidden" name="next" value="{{ next }}" />
+    <button class="btn-submit" type="submit">Sign up</button>
+</form>
+
+<form action="{% url 'login' %}">
+    <button type="submit" class="btn-flat">Log in</button>
+</form>

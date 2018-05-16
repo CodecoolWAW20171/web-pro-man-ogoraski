@@ -8,6 +8,7 @@
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'Trollo/css/main.css' %}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+        <script src="{% static 'Trollo/js/dom.js' %}" defer></script>
         <script src="{% static 'Trollo/js/main.js' %}" defer></script>
         {% block head %}{% endblock %}
     </head>
@@ -15,17 +16,17 @@
         <div class="wrapper">
 
             <header>
-                <a href="{% url 'index' %}">
+                <a href="{% url 'index' %}" class="logo">
                     <img src="{% static 'Trollo/images/trollo-logo-black.svg' %}"
                     width="150px" alt="Trollo">
                 </a>
                 <div class="login">
                     {% if not user.is_authenticated %}
-                    <button class="btn-flat-2">Log In</button>
-                    <button class="btn-flat-2">Sign Up</button>
+                    <a href="{% url 'login' %}">Log In</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
                     {% else %}
-                    <span>Logged in as <span class="username">{{ user.username }}</span></span>
-                    <a href="{% url 'logout' %}">Log Out</a>
+                    <span>Logged in as <span class="username">{{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="txt">Log Out</a></span>
                     {% endif %}
                 </div>
             </header>

@@ -27,7 +27,7 @@ button:hover {
 
 button:disabled {
   color: #000;
-  background-color: #333333;
+  background-color: #757575;
 }
 
 button.btn-flat {
@@ -36,7 +36,7 @@ button.btn-flat {
 }
 
 button.btn-flat-2 {
-  color: #333333;
+  color: #757575;
   background-color: transparent;
 }
 
@@ -214,54 +214,73 @@ button.btn-flat-2:hover {
 }
 
 input {
-  padding: 26px 12px 4px;
   border: none;
-  border-bottom: 1px solid #008ba2;
   background-color: transparent;
   outline: none;
   color: #000;
 }
 
-.field-wrap {
-  position: relative;
-  margin-top: 4px;
-}
 .field-wrap input {
   width: 100%;
+  padding: 24px 12px 4px;
 }
 .field-wrap input::placeholder {
   color: transparent;
   opacity: 0;
 }
 .field-wrap input:focus ~ label, .field-wrap input:not(:placeholder-shown) ~ label {
-  transform: translateY(-20px);
+  transform: translateY(-26px);
   font-size: 12px;
 }
 .field-wrap input:focus ~ label {
-  color: #d32f2f;
+  color: #008ba2;
 }
-.field-wrap input:focus {
-  border-color: #d32f2f;
+.field-wrap input:focus ~ .input-bar::before, .field-wrap input:focus ~ .input-bar::after {
+  width: 50%;
 }
-.field-wrap input.inp-invalid {
-  border-color: #B00020;
+.field-wrap input.inp-invalid ~ .input-bar::before, .field-wrap input.inp-invalid ~ .input-bar::after {
+  background-color: #d50000;
 }
 .field-wrap input.inp-invalid ~ label {
-  color: #B00020;
+  color: #d50000;
 }
 .field-wrap label {
   position: absolute;
-  bottom: 42px;
+  bottom: 5px;
   left: 12px;
-  transition: 0.3s;
-  color: #333333;
+  transition: 0.2s ease;
+  pointer-events: none;
+  color: #757575;
 }
-.field-wrap .card:hover {
-  background-color: #9fd8df;
+.field-wrap .input-field {
+  position: relative;
+}
+.field-wrap .input-field:hover {
+  background-color: #e6fcff;
+}
+.field-wrap .input-bar {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  text-align: center;
+  background-color: #757575;
+}
+.field-wrap .input-bar::before, .field-wrap .input-bar::after {
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #008ba2;
+  content: "";
+  transition: 0.2s ease;
+}
+.field-wrap .input-bar::before {
+  left: 50%;
+}
+.field-wrap .input-bar::after {
+  right: 50%;
 }
 .field-wrap .helper {
   padding: 4px 12px 8px;
-  height: 30px;
 }
 
 .helper {
@@ -269,7 +288,7 @@ input {
 }
 
 .error {
-  color: #B00020;
+  color: #d50000;
 }
 
 button {
@@ -308,7 +327,7 @@ html {
 }
 
 body {
-  background-color: #f5f5f6;
+  background-color: #fff;
   font-family: "Bree Serif", "serif";
   font-size: 16px;
   line-height: 1.5;
@@ -318,23 +337,57 @@ body {
   padding: 0 5%;
 }
 
+.hidden {
+  opacity: 0;
+  display: none;
+}
+
 header {
   padding: 8px 18px;
   text-align: center;
   position: relative;
+  min-height: 56px;
 }
 header > * {
   vertical-align: middle;
 }
+header a:not(.logo) {
+  color: #333;
+  text-transform: uppercase;
+  transition-property: box-shadow, color;
+  transition-duration: 0.2s;
+}
+header a:not(.logo):not(.txt) {
+  display: inline-block;
+  height: 100%;
+  padding: 4px 12px;
+  font-size: 18px;
+}
+header a:not(.logo).txt {
+  padding: 0 4px;
+}
+header a:not(.logo):hover {
+  box-shadow: inset 0 -2px 0 0 #d32f2f;
+  color: #000;
+}
 header a {
-  font-size: 32px;
-  line-height: 1.2;
+  text-decoration: none;
+}
+header a.logo {
+  display: inline;
 }
 header img {
-  display: inline-block;
+  height: 40px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 header .login {
   float: right;
+}
+
+.username {
+  color: #9a0007;
 }
 
 #loading {
@@ -385,7 +438,7 @@ header .login {
   margin: 6px 0;
   padding: 4px;
   text-align: center;
-  background-color: #f5f5f6;
+  background-color: #fff;
   border: 1px solid #9a0007;
   border-radius: 2px;
 }

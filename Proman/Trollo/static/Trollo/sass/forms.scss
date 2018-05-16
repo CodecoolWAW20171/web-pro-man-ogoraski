@@ -1,18 +1,19 @@
+$input-focus: $pd;
+$input-error: $error;
+$input-inactive: $inactive;
+
 input {
-    padding: 26px 12px 4px;
     border: none;
-    border-bottom: 1px solid $pd;
     background-color: transparent;
     outline: none;
     color: $fd;
 }
 
 .field-wrap {
-    position: relative;
-    margin-top: 4px;
-
+    
     input {
         width: 100%;
+        padding: 24px 12px 4px;
 
         &::placeholder {
             color: transparent;
@@ -21,42 +22,76 @@ input {
 
         &:focus, &:not(:placeholder-shown) {
             ~ label {
-                transform: translateY(-20px);
+                transform: translateY(-26px);
                 font-size: 12px;
             }
         }
         &:focus ~ label {
-            color: $s0;
+            color: $input-focus;
         }
 
-        &:focus {
-            border-color: $s0;
+
+        &:focus ~ .input-bar::before,
+        &:focus ~ .input-bar::after {
+            width: 50%;
         }
 
         &.inp-invalid {
-            border-color: $error;
+            & ~ .input-bar::before,
+            & ~ .input-bar::after {
+                background-color: $input-error;
+            }
 
             & ~ label {
-                color: $error;
+                color: $input-error;
             }
         }
     }
 
     label {
         position: absolute;
-        bottom: 12px + 30px;
-        left: 0 + 12px;
-        transition: 0.3s;
-        color: $inactive;
+        bottom: 5px;
+        left: 12px;
+        transition: 0.2s ease;
+        pointer-events: none;
+        color: $input-inactive;
     }
 
-    .card:hover {
-        background-color: $pl;
+    .input-field{
+        position: relative;
+
+        &:hover {
+            background-color: $pl2;
+        }
+    }
+
+    .input-bar {
+        position: relative;
+        width: 100%;
+        height: 1px;
+        text-align: center;
+        background-color: $input-inactive;
+        
+        &::before, &::after {
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: $input-focus;
+            content: "";
+            transition: 0.2s ease;
+        }
+
+        &::before {
+            left: 50%;
+        }
+
+        &::after {
+            right: 50%;
+        }
     }
 
     .helper {
         padding: 4px 12px 8px;
-        height: 30px;
     }
 }
 
@@ -67,7 +102,7 @@ input {
 }
 
 .error {
-    color: $error;
+    color: $input-error;
 }
 
 

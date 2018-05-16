@@ -1,14 +1,16 @@
-$bg: #f5f5f6;
+$bg: #fff;
 $p0: #00bbd3;
 $pl: #9fd8df;
 $pd: #008ba2;
+$pl2: #e6fcff;
 $s0: #d32f2f;
 $sl: #ff6659;
 $sd: #9a0007;
-$error: #B00020;
 $fd: #000;
 $fl: #fff;
-$inactive: #333333;
+$fd2: #333;
+$inactive: #757575;
+$error: #d50000;
 
 %primary {color: $fd; background-color: $p0;}
 %primary-light {color: $fd; background-color: $pl;}
