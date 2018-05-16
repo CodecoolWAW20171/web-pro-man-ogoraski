@@ -19,15 +19,17 @@ let dataHandler = {
         //         "cards": []
         //     };
         // }
-        let xhr = new XMLHttpRequest();
-        let username = document.getElementById("username").innerHTML;
-
-        xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
-        xhr.addEventListener('load', function() {
-            console.log(JSON.parse(this.response))
-            this._data = JSON.parse(this.response)
-        })
-        xhr.send();
+        if (document.getElementById("username")) {
+            let xhr = new XMLHttpRequest();
+            let username = document.getElementById("username").innerHTML;
+    
+            xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
+            xhr.addEventListener('load', function() {
+                console.log(JSON.parse(this.response))
+                this._data = JSON.parse(this.response)
+            })
+            xhr.send();
+        }
     },
 
     _saveData: function() {
