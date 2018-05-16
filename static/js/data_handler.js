@@ -5,7 +5,7 @@
 // object itself then you must use the 'this' keyword before. For example: 'this._data' below)
 let dataHandler = {
     _data: {}, // it contains the boards and their cards and statuses. It is not called from outside.
-    _loadData: function() {
+    _loadData: function () {
         // it is not called from outside
         // loads data from local storage, parses it and put into this._data property
         // let jsonString = localStorage.getItem(this.keyInLocalStorage);
@@ -22,27 +22,26 @@ let dataHandler = {
         if (document.getElementById("username")) {
             let xhr = new XMLHttpRequest();
             let username = document.getElementById("username").innerHTML;
-    
+
             xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
-            xhr.addEventListener('load', function() {
-                console.log(JSON.parse(this.response))
-                this._data = JSON.parse(this.response)
+            xhr.addEventListener('load', function (event) {
+                dataHandler._data = JSON.parse(event.target.response)
             })
             xhr.send();
         }
     },
 
-    _saveData: function() {
+    _saveData: function () {
         // it is not called from outside
         // saves the data from this._data to local storage
         localStorage.setItem(this.keyInLocalStorage, JSON.stringify(this._data));
     },
 
-    init: function() {
+    init: function () {
         this._loadData();
     },
 
-    getBoards: function(callback) {
+    getBoards: function (callback) {
         // the boards are retrieved and then the callback function is called with the boards
         let boards = this._data.boards;
 
@@ -58,9 +57,9 @@ let dataHandler = {
         }
     },
 
-    getBoard: function(boardId, callback) {
+    getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
-        let board = this.getBoards(function(boards) {
+        let board = this.getBoards(function (boards) {
             for (let i = 0; i < boards.length; i++) {
                 if (boards[i].id === boardId) {
                     if (callback) {
@@ -79,7 +78,7 @@ let dataHandler = {
         }
     },
 
-    getStatuses: function(callback) {
+    getStatuses: function (callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
         let statuses = this._data.statuses;
 
@@ -95,9 +94,9 @@ let dataHandler = {
         }
     },
 
-    getStatus: function(statusId, callback) {
+    getStatus: function (statusId, callback) {
         // the status is retrieved and then the callback function is called with the status
-        let status = this.getStatuses(function(statuses) {
+        let status = this.getStatuses(function (statuses) {
             for (let i = 0; i < statuses.length; i++) {
                 if (statuses[i].id == statusId) {
                     if (callback) {
@@ -117,7 +116,7 @@ let dataHandler = {
         }
     },
 
-    getCardsByBoardId: function(boardId, callback) {
+    getCardsByBoardId: function (boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
         let cards = this._data.cards,
             results = [];
@@ -142,7 +141,7 @@ let dataHandler = {
         }
     },
 
-    getCard: function(cardId, callback) {
+    getCard: function (cardId, callback) {
         // the card is retrieved and then the callback function is called with the card
         let cards = this._data.cards;
 
@@ -153,7 +152,7 @@ let dataHandler = {
                 }
                 else {
                     return cards[i];
-                }                
+                }
             }
         }
 
@@ -161,31 +160,31 @@ let dataHandler = {
         return null;
     },
 
-    createNewBoard: function(boardTitle, callback) {
+    createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
         let boards = this._data.boards,
-            lastId = boards[boards.length-1].id + 1;
+            lastId = boards[boards.length - 1].id + 1;
 
         boards.forEach(board => {
             board.is_active = false;
         });
-        
+
         boards.push({
             "id": lastId,
             "title": boardTitle,
             "is_active": true
         });
-        
+
         this._saveData();
         if (callback) {
             return callback(this._data);
         }
     },
 
-    createNewCard: function(cardTitle, boardId, statusId, callback) {
+    createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
         let cards = this._data.cards,
-            lastId = cards[cards.length-1].id + 1;
+            lastId = cards[cards.length - 1].id + 1;
 
         this._data.boards.forEach(board => {
             if (board.id === parseInt(boardId)) {
@@ -208,11 +207,11 @@ let dataHandler = {
             return callback(this._data);
         }
     },
-    
+
     // here comes more features
     getLastCardsOrder(boardId) {
-        return this.getCardsByBoardId(boardId, function(cards) {
-            let lastOrder = 0; 
+        return this.getCardsByBoardId(boardId, function (cards) {
+            let lastOrder = 0;
 
             for (let i = 0; i < cards.length; i++) {
                 if (lastOrder < cards[i].order) {
@@ -220,22 +219,22 @@ let dataHandler = {
                 }
             }
             lastOrder++;
-            
-            if(lastOrder) {
+
+            if (lastOrder) {
                 return lastOrder;
             }
             else {
                 return 1;
             }
-            
+
         });
     },
 
-    updateCard: function(id, newTitle, newStatus, callback) {
+    updateCard: function (id, newTitle, newStatus, callback) {
         // creates new card, saves it and calls the callback function with its data
         let card = this.getCard(id);
         let cards = this._data.cards;
-        cards[parseInt(id)-1]={
+        cards[parseInt(id) - 1] = {
             "id": parseInt(id),
             "title": newTitle,
             "board_id": parseInt(card.board_id),
@@ -243,13 +242,13 @@ let dataHandler = {
             "order": card.order
         };
         this._saveData();
-        
+
         if (callback) {
             return callback(this._data);
         }
         // DB
         let xhttp = new XMLHttpRequest();
-        let data = {'newTitle':newTitle,'newStatus':newStatus, 'id':id}
+        let data = {'newTitle': newTitle, 'newStatus': newStatus, 'id': id}
         let dataJson = JSON.stringify(data)
         xhttp.open("POST", "/update", true);
         xhttp.send(dataJson);
