@@ -7,72 +7,76 @@
     <title>Trollo</title>
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <script src="{{ url_for('static', filename='js/data_handler.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/dom.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </head>
 <body>
-<!-- The Modal -->
-<div id="myModal" class="modal">
+    <!-- Modals -->
+    <div id="myModal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <h2>Create new board!</h2>
-        <label for="new-board-title">Board title:</label>
-        <input type="text" id="new-board-title" name="new-board-title">
-        <span class="input-caption">* Required (minimum 3 characters)</span>
-        <div class="row-btn">
-            <button id="create-board" disabled>Create!</button>
-            <button class="close btn-flat">Cancel</button>
+        <!-- Modal content -->
+        <div class="modal-content">
+            <h2>Create new board!</h2>
+            <form action="{{ url_for('create_board') }}" method="POST">
+                <input hidden name="username" value="{{ username }}">
+                <label for="new-board-title">Board title:</label>
+                <input type="text" id="new-board-title" name="title">
+                <span class="input-caption">* Required (minimum 3 characters)</span>
+                <div class="row-btn">
+                    <button type="submit" id="create-board" disabled>Create!</button>
+                    <button type="button" class="close btn-flat">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 
-</div>
-<div id="myModal2" class="modal">
+    <div id="myModal2" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <input type="hidden" id="new-task-boardId" value="">
-        <h2>Add new task!</h2>
-        <label for="new-task-title">Task title:</label>
-        <input type="text" id="new-task-title">
-        <span class="input-caption">* Required (minimum 3 characters)</span><br>
-        <label for="new-task-status">Select status:</label><br>
-        <select id="new-task-status">
-            <option value="1">New</option>
-            <option value="2">In progress</option>
-            <option value="3">Testing</option>
-            <option value="4">Done</option>
-        </select>
-
-        <div class="row-btn">
-            <button id="create-task" disabled>Create!</button>
-            <button class="close btn-flat">Cancel</button>
+        <!-- Modal content -->
+        <div class="modal-content">
+            <form>
+                <input type="hidden" id="new-task-boardId" value="" name="board_id">
+                <h2>Add new task!</h2>
+                <label for="new-task-title">Task title:</label>
+                <input type="text" id="new-task-title" name="title">
+                <span class="input-caption">* Required (minimum 3 characters)</span><br>
+                <label for="new-task-status">Select status:</label><br>
+                <select id="new-task-status" name="status_id">
+                    <option value="1">New</option>
+                    <option value="2">In progress</option>
+                    <option value="3">Testing</option>
+                    <option value="4">Done</option>
+                </select>
+                <div class="row-btn">
+                    <button type="submit" id="create-task" disabled>Create!</button>
+                    <button type="button" class="close btn-flat">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 
-</div>
-<div class="wrapper">
+    <!-- body -->
+    <div class="wrapper">
 
-    <header>
-        <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
-             width="150px" alt="">
-        <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
-        Signed in as <span id="username">{{ username }}</span> <a href="{{ url_for('logout') }}" id="logout">Logout</a>
-    </header>
+        <header>
+            <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
+                 width="150px" alt="">
+            <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
+            Signed in as <span id="username">{{ username }}</span> <a href="{{ url_for('logout') }}" id="logout">Logout</a>
+        </header>
 
-    <div id="boards">
-        <div id="loading">
-            <p>Boards are loading...</p>
-            <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+        <div id="boards">
+            <div id="loading">
+                <p>Boards are loading...</p>
+                <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+            </div>
         </div>
-    </div>
 
-    <footer>
-        <p class="copyright">&copy; 2018 Ogóraski. All rights reserved.</p>
-    </footer>
-</div>
+        <footer>
+            <p class="copyright">&copy; 2018 Ogóraski. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>

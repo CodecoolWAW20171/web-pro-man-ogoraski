@@ -53,22 +53,69 @@ def logout():
     return redirect(url_for('boards'))
 
 
-# --------------xhr from js --------------
+# --------- XHR FROM JSON ----------
 @app.route("/update", methods=['POST'])
 def update():
     data = json.loads(request.data.decode('utf-8'))
-    print(data['newTitle'])
-    print(data['newStatus'])
-    print(data['id'])
 
     data_manager.update_card(data['newTitle'], data['newStatus'], data['id'])
     return 'ok'
 
 
-# -------------- API --------------
+# -------------- API ---------------
 @app.route('/api/data/<username>')
 def get_data(username):
     return jsonify(data_manager.load_data(username))
+
+
+# -------------- DB ----------------
+@app.route('/new-board', methods=['POST'])
+def create_board():
+    user_id = data_manager.get_users_id(request.form['username'])
+    board_title = request.form['title']
+    # DODAJ NOWĄ FUNKCJĘ:
+    # data_manager.add_new_board(user_id, board_title)
+
+    return redirect(url_for('boards'))
+
+
+@app.route('/new-card', methods=['POST'])
+def create_card():
+    board_id = request.form['board_id']
+    card_title = request.form['title']
+    status_id = request.form['status_id']
+    # DODAJ NOWĄ FUNKCJĘ:
+    # data_manager.add_new_card(user_id, board_id, card_title, status_id)
+
+    return redirect(url_for('boards'))
+
+
+@app.route('/delete-board/', methods=['POST'])
+def delete_board():
+    # DODAJ NOWĄ FUNKCJĘ:
+    # data_manager.delete_board(board_id)
+    return redirect(url_for('boards'))
+
+
+@app.route('/delete-card', methods=['POST'])
+def delete_card():
+    # DODAJ NOWĄ FUNKCJĘ:
+    # data_manager.delete_card(card_id)
+    return redirect(url_for('boards'))
+
+
+@app.route('/edit-board', methods=['POST'])
+def edit_board():
+    # DODAJ NOWĄ FUNKCJĘ:
+    # data_manager.edit_board(board_id, board_title)
+    return redirect(url_for('boards'))
+
+
+@app.route('/edit-card', methods=['POST'])
+def edit_card():
+    # DODAJ NOWĄ FUNKCJĘ:
+    # data_manager.edit_card(card_id, card_title, status_id)
+    return redirect(url_for('boards'))
 
 
 def main():
