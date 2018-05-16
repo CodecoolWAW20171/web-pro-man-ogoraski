@@ -6,22 +6,6 @@ function init() {
     // dom.loadBoards();
     // createBoardForm();
     dom.init();
-    
-    document.getElementById( "registerBtn" ).addEventListener("click", function() {
-        if (this.innerHTML == "Register"){
-            this.innerHTML = "Log in";
-            document.getElementById( "loginBtn" ).innerHTML = "Register";
-            document.getElementById( "formTitle" ).innerHTML = "Register";
-            document.getElementById( "signin" ).setAttribute("action", "/register");
-        }
-        else {
-            this.innerHTML = "Register";
-            document.getElementById( "loginBtn" ).innerHTML = "Log in";
-            document.getElementById( "formTitle" ).innerHTML = "Log in";
-            document.getElementById( "signin" ).setAttribute("action", "/signin");
-        }
-        
-    });
 }
 
 init();

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Trollo login</title>
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
+                width="150px" alt="">
+            </header>
+            {% if msg %}
+                <div class="alert alert-danger" role="alert">
+                  {{ msg }}
+                </div>
+            {% endif %}
+
+            <div class="form">
+                <h2 id="formTitle" id="formTitle">Log in</h2>
+                <form action="{{ url_for('signin') }}" method="POST" id="signin">
+                    <div class="form-group">
+                      <label for="Username">Username</label><br>
+                      <input type="text" class="form-control" placeholder="Enter username" name="username" pattern=".{3,}" required title="3 characters minimum">
+                    </div>
+                    <div class="form-group">
+                      <label for="Password">Password</label><br>
+                      <input type="password" class="form-control" placeholder="Password" name="password" pattern=".{3,}" required title="3 characters minimum">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="loginBtn">Log in</button>
+                </form>
+                <button type="" class="btn btn-link" id="registerBtn">Register</button>
+            </div>
+
+            <footer>
+                <p class="copyright">&copy; 2018 Ogóraski. All rights reserved.</p>
+            </footer>
+        </div>
+    </body>
+    <script>
+        document.getElementById( "registerBtn" ).addEventListener("click", function() {
+            if (this.innerHTML == "Register"){
+                this.innerHTML = "Log in";
+                document.getElementById( "loginBtn" ).innerHTML = "Register";
+                document.getElementById( "formTitle" ).innerHTML = "Register";
+                document.getElementById( "signin" ).setAttribute("action", "/register");
+            }
+            else {
+                this.innerHTML = "Register";
+                document.getElementById( "loginBtn" ).innerHTML = "Log in";
+                document.getElementById( "formTitle" ).innerHTML = "Log in";
+                document.getElementById( "signin" ).setAttribute("action", "/signin");
+            } 
+        });
+    </script>
+</html>
