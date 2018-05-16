@@ -10,7 +10,7 @@ def is_user_in_database(cursor, username):
                     WHERE LOWER(username) = LOWER(%(username)s);
                    """,
                    {'username': username})
-    if(cursor.fetchall()):
+    if (cursor.fetchall()):
         return True
     return False
 
@@ -51,7 +51,7 @@ def get_users_boards(cursor, user_id):
 
 @database_connector.connection_handler
 def get_board_cards(cursor, board_id):
-    query = """SELECT * FROM cards
+    query = """SELECT cards.* FROM cards
                INNER JOIN boards ON boards.id = cards.board_id
                WHERE boards.id = %s;"""
     cursor.execute(query, [board_id])
@@ -63,29 +63,30 @@ def load_data(username):
 
     boards = get_users_boards(user_id)
     statuses = [
-            {
-                "id": 1,
-                "name": "New"
-            },
-            {
-                "id": 2,
-                "name": "In progress"
-            },
-            {
-                "id": 3,
-                "name": "Testing"
-            },
-            {
-                "id": 4,
-                "name": "Done"
-            }
-        ]
+        {
+            "id": 1,
+            "name": "New"
+        },
+        {
+            "id": 2,
+            "name": "In progress"
+        },
+        {
+            "id": 3,
+            "name": "Testing"
+        },
+        {
+            "id": 4,
+            "name": "Done"
+        }
+    ]
     cards = []
     for board in boards:
         board["is_active"] = "false"
-        card = get_board_cards(board.id)
-        card["order"] = 0
-        cards.append(card)
+        cards = get_board_cards(board['id'])
+        for card in cards:
+            card["order"] = 0
+            cards.append(card)
 
     result = {"boards": boards,
               "statuses": statuses,

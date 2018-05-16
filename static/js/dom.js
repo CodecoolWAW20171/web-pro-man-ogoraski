@@ -1,7 +1,7 @@
 // It uses data_handler.js to visualize elements
 let dom = {
-    init: function() {
-        let afterLoad = function() {
+    init: function () {
+        let afterLoad = function () {
             createBoardForm();
             createCardBtn();
             dom.resizeTextareas();
@@ -9,19 +9,21 @@ let dom = {
         this.loadBoards(afterLoad);
     },
 
-    loadBoards: function(callback) {
+    loadBoards: function (callback) {
         // retrieves boards and makes showBoards called
         let boards = dataHandler.getBoards();
-        setTimeout(function() {
-            document.getElementById("boards").innerHTML = "";
-            dom.showBoards(boards, callback);
-        }, 500);
+        if (boards) {
+            setTimeout(function () {
+                document.getElementById("boards").innerHTML = "";
+                dom.showBoards(boards, callback);
+            }, 500);
+        }
     },
 
-    showBoards: function(boards, callback) {
+    showBoards: function (boards, callback) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
-        
+
         // Top level container for all boards
         let boardsListContainer = document.getElementById("boards");
 
@@ -42,14 +44,14 @@ let dom = {
             });
 
             let boardBar = boardContainer.firstChild;
-            boardBar.addEventListener("click", function() {
+            boardBar.addEventListener("click", function () {
                 dom.hideBoards(boards, board.id);
                 dom.toggleViewBoard(board.id);
             });
 
-            let buttonAddCard = 
+            let buttonAddCard =
                 document.getElementById("add-card-" + board.id);
-            buttonAddCard.addEventListener("click", function(event) {
+            buttonAddCard.addEventListener("click", function (event) {
                 event.stopPropagation();
             });
 
@@ -58,12 +60,12 @@ let dom = {
         callback();
     },
 
-    buildBoard: function(board) {
+    buildBoard: function (board) {
         // Container for a single board
         var boardContainer = document.createElement("div");
         boardContainer.id = "board-" + board.id;
         boardContainer.className = "board-container";
-        
+
         // Top bar to control board
         let boardBar = document.createElement("div");
         boardBar.className = "board-bar";
@@ -71,10 +73,11 @@ let dom = {
         let boardTitle = document.createTextNode(board.title);
         let dropIcon = document.createElement("i");
         dropIcon.className = "fas fa-caret-down fa-2x arrow";
-        
+
         boardContainer.appendChild(boardBar);
         boardBar.appendChild(boardHeader);
         boardBar.appendChild(dropIcon);
+
         boardHeader.appendChild(boardTitle);
 
         // Add new card button
@@ -83,15 +86,15 @@ let dom = {
         buttonAddCard.className = "btn-hidden";
         buttonAddCard.innerHTML = "<i class=\"fas fa-plus\"></i> &nbsp;New card";
         buttonAddCard.setAttribute("data-board-id", board.id);
-        
+
         boardBar.appendChild(buttonAddCard);
 
         let modal = document.getElementById("myModal2"),
             closeBtn = document.getElementsByClassName("close")[1];
 
-        buttonAddCard.addEventListener("click", function() {
+        buttonAddCard.addEventListener("click", function () {
             let submitBtn = document.getElementById("create-task");
-            submitBtn.onclick = function() {
+            submitBtn.onclick = function () {
                 let input = document.getElementById("new-task-title");
                 let select = parseInt(document.getElementById("new-task-status").value);
                 dataHandler.createNewCard(input.value, board.id, select);
@@ -119,7 +122,7 @@ let dom = {
         return boardContainer;
     },
 
-    buildList: function(list, board_id) {
+    buildList: function (list, board_id) {
         // List container
         var listContainer = document.createElement("div");
         listContainer.className = "col-s-3";
@@ -130,7 +133,7 @@ let dom = {
         let listHeader = document.createElement("h3");
         listHeader.className = "list-title";
         let listTitle = document.createTextNode(list.name);
-        
+
         // Cards container
         let cardsContainer = document.createElement("div");
         cardsContainer.id = "board-" + board_id + "-list-" + list.id;
@@ -147,7 +150,7 @@ let dom = {
         return listContainer;
     },
 
-    buildCard: function(card) {
+    buildCard: function (card) {
         let cardContainer = document.createElement("div");
         cardContainer.id = "card-" + card.id;
         cardContainer.className = "card";
@@ -162,7 +165,7 @@ let dom = {
         let submitCardButton = document.createElement("button");
         submitCardButton.className = "btn-submit";
         submitCardButton.innerHTML = "Save";
-        
+
         cardContainer.appendChild(cardText);
         cardText.appendChild(cardTitle);
         cardContainer.appendChild(submitCardButton);
@@ -170,7 +173,7 @@ let dom = {
         return cardContainer;
     },
 
-    loadCards: function(boardId) {
+    loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         let cards = dataHandler.getCardsByBoardId(boardId);
         if (cards) {
@@ -178,7 +181,7 @@ let dom = {
         }
     },
 
-    showCards: function(cards) {
+    showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
         let board_id = cards[0].board_id;
@@ -190,7 +193,7 @@ let dom = {
                 if (card.status_id === parseInt(cardsContainer.dataset.list)) {
                     let cardContainer = dom.buildCard(card);
                     cardsContainer.appendChild(cardContainer);
-                    
+
                     let cardText = cardContainer
                         .getElementsByTagName("textarea")[0];
                     let submitCardButton = cardContainer
@@ -217,26 +220,26 @@ let dom = {
                 cardsContainer.classList.remove("dragarea");
             });
         });
-        
+
     },
     // here comes more features
-    toggleViewBoard: function(boardId) {
+    toggleViewBoard: function (boardId) {
         let board = dataHandler.getBoard(boardId);
-        
+
         let boardContainer = document.getElementById("board-" + boardId);
         let boardDetails = boardContainer.getElementsByClassName("board-details")[0];
 
         board.is_active = !board.is_active;
         boardContainer.classList.toggle("open");
 
-        if(board.is_active) {
+        if (board.is_active) {
             expandSection(boardDetails);
         } else {
             collapseSection(boardDetails);
         }
     },
 
-    hideBoards: function(boards, board_id) {
+    hideBoards: function (boards, board_id) {
         boards.forEach(board => {
             if (board.is_active && board.id !== board_id) {
                 dom.toggleViewBoard(board.id);
@@ -244,24 +247,24 @@ let dom = {
         });
     },
 
-    createBoardForm: function() {
-        document.getElementById("new-board").addEventListener("click", function() {
+    createBoardForm: function () {
+        document.getElementById("new-board").addEventListener("click", function () {
             dom.buildModal(dom.modals[0], () => {
                 let modal = document.getElementById("myModal");
                 let closeBtn = modal.getElementsByClassName("close")[0];
-                
+
                 dom.displayForm(modal, closeBtn);
             });
         });
     },
 
-    createCardForm: function() {
+    createCardForm: function () {
         document.querySelectorAll(".btn-hidden").forEach((cardBtn) => {
-            cardBtn.addEventListener("click", function() {
+            cardBtn.addEventListener("click", function () {
                 dom.buildModal(dom.modals[1], () => {
                     let modal = document.getElementById("myModal");
                     let closeBtn = modal.getElementsByClassName("close")[0];
-                    
+
                     dom.displayForm(modal, closeBtn);
                 });
             });
@@ -283,7 +286,7 @@ let dom = {
         }
     ],
 
-    buildModal: function(modalData, callback) {
+    buildModal: function (modalData, callback) {
         let modalContent = document.getElementById("myModal")
             .getElementsByClassName("modal-content")[0];
         // Clear existing modal data
@@ -310,64 +313,65 @@ let dom = {
         }
     },
 
-    displayModal: function(modal, closeBtn) {
+    displayModal: function (modal, closeBtn) {
         // let modal = document.getElementById("myModal");
         // let closeBtn = document.getElementsByClassName("close")[0];
         modal.style.display = "block";
-        
-        closeBtn.onclick = function() {
+
+        closeBtn.onclick = function () {
             modal.style.display = "none";
         };
-    
-        window.onclick = function(event) {
+
+        window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         };
     },
 
-    hideModal: function() {
+    hideModal: function () {
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
-        
-        window.onclick = function(event) {
+
+        window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         };
     },
 
-    validateInput: function(modalData, inLength) {
+    validateInput: function (modalData, inLength) {
         document.getElementById("new-" + modalData.type + "-title")
-            .addEventListener("input", function() {
+            .addEventListener("input", function () {
                 let input = document.getElementById("new-board-title").value;
                 let submitBtn = document.getElementById("create-board");
                 let caption = document.getElementsByClassName("input-caption");
                 let captionText = caption.innerHTML;
-        
+
                 if (input.length >= inLength) {
                     submitBtn.disabled = false;
                     caption.innerHTML = "&nbsp;";
-        
-                    submitBtn.onclick = function() {
+
+                    submitBtn.onclick = function () {
                         dataHandler.createNewBoard(input);
                         location.reload();
                     };
                 } else {
                     submitBtn.disabled = true;
-                    submitBtn.onclick = function() {};
+                    submitBtn.onclick = function () {
+                    };
                     caption.innerHTML = captionText;
                 }
             });
-        
+
     },
 
-    resizeTextareas: function() {
+    resizeTextareas: function () {
         var tx = document.getElementsByTagName("textarea");
         for (var i = 0; i < tx.length; i++) {
             tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
             tx[i].addEventListener("input", setHeightOnInput, false);
-        }        
+        }
     }
 };
 
@@ -375,15 +379,15 @@ let dom = {
 // Collapse and expand animations
 function collapseSection(element) {
     var sectionHeight = element.scrollHeight;
-  
+
     var elementTransition = element.style.transition;
     element.style.transition = "";
-    
-    requestAnimationFrame(function() {
+
+    requestAnimationFrame(function () {
         element.style.height = sectionHeight + "px";
         element.style.transition = elementTransition;
-      
-        requestAnimationFrame(function() {
+
+        requestAnimationFrame(function () {
             element.style.height = 0 + "px";
         });
     });
@@ -392,14 +396,14 @@ function collapseSection(element) {
 
 function expandSection(element) {
     var sectionHeight = element.scrollHeight;
-    
+
     element.style.height = sectionHeight + "px";
-  
-    element.addEventListener("transitionend", function() {
+
+    element.addEventListener("transitionend", function () {
         element.removeEventListener("transitionend", arguments.callee);
-      
+
         element.style.height = null;
-    });   
+    });
 }
 
 
@@ -412,10 +416,10 @@ function setHeightOnInput() {
 // ------- Create functions --------
 
 function createBoardForm() {
-    document.getElementById("new-board").addEventListener("click", function() {
+    document.getElementById("new-board").addEventListener("click", function () {
         let modal = document.getElementById("myModal"),
             closeBtn = document.getElementsByClassName("close")[0];
-        
+
         displayForm(modal, closeBtn);
     });
 
@@ -425,7 +429,7 @@ function createBoardForm() {
 
     enterClick(input, submitBtn);
 
-    input.addEventListener("input", function() {    
+    input.addEventListener("input", function () {
         if (input.value.length > 2) {
             submitBtn.disabled = false;
             caption.innerHTML = "&nbsp;";
@@ -435,7 +439,7 @@ function createBoardForm() {
         }
     });
 
-    submitBtn.onclick = function() {
+    submitBtn.onclick = function () {
         dataHandler.createNewBoard(input.value);
         location.reload();
     };
@@ -455,14 +459,14 @@ function createCardBtn() {
             displayForm(modal, closeBtn);
         });
     });*/
-    
+
     let input = document.getElementById("new-task-title");
     let submitBtn = document.getElementById("create-task");
     let caption = document.getElementsByClassName("input-caption")[1];
 
     enterClick(input, submitBtn);
-    
-    input.addEventListener("input", function() {
+
+    input.addEventListener("input", function () {
         if (input.value.length > 2) {
             submitBtn.disabled = false;
             caption.innerHTML = "&nbsp;";
@@ -472,24 +476,23 @@ function createCardBtn() {
         }
     });
 
-    
 
 }
 
 
 function displayForm(modal, closeBtn) {
     modal.style.display = "block";
-    
-    closeBtn.onclick = function() {
+
+    closeBtn.onclick = function () {
         modal.style.display = "none";
     };
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     };
-    
+
 }
 
 
@@ -507,7 +510,7 @@ function drop(ev) {
         ev.target.appendChild(document.getElementById(cardId));
         let newStatus = ev.target.parentElement.dataset.list;
         let id = cardId.slice(5);
-        let newTitle = ev.target.getElementsByClassName("edit-card")[ev.target.getElementsByClassName("edit-card").length-1].value;
+        let newTitle = ev.target.getElementsByClassName("edit-card")[ev.target.getElementsByClassName("edit-card").length - 1].value;
         dataHandler.updateCard(id, newTitle, newStatus);
     }
 }
@@ -518,7 +521,7 @@ function allowDrop(ev) {
 
 
 function enterClick(elem, btn) {
-    elem.addEventListener("keyup", function(event) {
+    elem.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
             btn.click();
         }
