@@ -60,38 +60,64 @@ def get_board_cards(cursor, board_id):
 
 def load_data(username):
     user_id = get_users_id(username)
+    if user_id != []:
+        boards = get_users_boards(user_id)
+        statuses = [
+            {
+                "id": 1,
+                "name": "New"
+            },
+            {
+                "id": 2,
+                "name": "In progress"
+            },
+            {
+                "id": 3,
+                "name": "Testing"
+            },
+            {
+                "id": 4,
+                "name": "Done"
+            }
+        ]
+        cards = []
+        for board in boards:
+            board["is_active"] = "false"
+            cards = get_board_cards(board['id'])
+            for card in cards:
+                card["order"] = 0
+                cards.append(card)
 
-    boards = get_users_boards(user_id)
-    statuses = [
-        {
-            "id": 1,
-            "name": "New"
-        },
-        {
-            "id": 2,
-            "name": "In progress"
-        },
-        {
-            "id": 3,
-            "name": "Testing"
-        },
-        {
-            "id": 4,
-            "name": "Done"
-        }
-    ]
-    cards = []
-    for board in boards:
-        board["is_active"] = "false"
-        cards = get_board_cards(board['id'])
-        for card in cards:
-            card["order"] = 0
-            cards.append(card)
+        result = {"boards": boards,
+                  "statuses": statuses,
+                  "cards": cards}
+        return result
 
-    result = {"boards": boards,
-              "statuses": statuses,
-              "cards": cards}
-    return result
+# INSERT
+
+@database_connector.connection_handler
+def insert_board(cursor, title, account_id):
+    cursor.execute("""
+                    INSERT INTO boards 
+                    (title) VALUES %(title)s;
+                    """,
+                    {'title' : title})
+
+    cursor.execute("""
+                    SELECT id
+                    FROM boards
+                    WHERE title=%(title)s;
+                    """,
+                    {'title' : title})
+    board_id = cursor.fetchall()[-1]['id']
+
+    cursor.execute("""
+                    INSERT INTO boards_accounts
+                    VALUES (%(account_id)s,%(board_id)s);
+                    """,
+                    {'account_id':account_id,'board_id':board_id})
+
+
 
 
 # UPDATE
@@ -120,5 +146,8 @@ def update_card(cursor, new_name, status_id, card_id):
 def get_users_id(cursor, username):
     query = "SELECT * FROM accounts WHERE username = %s;"
     cursor.execute(query, [username])
-
-    return cursor.fetchall()[0]['id']
+    try:
+        id = cursor.fetchall()[0]['id']
+    except IndexError:
+        return []
+    return id;
