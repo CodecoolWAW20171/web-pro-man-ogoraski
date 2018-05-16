@@ -53,9 +53,8 @@ def logout():
     session.pop('username', None)
     return render_template('boards.html')
 
-    # --------------xhr from js --------------
 
-
+# --------------xhr from js --------------
 @app.route("/update", methods=['POST'])
 def update():
 
@@ -64,19 +63,15 @@ def update():
     print(data['newStatus'])
     print(data['id'])
 
-    data_manager.update_card(data['newTitle'],data['newStatus'],data['id'])
-    
+    data_manager.update_card(data['newTitle'], data['newStatus'], data['id'])
     return 'ok'
 
 
 # -------------- API --------------
+@app.route('/api/data/<username>')
+def get_data(username):
+    return jsonify(data_manager.load_data(username))
 
-
-@app.route('/api/get_boards/<username>')
-def get_boards(username):
-    boards = data_manager.get_users_boards(username)
-    boards = jsonify(boards)
-    return boards
 
 def main():
     app.run(debug=True)

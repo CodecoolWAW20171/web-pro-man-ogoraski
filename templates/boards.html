@@ -61,7 +61,7 @@
                 <!-- <h1>Trollo</h1> -->
                 <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
                 {% if username %}
-                Singed in as {{ username }} <a href="{{ url_for('logout') }}" id="logout">Logout</a>
+                Singed in as <span id="username">{{ username }}</span> <a href="{{ url_for('logout') }}" id="logout">Logout</a>
                 {% endif %}
             </header>
 

@@ -4,22 +4,30 @@
 // (watch out: when you would like to use a property/function of an object from the
 // object itself then you must use the 'this' keyword before. For example: 'this._data' below)
 let dataHandler = {
-    keyInLocalStorage: "proman-data", // the string that you use as a key in localStorage to save your application data
     _data: {}, // it contains the boards and their cards and statuses. It is not called from outside.
     _loadData: function() {
         // it is not called from outside
         // loads data from local storage, parses it and put into this._data property
-        let jsonString = localStorage.getItem(this.keyInLocalStorage);
+        // let jsonString = localStorage.getItem(this.keyInLocalStorage);
 
-        if (jsonString != null) {
-            this._data = JSON.parse(jsonString);
-        } else {
-            this._data = {
-                "statuses": [],
-                "boards": [],
-                "cards": []
-            };
-        }
+        // if (jsonString != null) {
+        //     this._data = JSON.parse(jsonString);
+        // } else {
+        //     this._data = {
+        //         "statuses": [],
+        //         "boards": [],
+        //         "cards": []
+        //     };
+        // }
+        let xhr = new XMLHttpRequest();
+        let username = document.getElementById("username").innerHTML;
+
+        xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
+        xhr.addEventListener('load', function() {
+            console.log(JSON.parse(this.response))
+            this._data = JSON.parse(this.response)
+        })
+        xhr.send();
     },
 
     _saveData: function() {
@@ -221,7 +229,7 @@ let dataHandler = {
         });
     },
 
-    updateCard: function(id, newTitle=card.title, newStatus=card.status_id, callback) {
+    updateCard: function(id, newTitle, newStatus, callback) {
         // creates new card, saves it and calls the callback function with its data
         let card = this.getCard(id);
         let cards = this._data.cards;
@@ -238,12 +246,11 @@ let dataHandler = {
             return callback(this._data);
         }
         // DB
-        var xhttp = new XMLHttpRequest();
+        let xhttp = new XMLHttpRequest();
         let data = {'newTitle':newTitle,'newStatus':newStatus, 'id':id}
         let dataJson = JSON.stringify(data)
         xhttp.open("POST", "/update", true);
         xhttp.send(dataJson);
-        
     }
 
 };

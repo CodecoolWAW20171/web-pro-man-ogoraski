@@ -8,7 +8,6 @@ function init() {
     dom.init();
     
     document.getElementById( "registerBtn" ).addEventListener("click", function() {
-        console.log()
         if (this.innerHTML == "Register"){
             this.innerHTML = "Log in";
             document.getElementById( "loginBtn" ).innerHTML = "Register";
