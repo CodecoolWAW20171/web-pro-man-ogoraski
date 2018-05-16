@@ -30,7 +30,7 @@ ALTER TABLE ONLY boards_accounts
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_boards_id FOREIGN KEY (board_id) REFERENCES boards(id);
 
-INSERT INTO boards (title) VALUES ('sample board');
+INSERT INTO boards (name) VALUES ('sample board');
 
 INSERT INTO boards_accounts VALUES (1,1);
 

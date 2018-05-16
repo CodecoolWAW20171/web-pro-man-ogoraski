@@ -96,19 +96,19 @@ def load_data(username):
 # INSERT
 
 @database_connector.connection_handler
-def insert_board(cursor, title, account_id):
+def insert_board(cursor, name, account_id):
     cursor.execute("""
                     INSERT INTO boards 
-                    (title) VALUES %(title)s;
+                    (name) VALUES (%(name)s);
                     """,
-                    {'title' : title})
+                    {'name' : name})
 
     cursor.execute("""
                     SELECT id
                     FROM boards
-                    WHERE title=%(title)s;
+                    WHERE name=%(name)s;
                     """,
-                    {'title' : title})
+                    {'name' : name})
     board_id = cursor.fetchall()[-1]['id']
 
     cursor.execute("""
