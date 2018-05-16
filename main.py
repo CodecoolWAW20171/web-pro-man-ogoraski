@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, url_for, session
+import json
 import data_manager
 
 app = Flask(__name__, static_url_path='/static')
@@ -51,6 +52,21 @@ def register():
 def logout():
     session.pop('username', None)
     return render_template('boards.html')
+
+    # --------------xhr from js --------------
+
+
+@app.route("/update", methods=['POST'])
+def update():
+
+    data = json.loads(request.data.decode('utf-8'))
+    print(data['newTitle'])
+    print(data['newStatus'])
+    print(data['id'])
+
+    data_manager.update_card(data['newTitle'],data['newStatus'],data['id'])
+    
+    return 'ok'
 
 
 def main():

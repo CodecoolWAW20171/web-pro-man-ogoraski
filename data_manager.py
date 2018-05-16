@@ -38,13 +38,13 @@ def signin(cursor, username, password):
         return None
 
 @database_connector.connection_handler
-def update_table(cursor, newName, table_id):
+def update_table(cursor, new_name, table_id):
     cursor.execute("""
                     UPDATE boards
                     SET name = %(newName)s
                     WHERE id = %(table_id)s;
                    """,
-                   {'table_id': table_id, 'newName': newName})
+                   {'table_id': table_id, 'newName': new_name})
 
 @database_connector.connection_handler
 def update_card(cursor, new_name, status_id, card_id):

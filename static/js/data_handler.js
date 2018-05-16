@@ -233,9 +233,17 @@ let dataHandler = {
             "order": card.order
         };
         this._saveData();
+        
         if (callback) {
             return callback(this._data);
         }
+        // DB
+        var xhttp = new XMLHttpRequest();
+        let data = {'newTitle':newTitle,'newStatus':newStatus, 'id':id}
+        let dataJson = JSON.stringify(data)
+        xhttp.open("POST", "/update", true);
+        xhttp.send(dataJson);
+        
     }
 
 };
