@@ -6,8 +6,8 @@ function init() {
     // dom.loadBoards();
     // createBoardForm();
     dom.init();
-    
-    document.getElementById( "registerBtn" ).addEventListener("click", function() {
+    if (document.getElementById( "registerBtn" )) {
+        document.getElementById( "registerBtn" ).addEventListener("click", function() {
         if (this.innerHTML == "Register"){
             this.innerHTML = "Log in";
             document.getElementById( "loginBtn" ).innerHTML = "Register";
@@ -22,6 +22,8 @@ function init() {
         }
 
     });
+    }
+
 }
 
 init();
