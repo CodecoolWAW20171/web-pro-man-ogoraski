@@ -41,16 +41,16 @@ def register():
     if (not data_manager.is_user_in_database(new_account['username'])):
         data_manager.add_user(new_account['username'], new_account['password'])
         session['username'] = new_account['username']
-        return render_template('boards.html', username=new_account['username'])
+        return redirect(url_for('boards'))
     else:
         msg = 'There is user with "' + new_account['username'] + '" username! Try again'
-        return render_template('boards.html', msg=msg)
+        return render_template('login.html', msg=msg)
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return render_template('boards.html')
+    return redirect(url_for('boards'))
 
 
 # --------------xhr from js --------------
