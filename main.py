@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, session
+from flask import Flask, render_template, request, url_for, session, jsonify
 import json
 import data_manager
 
@@ -68,6 +68,15 @@ def update():
     
     return 'ok'
 
+
+# -------------- API --------------
+
+
+@app.route('/api/get_boards/<username>')
+def get_boards(username):
+    boards = data_manager.get_users_boards(username)
+    boards = jsonify(boards)
+    return boards
 
 def main():
     app.run(debug=True)
