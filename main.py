@@ -68,7 +68,6 @@ def update():
 # -------------- API --------------
 @app.route('/api/data/<username>')
 def get_data(username):
-    print(data_manager.load_data(username))
     return jsonify(data_manager.load_data(username))
 
 
