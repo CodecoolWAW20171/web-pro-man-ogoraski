@@ -93,6 +93,32 @@ def load_data(username):
               "cards": cards}
     return result
 
+# INSERT
+
+@database_connector.connection_handler
+def insert_board(cursor, title, account_id):
+    cursor.execute("""
+                    INSERT INTO boards 
+                    (title) VALUES %(title)s;
+                    """,
+                    {'title' : title})
+
+    cursor.execute("""
+                    SELECT id
+                    FROM boards
+                    WHERE title=%(title)s;
+                    """,
+                    {'title' : title})
+    board_id = cursor.fetchall()[-1]['id']
+
+    cursor.execute("""
+                    INSERT INTO boards_accounts
+                    VALUES (%(account_id)s,%(board_id)s);
+                    """,
+                    {'account_id':account_id,'board_id':board_id})
+
+
+
 
 # UPDATE
 @database_connector.connection_handler
