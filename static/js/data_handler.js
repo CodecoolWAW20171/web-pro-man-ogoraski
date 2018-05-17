@@ -280,7 +280,7 @@ let dataHandler = {
 
         // Define what happens on successful data submission
         XHR.addEventListener('load', function(event) {
-          alert('Yeah! Data sent and response loaded.');
+            document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
         // Define what happens in case of error
@@ -293,5 +293,10 @@ let dataHandler = {
 
         // Send our FormData object; HTTP headers are set automatically
         XHR.send(FD);
-        }
+        },
+    removeBoard (boardID) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", `/delete-board/${boardID}`, true);
+        xhttp.send();
+    }
 };

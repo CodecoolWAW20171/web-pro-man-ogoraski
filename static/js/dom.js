@@ -132,6 +132,9 @@ let dom = {
         deleteBoardBtn.className = "btn-hidden";
         deleteBoardBtn.innerHTML = "<i class=\"fas fa-trash-alt\"></i> &nbsp;Delete board";
         deleteBoardBtn.setAttribute("data-board-id", board.id);
+        deleteBoardBtn.addEventListener("click", function () {
+            dataHandler.removeBoard(board.id)
+        })
 
         boardBar.appendChild(deleteBoardBtn);
 
@@ -365,8 +368,8 @@ let dom = {
         };
     },
 
-    hideModal: function () {
-        let modal = document.getElementById("myModal");
+    hideModal: function (modalId) {
+        let modal = document.getElementById(modalId);
         modal.style.display = "none";
 
         window.onclick = function (event) {
@@ -407,7 +410,8 @@ let dom = {
             tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
             tx[i].addEventListener("input", setHeightOnInput, false);
         }
-    }
+    },
+
 };
 
 

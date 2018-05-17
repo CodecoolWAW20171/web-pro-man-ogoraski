@@ -176,7 +176,7 @@ def update_card(cursor, new_title, status_id, card_id):
 def delete_board(cursor, board_id):
     cursor.execute("""
                     DELETE FROM boards
-                    WHERE = %(board_id)s;
+                    WHERE id = %(board_id)s;
                    """,
                    {'board_id': board_id})
 
