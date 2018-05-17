@@ -121,23 +121,23 @@ def insert_board(cursor, title, account_id):
 
 # UPDATE
 @database_connector.connection_handler
-def update_table(cursor, new_name, table_id):
+def update_table(cursor, new_title, table_id):
     cursor.execute("""
                     UPDATE boards
-                    SET name = %(newName)s
+                    SET title = %(new_title)s
                     WHERE id = %(table_id)s;
                    """,
-                   {'table_id': table_id, 'newName': new_name})
+                   {'table_id': table_id, 'new_title': new_title})
 
 
 @database_connector.connection_handler
-def update_card(cursor, new_name, status_id, card_id):
+def update_card(cursor, new_title, status_id, card_id):
     cursor.execute("""
                     UPDATE cards
-                    SET name = %(new_name)s, status_id = %(status_id)s
+                    SET title = %(new_title)s, status_id = %(status_id)s
                     WHERE id = %(card_id)s;
                    """,
-                   {'card_id': card_id, 'new_name': new_name, 'status_id': status_id})
+                   {'card_id': card_id, 'new_title': new_title, 'status_id': status_id})
 
 
 # DELETE
