@@ -60,6 +60,7 @@ def get_board_cards(cursor, board_id):
 
 def load_data(username):
     user_id = get_users_id(username)
+
     if user_id != []:
         boards = get_users_boards(user_id)
         statuses = [
@@ -82,7 +83,6 @@ def load_data(username):
         ]
         cards = []
         for board in boards:
-            board["is_active"] = "false"
             cards = get_board_cards(board['id'])
             for card in cards:
                 card["order"] = 0
@@ -98,74 +98,64 @@ def load_data(username):
 @database_connector.connection_handler
 def insert_board(cursor, title, account_id):
     cursor.execute("""
-                    INSERT INTO boards 
+                    INSERT INTO boards
                     (title) VALUES (%(title)s);
-                    """,
+                   """,
                    {'title': title})
 
     cursor.execute("""
                     SELECT id
                     FROM boards
                     WHERE title=%(title)s;
-                    """,
-                    {'title': title})
+                   """,
+                   {'title': title})
     board_id = cursor.fetchall()[-1]['id']
 
     cursor.execute("""
                     INSERT INTO boards_accounts
                     VALUES (%(account_id)s,%(board_id)s);
-                    """,
-                    {'account_id': account_id, 'board_id': board_id})
-
-
-@database_connector.connection_handler
-def insert_card(cursor, title, board_id, status_id):
-    cursor.execute("""
-                    INSERT INTO cards 
-                    (title, board_id, status_id)
-                    VALUES (%(title)s, %(board_id)s, %(status_id)s,);
-                    """,
-                   {'title': title, 'board_id': board_id, 'status_id': status_id})
+                   """,
+                   {'account_id': account_id, 'board_id': board_id})
 
 
 # UPDATE
 @database_connector.connection_handler
-def update_table(cursor, new_name, table_id):
+def update_board(cursor, new_title, table_id):
     cursor.execute("""
                     UPDATE boards
-                    SET name = %(newName)s
+                    SET title = %(new_title)s
                     WHERE id = %(table_id)s;
                    """,
-                   {'table_id': table_id, 'newName': new_name})
+                   {'table_id': table_id, 'new_title': new_title})
 
 
 @database_connector.connection_handler
-def update_card(cursor, new_name, status_id, card_id):
+def update_card(cursor, new_title, status_id, card_id):
     cursor.execute("""
                     UPDATE cards
-                    SET name = %(new_name)s, status_id = %(status_id)s
+                    SET title = %(new_title)s, status_id = %(status_id)s
                     WHERE id = %(card_id)s;
                    """,
-                   {'card_id': card_id, 'new_name': new_name, 'status_id': status_id})
+                   {'card_id': card_id, 'new_title': new_title, 'status_id': status_id})
 
 
 # DELETE
 @database_connector.connection_handler
-def delete_table(cursor, table_name):
+def delete_board(cursor, board_id):
     cursor.execute("""
                     DELETE FROM boards
-                    WHERE = %(table_name)s;
+                    WHERE = %(board_id)s;
                    """,
-                   {'table_name': table_name})
+                   {'board_id': board_id})
 
 
 @database_connector.connection_handler
-def delete_card(cursor, card_name):
+def delete_card(cursor, card_id):
     cursor.execute("""
                     DELETE FROM cards
-                    WHERE = %(card_name)s;
+                    WHERE = %(card_id)s;
                    """,
-                   {'card_name': card_name})
+                   {'card_id': card_id})
 
 
 # GET INFO
@@ -177,4 +167,4 @@ def get_users_id(cursor, username):
         id = cursor.fetchall()[0]['id']
     except IndexError:
         return []
-    return id;
+    return id
