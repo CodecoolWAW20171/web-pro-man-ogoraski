@@ -114,6 +114,11 @@ def edit_card(card_id):
     return redirect(url_for('boards'))
 
 
+@app.route('/share-board', methods=['POST'])
+def share_board(card_id):
+    data_manager.share_board(data_manager.get_users_id(request.form['username']), request.form['board_id'])
+
+
 def main():
     app.run(debug=True)
 

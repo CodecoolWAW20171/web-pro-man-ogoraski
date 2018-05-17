@@ -4,6 +4,7 @@ let dom = {
         let afterLoad = function () {
             createBoardForm();
             createCardBtn();
+            shareBoardBtn();
             dom.resizeTextareas();
         };
         this.loadBoards(afterLoad);
@@ -119,6 +120,20 @@ let dom = {
 
         let modalShareBoard = document.getElementById("myModal3"),
             shareBoardCloseBtn= document.getElementsByClassName("close")[2];
+
+        buttonShareBoard.addEventListener("click", function () {
+            document.getElementById("share-boardId").value = board.id;
+            displayForm(modalShareBoard, shareBoardCloseBtn);
+        });
+
+        // Add delete board button
+        let deleteBoardBtn = document.createElement("button");
+        deleteBoardBtn.id = "delete-board" + board.id;
+        deleteBoardBtn.className = "btn-hidden";
+        deleteBoardBtn.innerHTML = "<i class=\"fas fa-trash-alt\"></i> &nbsp;Delete board";
+        deleteBoardBtn.setAttribute("data-board-id", board.id);
+
+        boardBar.appendChild(deleteBoardBtn);
 
         buttonShareBoard.addEventListener("click", function () {
             displayForm(modalShareBoard, shareBoardCloseBtn);
@@ -496,6 +511,31 @@ function createCardBtn() {
     });
 
 
+}
+
+
+function shareBoardBtn() {
+    let input = document.getElementById("share-with-username");
+    let submitBtn = document.getElementById("share-board");
+    let caption = document.getElementsByClassName("input-caption")[2];
+
+    enterClick(input, submitBtn);
+
+    input.addEventListener("input", function () {
+        if (input.value.length > 2) {
+            submitBtn.disabled = false;
+            caption.innerHTML = "&nbsp;";
+        } else {
+            submitBtn.disabled = true;
+            caption.innerHTML = "* Required (minimum 3 characters)";
+        }
+    });
+
+    submitBtn.addEventListener("click", function () {
+        let board_id = document.getElementById("share-boardId").value,
+            data = {"username": input.value, "board_id": board_id};
+        dataHandler.shareBoard(data);
+    });
 }
 
 

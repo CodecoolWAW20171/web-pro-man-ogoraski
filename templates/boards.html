@@ -67,12 +67,12 @@
         <div class="modal-content">
             <h2>Share your board with</h2>
             <form method="POST">
-                <input type="hidden" id="new-task-boardId" value="" name="board_id">
+                <input type="hidden" id="share-boardId" value="" name="board_id">
                 Username
                 <input type="text" id="share-with-username" name="username">
                 <span class="input-caption">* Required (minimum 3 characters)</span>
                 <div class="row-btn">
-                    <button type="button" onclick="sendData({test:'ok'})" id="share-board" disabled>Create!</button>
+                    <button type="button" id="share-board" disabled>Create!</button>
                     <button type="button" class="close btn-flat">Cancel</button>
                 </div>
             </form>
