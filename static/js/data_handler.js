@@ -165,8 +165,14 @@ let dataHandler = {
 
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
-        let boards = this._data.boards,
+        let boards = this._data.boards;
+        let lastId;
+
+        if(boards.length > 0) {
             lastId = boards[boards.length - 1].id + 1;
+        } else {
+            lastId = 1;
+        }
 
         boards.forEach(board => {
             board.is_active = false;
@@ -186,8 +192,14 @@ let dataHandler = {
 
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
-        let cards = this._data.cards,
+        let cards = this._data.cards;
+        let lastId;
+
+        if(cards.length > 0) {
             lastId = cards[cards.length - 1].id + 1;
+        } else {
+            lastId = 1;
+        }
 
         this._data.boards.forEach(board => {
             if (board.id === parseInt(boardId)) {
