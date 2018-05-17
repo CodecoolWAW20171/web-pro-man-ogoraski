@@ -129,6 +129,18 @@ def insert_card(cursor, board_id, title, status_id):
                    {'title': title, 'board_id': board_id, 'status_id': status_id})
 
 
+@database_connector.connection_handler
+def share_board(cursor, account_id, board_id):
+    account_id = int(account_id)
+    board_id = int(board_id)
+    cursor.execute("""
+                    INSERT INTO boards_accounts 
+                    (account_id, board_id)
+                    VALUES (%(account_id)s, %(board_id)s,;
+                    """,
+                   {'board_id': board_id, 'account_id': account_id})
+
+
 # UPDATE
 @database_connector.connection_handler
 def update_board(cursor, new_title, table_id):
@@ -179,3 +191,15 @@ def get_users_id(cursor, username):
     except IndexError:
         return []
     return id
+
+
+@database_connector.connection_handler
+def check_if_relation_exists(cursor, account_id, board_id):
+    cursor.execute("""
+                   SELECT * FROM boards_accounts 
+                   WHERE account_id = %(account_id)s AND board_id = %(board_id)s;
+                   """,
+                   {'account_id': account_id, 'board_id': board_id})
+    if(cursor.fetchall()):
+        return True
+    return False
