@@ -58,6 +58,10 @@ let dom = {
                 event.stopPropagation();
             });
             buttonShareBoard.addEventListener("click", function (event) {
+                document.getElementById("share-board-info").style.display = "none";
+                document.getElementById("share-with-username").value = "";
+                document.getElementsByClassName("input-caption")[2].innerHTML = "* Required (minimum 3 characters)";
+                document.getElementById("share-board").disabled = true;
                 event.stopPropagation();
             });
 
@@ -135,7 +139,7 @@ let dom = {
         deleteBoardBtn.addEventListener("click", function () {
             dataHandler.removeBoard(board.id)
             board = document.getElementById(`board-${board.id}`)
-
+            
             board.remove()
         })
 
@@ -297,17 +301,18 @@ let dom = {
     // here comes more features
     toggleViewBoard: function (boardId) {
         let board = dataHandler.getBoard(boardId);
+        if (board) {
+            let boardContainer = document.getElementById("board-" + boardId);
+            let boardDetails = boardContainer.getElementsByClassName("board-details")[0];
 
-        let boardContainer = document.getElementById("board-" + boardId);
-        let boardDetails = boardContainer.getElementsByClassName("board-details")[0];
+            board.is_active = !board.is_active;
+            boardContainer.classList.toggle("open");
 
-        board.is_active = !board.is_active;
-        boardContainer.classList.toggle("open");
-
-        if (board.is_active) {
+            if (board.is_active) {
             expandSection(boardDetails);
-        } else {
+            } else {
             collapseSection(boardDetails);
+            }
         }
     },
 

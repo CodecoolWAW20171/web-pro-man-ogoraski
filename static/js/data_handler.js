@@ -21,7 +21,7 @@ let dataHandler = {
         // }
         if (document.getElementById("username")) {
             let xhr = new XMLHttpRequest();
-            let username = document.getElementById("username").innerHTML;
+            let username = document.getElementById("username").value;
 
             xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
             xhr.addEventListener('load', function (event) {
@@ -276,7 +276,8 @@ let dataHandler = {
         }
 
         XHR.addEventListener('load', function (event) {
-            document.getElementById('share-board-info').innerHTML = "Board shared!"
+            document.getElementById('share-board-info').innerHTML = "Board shared!";
+            document.getElementById('share-board-info').style.display = "table";
         });
 
         XHR.open('POST', '/share-board');
@@ -288,6 +289,7 @@ let dataHandler = {
         if (index > -1) {
             this._data.boards.splice(index, 1);
         }
+
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", `/delete-board/${boardID}`, true);
         xhttp.send();
