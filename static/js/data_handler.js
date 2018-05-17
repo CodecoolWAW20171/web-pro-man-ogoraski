@@ -291,5 +291,15 @@ let dataHandler = {
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", `/delete-board/${boardID}`, true);
         xhttp.send();
+    },
+    removeCard(cardID) {
+        card = this.getCard(cardID)
+        index = this._data.cards.indexOf(card)
+        if (index > -1) {
+            this._data.cards.splice(index, 1);
+        }
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", `/delete-card/${cardID}`, true);
+        xhttp.send();
     }
 };

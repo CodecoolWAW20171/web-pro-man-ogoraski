@@ -185,7 +185,7 @@ def delete_board(cursor, board_id):
 def delete_card(cursor, card_id):
     cursor.execute("""
                     DELETE FROM cards
-                    WHERE = %(card_id)s;
+                    WHERE id = %(card_id)s;
                    """,
                    {'card_id': card_id})
 

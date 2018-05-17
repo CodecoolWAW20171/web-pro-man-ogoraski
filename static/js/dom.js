@@ -119,7 +119,7 @@ let dom = {
         boardBar.appendChild(buttonShareBoard);
 
         let modalShareBoard = document.getElementById("myModal3"),
-            shareBoardCloseBtn= document.getElementsByClassName("close")[2];
+            shareBoardCloseBtn = document.getElementsByClassName("close")[2];
 
         buttonShareBoard.addEventListener("click", function () {
             document.getElementById("share-boardId").value = board.id;
@@ -213,6 +213,11 @@ let dom = {
         deleteCardButton.className = "btn-delete";
         deleteCardButton.innerHTML = "Delete";
 
+        deleteCardButton.addEventListener("mousedown", function (ev) {
+            dataHandler.removeCard(card.id)
+            card = document.getElementById(`card-${card.id}`)
+            card.remove()
+        })
         cardContainer.appendChild(cardText);
         cardText.appendChild(cardTitle);
         cardContainer.appendChild(submitCardButton);
