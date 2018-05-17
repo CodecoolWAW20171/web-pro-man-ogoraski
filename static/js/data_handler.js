@@ -269,15 +269,19 @@ let dataHandler = {
 
     shareBoard: function (data) {
         var XHR = new XMLHttpRequest();
+        var FD  = new FormData();
+
+        for(name in data) {
+            FD.append(name, data[name]);
+        }
 
         XHR.addEventListener('load', function(event) {
             document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
         XHR.open('POST', '/share-board');
-        XHR.send(data);
+        XHR.send(FD);
         },
-
     removeBoard (boardID) {
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", `/delete-board/${boardID}`, true);
