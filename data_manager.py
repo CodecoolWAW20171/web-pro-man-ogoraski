@@ -118,6 +118,16 @@ def insert_board(cursor, title, account_id):
                    {'account_id': account_id, 'board_id': board_id})
 
 
+@database_connector.connection_handler
+def insert_card(cursor, title, board_id, status_id):
+    cursor.execute("""
+                    INSERT INTO cards 
+                    (title, board_id, status_id)
+                    VALUES (%(title)s, %(board_id)s, %(status_id)s,);
+                    """,
+                   {'title': title, 'board_id': board_id, 'status_id': status_id})
+
+
 # UPDATE
 @database_connector.connection_handler
 def update_board(cursor, new_title, table_id):
