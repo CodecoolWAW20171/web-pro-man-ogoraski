@@ -349,8 +349,12 @@ button.btn-flat {
 }
 button.btn-submit {
   display: none;
+  background-color: green;
 }
-
+button.btn-delete {
+  display: none;
+  margin-left: 10px;
+}
 footer {
   margin-top: 24px;
   font-size: 0.8em;

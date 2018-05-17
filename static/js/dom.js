@@ -208,9 +208,15 @@ let dom = {
         submitCardButton.className = "btn-submit";
         submitCardButton.innerHTML = "Save";
 
+        // Delete button
+        let deleteCardButton = document.createElement("button");
+        deleteCardButton.className = "btn-delete";
+        deleteCardButton.innerHTML = "Delete";
+
         cardContainer.appendChild(cardText);
         cardText.appendChild(cardTitle);
         cardContainer.appendChild(submitCardButton);
+        cardContainer.appendChild(deleteCardButton);
 
         return cardContainer;
     },
@@ -241,13 +247,24 @@ let dom = {
                     let submitCardButton = cardContainer
                         .getElementsByClassName("btn-submit")[0];
                     cardText.addEventListener("focus", () => {
-                        submitCardButton.style.display = "block";
+                        submitCardButton.style.display = "inline-block";
                     });
                     cardText.addEventListener("blur", () => {
                         submitCardButton.style.display = "none";
                     });
                     cardContainer.addEventListener("dragstart", () => {
                         submitCardButton.style.display = "none";
+                    });
+                    let deleteCardButton = cardContainer
+                        .getElementsByClassName("btn-delete")[0];
+                    cardText.addEventListener("focus", () => {
+                        deleteCardButton.style.display = "inline-block";
+                    });
+                    cardText.addEventListener("blur", () => {
+                        deleteCardButton.style.display = "none";
+                    });
+                    cardContainer.addEventListener("dragstart", () => {
+                        deleteCardButton.style.display = "none";
                     });
 
                 }
