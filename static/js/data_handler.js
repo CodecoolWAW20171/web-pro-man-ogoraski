@@ -52,6 +52,9 @@ let dataHandler = {
             console.log("There's no boards");
             return null;
         } else {
+            boards.forEach((board) => {
+                board.is_active = false
+            };
             if (callback) {
                 return callback(boards);
             } else {
