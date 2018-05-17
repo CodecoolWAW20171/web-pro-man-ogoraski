@@ -206,7 +206,10 @@ let dom = {
         // Save edit button
         let submitCardButton = document.createElement("button");
         submitCardButton.className = "btn-submit";
+        submitCardButton.setAttribute("data-cardID", card.id);
+
         submitCardButton.innerHTML = "Save";
+       
 
         // Delete button
         let deleteCardButton = document.createElement("button");
@@ -222,6 +225,11 @@ let dom = {
         cardText.appendChild(cardTitle);
         cardContainer.appendChild(submitCardButton);
         cardContainer.appendChild(deleteCardButton);
+
+        submitCardButton.addEventListener('mousedown',function(event){
+            let text = cardContainer.getElementsByTagName('textarea')[0]
+            save(event,text,card.id)
+        })
 
         return cardContainer;
     },
@@ -615,3 +623,13 @@ function enterClick(elem, btn) {
         }
     });
 }
+
+// save new card name
+
+function save(event, cardText, cardId){
+    // target.parentElement.id,textContent,parentElement.dataset.list-status
+    let text = cardText.value,
+        status = event.target.parentElement.parentElement.dataset.list
+    
+    dataHandler.updateCard(cardId,text,status)
+    }
