@@ -87,7 +87,7 @@
             <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
                  width="150px" alt="">
             <button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button>
-            Signed in as <span id="username">{{ username }}</span> <a href="{{ url_for('logout') }}" id="logout">Logout</a>
+            <span class="signed-info">Signed in as <span id="username">{{ username }}</span><a href="{{ url_for('logout') }}" id="logout"><button class="logout">Logout</button></a></span>
         </header>
 
         <div id="boards">
