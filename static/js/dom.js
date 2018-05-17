@@ -118,7 +118,7 @@ let dom = {
         boardBar.appendChild(buttonShareBoard);
 
         let modalShareBoard = document.getElementById("myModal3"),
-            shareBoarddCloseBtn= document.getElementsByClassName("close")[2];
+            shareBoardCloseBtn= document.getElementsByClassName("close")[2];
 
         buttonShareBoard.addEventListener("click", function () {
             displayForm(modalShareBoard, shareBoardCloseBtn);
