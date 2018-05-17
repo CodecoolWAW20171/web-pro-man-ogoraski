@@ -94,6 +94,20 @@ let dom = {
 
         boardBar.appendChild(buttonAddCard);
 
+        let modalAddCart = document.getElementById("myModal2"),
+            addCardCloseBtn = document.getElementsByClassName("close")[1];
+
+        buttonAddCard.addEventListener("click", function () {
+            let submitBtn = document.getElementById("create-task");
+            document.getElementById("new-task-boardId").value = board.id;
+            submitBtn.onclick = function () {
+                let input = document.getElementById("new-task-title");
+                let select = parseInt(document.getElementById("new-task-status").value);
+                dataHandler.createNewCard(input.value, board.id, select);
+            };
+            displayForm(modalAddCart, addCardCloseBtn);
+        });
+
         // Add new share board button
         let buttonShareBoard = document.createElement("button");
         buttonShareBoard.id = "share-board-" + board.id;
@@ -103,17 +117,11 @@ let dom = {
 
         boardBar.appendChild(buttonShareBoard);
 
-        let modal = document.getElementById("myModal2"),
-            closeBtn = document.getElementsByClassName("close")[1];
+        let modalShareBoard = document.getElementById("myModal3"),
+            shareBoarddCloseBtn= document.getElementsByClassName("close")[2];
 
-        buttonAddCard.addEventListener("click", function () {
-            let submitBtn = document.getElementById("create-task");
-            submitBtn.onclick = function () {
-                let input = document.getElementById("new-task-title");
-                let select = parseInt(document.getElementById("new-task-status").value);
-                dataHandler.createNewCard(input.value, board.id, select);
-            };
-            displayForm(modal, closeBtn);
+        buttonShareBoard.addEventListener("click", function () {
+            displayForm(modalShareBoard, shareBoardCloseBtn);
         });
 
         // Board detailed container with statuses and cards
