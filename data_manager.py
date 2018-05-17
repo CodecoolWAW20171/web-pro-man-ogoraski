@@ -83,8 +83,8 @@ def load_data(username):
         ]
         cards = []
         for board in boards:
-            cards = get_board_cards(board['id'])
-            for card in cards:
+            board_cards = get_board_cards(board['id'])
+            for card in board_cards:
                 card["order"] = 0
                 cards.append(card)
 
@@ -119,11 +119,12 @@ def insert_board(cursor, title, account_id):
 
 
 @database_connector.connection_handler
-def insert_card(cursor, title, board_id, status_id):
+def insert_card(cursor, board_id, title, status_id):
+    board_id = int(board_id)
     cursor.execute("""
                     INSERT INTO cards 
                     (title, board_id, status_id)
-                    VALUES (%(title)s, %(board_id)s, %(status_id)s,);
+                    VALUES (%(title)s, %(board_id)s, %(status_id)s);
                     """,
                    {'title': title, 'board_id': board_id, 'status_id': status_id})
 

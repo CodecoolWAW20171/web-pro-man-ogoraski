@@ -39,7 +39,7 @@
 
         <!-- Modal content -->
         <div class="modal-content">
-            <form>
+            <form action="{{ url_for('create_card')}}" method="POST">
                 <input type="hidden" id="new-task-boardId" value="" name="board_id">
                 <h2>Add new task!</h2>
                 <label for="new-task-title">Task title:</label>

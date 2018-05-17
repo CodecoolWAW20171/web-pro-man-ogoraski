@@ -83,7 +83,7 @@ def create_card():
     board_id = request.form['board_id']
     card_title = request.form['title']
     status_id = request.form['status_id']
-    data_manager.add_new_card(board_id, card_title, status_id)
+    data_manager.insert_card(board_id, card_title, status_id)
 
     return redirect(url_for('boards'))
 
