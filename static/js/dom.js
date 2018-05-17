@@ -113,7 +113,7 @@ let dom = {
         let buttonShareBoard = document.createElement("button");
         buttonShareBoard.id = "share-board-" + board.id;
         buttonShareBoard.className = "btn-hidden";
-        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Share board";
+        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Add user";
         buttonShareBoard.setAttribute("data-board-id", board.id);
 
         boardBar.appendChild(buttonShareBoard);
@@ -132,6 +132,12 @@ let dom = {
         deleteBoardBtn.className = "btn-hidden";
         deleteBoardBtn.innerHTML = "<i class=\"fas fa-trash-alt\"></i> &nbsp;Delete board";
         deleteBoardBtn.setAttribute("data-board-id", board.id);
+        deleteBoardBtn.addEventListener("click", function () {
+            dataHandler.removeBoard(board.id)
+            board = document.getElementById(`board-${board.id}`)
+
+            board.remove()
+        })
 
         boardBar.appendChild(deleteBoardBtn);
 
@@ -205,9 +211,15 @@ let dom = {
         submitCardButton.innerHTML = "Save";
        
 
+        // Delete button
+        let deleteCardButton = document.createElement("button");
+        deleteCardButton.className = "btn-delete";
+        deleteCardButton.innerHTML = "Delete";
+
         cardContainer.appendChild(cardText);
         cardText.appendChild(cardTitle);
         cardContainer.appendChild(submitCardButton);
+        cardContainer.appendChild(deleteCardButton);
 
         submitCardButton.addEventListener('mousedown',function(event){
             let text = cardContainer.getElementsByTagName('textarea')[0]
@@ -243,13 +255,24 @@ let dom = {
                     let submitCardButton = cardContainer
                         .getElementsByClassName("btn-submit")[0];
                     cardText.addEventListener("focus", () => {
-                        submitCardButton.style.display = "block";
+                        submitCardButton.style.display = "inline-block";
                     });
                     cardText.addEventListener("blur", () => {
                         submitCardButton.style.display = "none";
                     });
                     cardContainer.addEventListener("dragstart", () => {
                         submitCardButton.style.display = "none";
+                    });
+                    let deleteCardButton = cardContainer
+                        .getElementsByClassName("btn-delete")[0];
+                    cardText.addEventListener("focus", () => {
+                        deleteCardButton.style.display = "inline-block";
+                    });
+                    cardText.addEventListener("blur", () => {
+                        deleteCardButton.style.display = "none";
+                    });
+                    cardContainer.addEventListener("dragstart", () => {
+                        deleteCardButton.style.display = "none";
                     });
 
                 }
@@ -373,8 +396,8 @@ let dom = {
         };
     },
 
-    hideModal: function () {
-        let modal = document.getElementById("myModal");
+    hideModal: function (modalId) {
+        let modal = document.getElementById(modalId);
         modal.style.display = "none";
 
         window.onclick = function (event) {
@@ -415,7 +438,8 @@ let dom = {
             tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
             tx[i].addEventListener("input", setHeightOnInput, false);
         }
-    }
+    },
+
 };
 
 

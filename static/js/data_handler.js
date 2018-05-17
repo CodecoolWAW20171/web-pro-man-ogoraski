@@ -25,9 +25,7 @@ let dataHandler = {
 
             xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
             xhr.addEventListener('load', function (event) {
-                console.log('xxxxxxxxxxx')
                 dataHandler._data = JSON.parse(event.target.response)
-                console.log(dataHandler._data)
                 dom.init()
             })
             xhr.send();
@@ -168,7 +166,7 @@ let dataHandler = {
         let boards = this._data.boards;
         let lastId;
 
-        if(boards.length > 0) {
+        if (boards.length > 0) {
             lastId = boards[boards.length - 1].id + 1;
         } else {
             lastId = 1;
@@ -195,7 +193,7 @@ let dataHandler = {
         let cards = this._data.cards;
         let lastId;
 
-        if(cards.length > 0) {
+        if (cards.length > 0) {
             lastId = cards[cards.length - 1].id + 1;
         } else {
             lastId = 1;
@@ -271,27 +269,27 @@ let dataHandler = {
 
     shareBoard: function (data) {
         var XHR = new XMLHttpRequest();
-        var FD  = new FormData();
+        var FD = new FormData();
 
-        // Push our data into our FormData object
-        for(name in data) {
+        for (name in data) {
             FD.append(name, data[name]);
         }
 
-        // Define what happens on successful data submission
-        XHR.addEventListener('load', function(event) {
-          alert('Yeah! Data sent and response loaded.');
+        XHR.addEventListener('load', function (event) {
+            document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
-        // Define what happens in case of error
-        XHR.addEventListener('error', function(event) {
-          alert('Oops! Something went wrong.');
-        });
-
-        // Set up our request
         XHR.open('POST', '/share-board');
-
-        // Send our FormData object; HTTP headers are set automatically
         XHR.send(FD);
+    },
+    removeBoard(boardID) {
+        board = this.getBoard(boardID)
+        index = this._data.boards.indexOf(board)
+        if (index > -1) {
+            this._data.boards.splice(index, 1);
         }
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", `/delete-board/${boardID}`, true);
+        xhttp.send();
+    }
 };

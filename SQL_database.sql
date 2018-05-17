@@ -26,6 +26,6 @@ CREATE TABLE boards_accounts (
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 ALTER TABLE ONLY boards_accounts
-    ADD CONSTRAINT fk_accounts_id FOREIGN KEY (account_id) REFERENCES accounts(id);
-ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_boards_id FOREIGN KEY (board_id) REFERENCES boards(id);
+    ADD CONSTRAINT fk_accounts_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
+ALTER TABLE ONLY boards_accounts
+    ADD CONSTRAINT fk_boards_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;

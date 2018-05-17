@@ -131,22 +131,23 @@ def insert_card(cursor, board_id, title, status_id):
 
 @database_connector.connection_handler
 def share_board(cursor, account_id, board_id):
-    account_id = int(account_id)
-    board_id = int(board_id)
-    cursor.execute("""
-                       SELECT * FROM boards_accounts 
-                       WHERE account_id = %(account_id)s AND board_id = %(board_id)s;
-                       """,
-                   {'account_id': account_id, 'board_id': board_id})
-    if (cursor.fetchall()):
-        return True
-    else:
+    if (account_id != 0):
+        account_id = int(account_id)
+        board_id = int(board_id)
         cursor.execute("""
-                        INSERT INTO boards_accounts 
-                        (account_id, board_id)
-                        VALUES (%(account_id)s, %(board_id)s);
-                        """,
-                       {'board_id': board_id, 'account_id': account_id})
+                           SELECT * FROM boards_accounts 
+                           WHERE account_id = %(account_id)s AND board_id = %(board_id)s;
+                           """,
+                       {'account_id': account_id, 'board_id': board_id})
+        if (cursor.fetchall()):
+            return True
+        else:
+            cursor.execute("""
+                            INSERT INTO boards_accounts 
+                            (account_id, board_id)
+                            VALUES (%(account_id)s, %(board_id)s);
+                            """,
+                           {'board_id': board_id, 'account_id': account_id})
 
 
 # UPDATE
@@ -175,7 +176,7 @@ def update_card(cursor, new_title, status_id, card_id):
 def delete_board(cursor, board_id):
     cursor.execute("""
                     DELETE FROM boards
-                    WHERE = %(board_id)s;
+                    WHERE id = %(board_id)s;
                    """,
                    {'board_id': board_id})
 
@@ -197,5 +198,5 @@ def get_users_id(cursor, username):
     try:
         id = cursor.fetchall()[0]['id']
     except IndexError:
-        return []
+        return 0
     return id
