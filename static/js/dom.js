@@ -135,6 +135,7 @@ let dom = {
         deleteBoardBtn.addEventListener("click", function () {
             dataHandler.removeBoard(board.id)
             board = document.getElementById(`board-${board.id}`)
+
             board.remove()
         })
 
