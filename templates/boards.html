@@ -14,6 +14,8 @@
 </head>
 <body>
     <!-- Modals -->
+
+    <!-- CREATE BOARD -->
     <div id="myModal" class="modal">
 
         <!-- Modal content -->
@@ -32,6 +34,7 @@
         </div>
     </div>
 
+    <!-- CREATE CARD -->
     <div id="myModal2" class="modal">
 
         <!-- Modal content -->
@@ -51,6 +54,25 @@
                 </select>
                 <div class="row-btn">
                     <button type="submit" id="create-task" disabled>Create!</button>
+                    <button type="button" class="close btn-flat">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SHARE BOARD -->
+    <div id="myModal3" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <h2>Share your board with</h2>
+            <form method="POST">
+                <input type="hidden" id="new-task-boardId" value="" name="board_id">
+                Username
+                <input type="text" id="share-with-username" name="username">
+                <span class="input-caption">* Required (minimum 3 characters)</span>
+                <div class="row-btn">
+                    <button type="button" onclick="sendData({test:'ok'})" id="share-board" disabled>Create!</button>
                     <button type="button" class="close btn-flat">Cancel</button>
                 </div>
             </form>

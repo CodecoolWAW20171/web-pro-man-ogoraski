@@ -51,7 +51,12 @@ let dom = {
 
             let buttonAddCard =
                 document.getElementById("add-card-" + board.id);
+            let buttonShareBoard =
+                document.getElementById("share-board-" + board.id);
             buttonAddCard.addEventListener("click", function (event) {
+                event.stopPropagation();
+            });
+            buttonShareBoard.addEventListener("click", function (event) {
                 event.stopPropagation();
             });
 
@@ -88,6 +93,15 @@ let dom = {
         buttonAddCard.setAttribute("data-board-id", board.id);
 
         boardBar.appendChild(buttonAddCard);
+
+        // Add new share board button
+        let buttonShareBoard = document.createElement("button");
+        buttonShareBoard.id = "share-board-" + board.id;
+        buttonShareBoard.className = "btn-hidden";
+        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Share board";
+        buttonShareBoard.setAttribute("data-board-id", board.id);
+
+        boardBar.appendChild(buttonShareBoard);
 
         let modal = document.getElementById("myModal2"),
             closeBtn = document.getElementsByClassName("close")[1];
