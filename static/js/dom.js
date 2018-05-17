@@ -113,7 +113,7 @@ let dom = {
         let buttonShareBoard = document.createElement("button");
         buttonShareBoard.id = "share-board-" + board.id;
         buttonShareBoard.className = "btn-hidden";
-        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Share board";
+        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Add user";
         buttonShareBoard.setAttribute("data-board-id", board.id);
 
         boardBar.appendChild(buttonShareBoard);
@@ -135,6 +135,7 @@ let dom = {
         deleteBoardBtn.addEventListener("click", function () {
             dataHandler.removeBoard(board.id)
             board = document.getElementById(`board-${board.id}`)
+
             board.remove()
         })
 
@@ -207,9 +208,15 @@ let dom = {
         submitCardButton.className = "btn-submit";
         submitCardButton.innerHTML = "Save";
 
+        // Delete button
+        let deleteCardButton = document.createElement("button");
+        deleteCardButton.className = "btn-delete";
+        deleteCardButton.innerHTML = "Delete";
+
         cardContainer.appendChild(cardText);
         cardText.appendChild(cardTitle);
         cardContainer.appendChild(submitCardButton);
+        cardContainer.appendChild(deleteCardButton);
 
         return cardContainer;
     },
@@ -240,13 +247,24 @@ let dom = {
                     let submitCardButton = cardContainer
                         .getElementsByClassName("btn-submit")[0];
                     cardText.addEventListener("focus", () => {
-                        submitCardButton.style.display = "block";
+                        submitCardButton.style.display = "inline-block";
                     });
                     cardText.addEventListener("blur", () => {
                         submitCardButton.style.display = "none";
                     });
                     cardContainer.addEventListener("dragstart", () => {
                         submitCardButton.style.display = "none";
+                    });
+                    let deleteCardButton = cardContainer
+                        .getElementsByClassName("btn-delete")[0];
+                    cardText.addEventListener("focus", () => {
+                        deleteCardButton.style.display = "inline-block";
+                    });
+                    cardText.addEventListener("blur", () => {
+                        deleteCardButton.style.display = "none";
+                    });
+                    cardContainer.addEventListener("dragstart", () => {
+                        deleteCardButton.style.display = "none";
                     });
 
                 }

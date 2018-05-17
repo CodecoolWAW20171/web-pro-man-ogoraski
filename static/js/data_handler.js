@@ -166,7 +166,7 @@ let dataHandler = {
         let boards = this._data.boards;
         let lastId;
 
-        if(boards.length > 0) {
+        if (boards.length > 0) {
             lastId = boards[boards.length - 1].id + 1;
         } else {
             lastId = 1;
@@ -193,7 +193,7 @@ let dataHandler = {
         let cards = this._data.cards;
         let lastId;
 
-        if(cards.length > 0) {
+        if (cards.length > 0) {
             lastId = cards[cards.length - 1].id + 1;
         } else {
             lastId = 1;
@@ -269,20 +269,25 @@ let dataHandler = {
 
     shareBoard: function (data) {
         var XHR = new XMLHttpRequest();
-        var FD  = new FormData();
+        var FD = new FormData();
 
-        for(name in data) {
+        for (name in data) {
             FD.append(name, data[name]);
         }
 
-        XHR.addEventListener('load', function(event) {
+        XHR.addEventListener('load', function (event) {
             document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
         XHR.open('POST', '/share-board');
         XHR.send(FD);
-        },
-    removeBoard (boardID) {
+    },
+    removeBoard(boardID) {
+        board = this.getBoard(boardID)
+        index = this._data.boards.indexOf(board)
+        if (index > -1) {
+            this._data.boards.splice(index, 1);
+        }
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", `/delete-board/${boardID}`, true);
         xhttp.send();
