@@ -144,7 +144,7 @@ def share_board(cursor, account_id, board_id):
         cursor.execute("""
                         INSERT INTO boards_accounts 
                         (account_id, board_id)
-                        VALUES (%(account_id)s, %(board_id)s,;
+                        VALUES (%(account_id)s, %(board_id)s);
                         """,
                        {'board_id': board_id, 'account_id': account_id})
 
