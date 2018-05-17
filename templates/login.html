@@ -16,12 +16,12 @@
                 width="150px" alt="">
             </header>
             {% if msg %}
-                <div class="alert alert-danger" role="alert">
-                  {{ msg }}
+                <div class="alert">
+                  <h3>{{ msg }}</h3>
                 </div>
             {% endif %}
-
-            <div class="form">
+            
+            <div class="loginForm">
                 <h2 id="formTitle" id="formTitle">Log in</h2>
                 <form action="{{ url_for('signin') }}" method="POST" id="signin">
                     <div class="form-group">
