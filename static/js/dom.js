@@ -368,8 +368,8 @@ let dom = {
         };
     },
 
-    hideModal: function () {
-        let modal = document.getElementById("myModal");
+    hideModal: function (modalId) {
+        let modal = document.getElementById(modalId);
         modal.style.display = "none";
 
         window.onclick = function (event) {
@@ -410,7 +410,8 @@ let dom = {
             tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
             tx[i].addEventListener("input", setHeightOnInput, false);
         }
-    }
+    },
+
 };
 
 

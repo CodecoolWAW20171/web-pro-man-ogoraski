@@ -280,7 +280,7 @@ let dataHandler = {
 
         // Define what happens on successful data submission
         XHR.addEventListener('load', function(event) {
-          alert('Yeah! Data sent and response loaded.');
+            document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
         // Define what happens in case of error
