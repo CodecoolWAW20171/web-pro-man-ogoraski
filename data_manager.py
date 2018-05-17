@@ -169,3 +169,4 @@ def get_users_id(cursor, username):
     except IndexError:
         return []
     return id;
+

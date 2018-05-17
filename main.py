@@ -83,7 +83,7 @@ def create_card():
     board_id = request.form['board_id']
     card_title = request.form['title']
     status_id = request.form['status_id']
-    data_manager.add_new_card(user_id, board_id, card_title, status_id)
+    data_manager.add_new_card(board_id, card_title, status_id)
 
     return redirect(url_for('boards'))
 
@@ -102,7 +102,7 @@ def delete_card():
 
 @app.route('/edit-board', methods=['POST'])
 def edit_board():
-    data_manager.edit_board(board_id, board_title)
+    data_manager.update_board(board_id, board_title)
     return redirect(url_for('boards'))
 
 
