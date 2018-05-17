@@ -99,7 +99,7 @@ def load_data(username):
 def insert_board(cursor, title, account_id):
     cursor.execute("""
                     INSERT INTO boards 
-                    (title) VALUES %(title)s;
+                    (title) VALUES (%(title)s);
                     """,
                     {'title' : title})
 

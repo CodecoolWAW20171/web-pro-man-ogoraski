@@ -13,7 +13,7 @@ let sampleData = {
             "id": 2,
             "name": "In progress"
         },
-        {
+        {t
             "id": 3,
             "name": "Testing"
         },
