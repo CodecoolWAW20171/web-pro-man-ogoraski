@@ -73,8 +73,7 @@ def get_data(username):
 def create_board():
     user_id = data_manager.get_users_id(request.form['username'])
     board_title = request.form['title']
-    # DODAJ NOWĄ FUNKCJĘ:
-    # data_manager.add_new_board(user_id, board_title)
+    data_manager.insert_board(board_title,user_id)
 
     return redirect(url_for('boards'))
 
@@ -84,37 +83,32 @@ def create_card():
     board_id = request.form['board_id']
     card_title = request.form['title']
     status_id = request.form['status_id']
-    # DODAJ NOWĄ FUNKCJĘ:
-    # data_manager.add_new_card(user_id, board_id, card_title, status_id)
+    data_manager.add_new_card(user_id, board_id, card_title, status_id)
 
     return redirect(url_for('boards'))
 
 
 @app.route('/delete-board/', methods=['POST'])
 def delete_board():
-    # DODAJ NOWĄ FUNKCJĘ:
-    # data_manager.delete_board(board_id)
+    data_manager.delete_board(board_id)
     return redirect(url_for('boards'))
 
 
 @app.route('/delete-card', methods=['POST'])
 def delete_card():
-    # DODAJ NOWĄ FUNKCJĘ:
-    # data_manager.delete_card(card_id)
+    data_manager.delete_card(card_id)
     return redirect(url_for('boards'))
 
 
 @app.route('/edit-board', methods=['POST'])
 def edit_board():
-    # DODAJ NOWĄ FUNKCJĘ:
-    # data_manager.edit_board(board_id, board_title)
+    data_manager.edit_board(board_id, board_title)
     return redirect(url_for('boards'))
 
 
 @app.route('/edit-card', methods=['POST'])
 def edit_card():
-    # DODAJ NOWĄ FUNKCJĘ:
-    # data_manager.edit_card(card_id, card_title, status_id)
+    data_manager.edit_card(card_id, card_title, status_id)
     return redirect(url_for('boards'))
 
 

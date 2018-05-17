@@ -95,6 +95,7 @@ def load_data(username):
 
 # INSERT
 
+
 @database_connector.connection_handler
 def insert_board(cursor, title, account_id):
     cursor.execute("""
@@ -118,8 +119,6 @@ def insert_board(cursor, title, account_id):
                     {'account_id':account_id,'board_id':board_id})
 
 
-
-
 # UPDATE
 @database_connector.connection_handler
 def update_table(cursor, new_title, table_id):
@@ -139,6 +138,25 @@ def update_card(cursor, new_title, status_id, card_id):
                     WHERE id = %(card_id)s;
                    """,
                    {'card_id': card_id, 'new_title': new_title, 'status_id': status_id})
+
+
+# DELETE
+@database_connector.connection_handler
+def delete_table(cursor, table_name):
+    cursor.execute("""
+                    DELETE FROM boards
+                    WHERE = %(table_name)s;
+                   """,
+                   {'table_name': table_name})
+
+
+@database_connector.connection_handler
+def delete_card(cursor, card_name):
+    cursor.execute("""
+                    DELETE FROM cards
+                    WHERE = %(card_name)s;
+                   """,
+                   {'card_name': card_name})
 
 
 # GET INFO
