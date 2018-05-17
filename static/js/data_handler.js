@@ -280,7 +280,7 @@ let dataHandler = {
 
         // Define what happens on successful data submission
         XHR.addEventListener('load', function(event) {
-          alert('Yeah! Data sent and response loaded.');
+            document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
         // Define what happens in case of error
@@ -289,7 +289,7 @@ let dataHandler = {
         });
 
         // Set up our request
-        XHR.open('POST', '/share-board');
+        XHR.open('POST', '/share-bo ard');
 
         // Send our FormData object; HTTP headers are set automatically
         XHR.send(FD);
