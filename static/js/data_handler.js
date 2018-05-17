@@ -293,5 +293,10 @@ let dataHandler = {
 
         // Send our FormData object; HTTP headers are set automatically
         XHR.send(FD);
-        }
+        },
+    removeBoard (boardID) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", `/delete-board/${boardID}`, true);
+        xhttp.send();
+    }
 };
