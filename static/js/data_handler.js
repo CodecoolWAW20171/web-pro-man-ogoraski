@@ -25,9 +25,7 @@ let dataHandler = {
 
             xhr.open("GET", "http://127.0.0.1:5000/api/data/" + username, true);
             xhr.addEventListener('load', function (event) {
-                console.log('xxxxxxxxxxx')
                 dataHandler._data = JSON.parse(event.target.response)
-                console.log(dataHandler._data)
                 dom.init()
             })
             xhr.send();
@@ -271,29 +269,15 @@ let dataHandler = {
 
     shareBoard: function (data) {
         var XHR = new XMLHttpRequest();
-        var FD  = new FormData();
 
-        // Push our data into our FormData object
-        for(name in data) {
-            FD.append(name, data[name]);
-        }
-
-        // Define what happens on successful data submission
         XHR.addEventListener('load', function(event) {
             document.getElementById('share-board-info').innerHTML = "Board shared!"
         });
 
-        // Define what happens in case of error
-        XHR.addEventListener('error', function(event) {
-          alert('Oops! Something went wrong.');
-        });
-
-        // Set up our request
         XHR.open('POST', '/share-board');
-
-        // Send our FormData object; HTTP headers are set automatically
-        XHR.send(FD);
+        XHR.send(data);
         },
+
     removeBoard (boardID) {
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", `/delete-board/${boardID}`, true);
