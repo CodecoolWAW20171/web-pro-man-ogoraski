@@ -60,6 +60,7 @@ def get_board_cards(cursor, board_id):
 
 def load_data(username):
     user_id = get_users_id(username)
+
     if user_id != []:
         boards = get_users_boards(user_id)
         statuses = [
@@ -82,7 +83,6 @@ def load_data(username):
         ]
         cards = []
         for board in boards:
-            board["is_active"] = "false"
             cards = get_board_cards(board['id'])
             for card in cards:
                 card["order"] = 0
@@ -93,30 +93,29 @@ def load_data(username):
                   "cards": cards}
         return result
 
+
 # INSERT
-
-
 @database_connector.connection_handler
 def insert_board(cursor, title, account_id):
     cursor.execute("""
-                    INSERT INTO boards 
+                    INSERT INTO boards
                     (title) VALUES (%(title)s);
-                    """,
-                    {'title' : title})
+                   """,
+                   {'title': title})
 
     cursor.execute("""
                     SELECT id
                     FROM boards
                     WHERE title=%(title)s;
-                    """,
-                    {'title' : title})
+                   """,
+                   {'title': title})
     board_id = cursor.fetchall()[-1]['id']
 
     cursor.execute("""
                     INSERT INTO boards_accounts
                     VALUES (%(account_id)s,%(board_id)s);
-                    """,
-                    {'account_id':account_id,'board_id':board_id})
+                   """,
+                   {'account_id': account_id, 'board_id': board_id})
 
 
 # UPDATE
@@ -168,4 +167,4 @@ def get_users_id(cursor, username):
         id = cursor.fetchall()[0]['id']
     except IndexError:
         return []
-    return id;
+    return id
