@@ -289,7 +289,7 @@ let dataHandler = {
         });
 
         // Set up our request
-        XHR.open('POST', '/share-bo ard');
+        XHR.open('POST', '/share-board');
 
         // Send our FormData object; HTTP headers are set automatically
         XHR.send(FD);
