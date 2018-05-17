@@ -113,7 +113,7 @@ let dom = {
         let buttonShareBoard = document.createElement("button");
         buttonShareBoard.id = "share-board-" + board.id;
         buttonShareBoard.className = "btn-hidden";
-        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Share board";
+        buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Add user";
         buttonShareBoard.setAttribute("data-board-id", board.id);
 
         boardBar.appendChild(buttonShareBoard);
