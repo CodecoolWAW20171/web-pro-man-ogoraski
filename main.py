@@ -73,7 +73,7 @@ def get_data(username):
 def create_board():
     user_id = data_manager.get_users_id(request.form['username'])
     board_title = request.form['title']
-    data_manager.insert_board(board_title,user_id)
+    data_manager.insert_board(board_title, user_id)
 
     return redirect(url_for('boards'))
 
@@ -121,7 +121,11 @@ def share_board():
 
 
 def main():
-    app.run(debug=True)
+    app.run(
+        host='0.0.0.0',
+        port=8000,
+        debug=True,
+    )
 
 
 if __name__ == '__main__':

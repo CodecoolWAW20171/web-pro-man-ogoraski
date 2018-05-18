@@ -54,6 +54,10 @@ let dom = {
                 document.getElementById("add-card-" + board.id);
             let buttonShareBoard =
                 document.getElementById("share-board-" + board.id);
+            let buttonDeleteBoard =
+                document.getElementById("delete-board" + board.id);
+            let burgerIcon =
+                document.getElementById("burger-" + board.id);
             buttonAddCard.addEventListener("click", function (event) {
                 event.stopPropagation();
             });
@@ -64,6 +68,13 @@ let dom = {
                 document.getElementById("share-board").disabled = true;
                 event.stopPropagation();
             });
+            buttonDeleteBoard.addEventListener("click", function (event) {
+                event.stopPropagation();
+            });
+            burgerIcon.addEventListener("click", function (event) {
+                event.stopPropagation();
+            });
+            
 
             dom.loadCards(board.id);
         });
@@ -90,14 +101,18 @@ let dom = {
 
         boardHeader.appendChild(boardTitle);
 
+        let topnavDiv = document.createElement("div");
+        topnavDiv.className = "topnav";
+        topnavDiv.id = "myTopnav-" + board.id;
+
         // Add new card button
         let buttonAddCard = document.createElement("button");
         buttonAddCard.id = "add-card-" + board.id;
         buttonAddCard.className = "btn-hidden";
         buttonAddCard.innerHTML = "<i class=\"fas fa-plus\"></i> &nbsp;New card";
         buttonAddCard.setAttribute("data-board-id", board.id);
-
-        boardBar.appendChild(buttonAddCard);
+        topnavDiv.innerHTML = "<a></a>";
+        topnavDiv.appendChild(buttonAddCard);
 
         let modalAddCart = document.getElementById("myModal2"),
             addCardCloseBtn = document.getElementsByClassName("close")[1];
@@ -120,7 +135,7 @@ let dom = {
         buttonShareBoard.innerHTML = "<i class=\"fas fa-share-alt\"></i> &nbsp;Add user";
         buttonShareBoard.setAttribute("data-board-id", board.id);
 
-        boardBar.appendChild(buttonShareBoard);
+        topnavDiv.appendChild(buttonShareBoard);
 
         let modalShareBoard = document.getElementById("myModal3"),
             shareBoardCloseBtn = document.getElementsByClassName("close")[2];
@@ -139,15 +154,32 @@ let dom = {
         deleteBoardBtn.addEventListener("click", function () {
             dataHandler.removeBoard(board.id)
             board = document.getElementById(`board-${board.id}`)
-            
             board.remove()
         })
 
-        boardBar.appendChild(deleteBoardBtn);
+        topnavDiv.appendChild(deleteBoardBtn);
 
-        buttonShareBoard.addEventListener("click", function () {
-            displayForm(modalShareBoard, shareBoardCloseBtn);
-        });
+        // Responsive menu bar
+        
+        if (window.matchMedia("(min-width: 600px)").matches) {
+            let responsiveBurger = document.createElement("a");
+            responsiveBurger.className = "icon";
+            responsiveBurger.id = "burger-" + board.id;
+            topnavDiv.appendChild(responsiveBurger);
+        }
+        else {
+            let responsiveBurger = document.createElement("a");
+            responsiveBurger.className = "icon";
+            responsiveBurger.innerHTML = "<i class='fa fa-bars'></i>";
+            responsiveBurger.id = "burger-" + board.id;
+            topnavDiv.appendChild(responsiveBurger);
+
+            responsiveBurger.addEventListener("click", function () {
+                navbar(board.id);
+            });
+        }
+
+        boardBar.appendChild(topnavDiv);
 
         // Board detailed container with statuses and cards
         let boardDetails = document.createElement("div");
@@ -304,14 +336,20 @@ let dom = {
         if (board) {
             let boardContainer = document.getElementById("board-" + boardId);
             let boardDetails = boardContainer.getElementsByClassName("board-details")[0];
+            
 
             board.is_active = !board.is_active;
             boardContainer.classList.toggle("open");
 
             if (board.is_active) {
-            expandSection(boardDetails);
+                document.getElementById("burger-" + boardId).style.display = "block";
+                expandSection(boardDetails);
             } else {
-            collapseSection(boardDetails);
+                if (document.getElementsByClassName("topnav responsive").length === 1) {
+                    navbar(boardId);
+                }
+                document.getElementById("burger-" + boardId).style.display = "none";
+                collapseSection(boardDetails);
             }
         }
     },
@@ -632,9 +670,20 @@ function enterClick(elem, btn) {
 // save new card name
 
 function save(event, cardText, cardId){
+
     // target.parentElement.id,textContent,parentElement.dataset.list-status
     let text = cardText.value,
         status = event.target.parentElement.parentElement.dataset.list
     
     dataHandler.updateCard(cardId,text,status)
+}
+
+
+function navbar(board_id) {
+    var x = document.getElementById("myTopnav-" + board_id);
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
     }
+}

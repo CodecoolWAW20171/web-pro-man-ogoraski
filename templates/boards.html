@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    
     <script src="{{ url_for('static', filename='js/data_handler.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/dom.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
@@ -87,7 +88,7 @@
             <img src="{{ url_for('static', filename='trollo-logo-black.svg') }}"
                  width="150px" alt="">
             <input value="{{ username }}" id="username" hidden>
-            <span class="signed-info">Signed in as <b>{{ username }}</b><a href="{{ url_for('logout') }}" id="logout"><button class="logout">Logout</button></a></span>
+            <p class="signed-info">Signed in as <b>{{ username }}</b><a href="{{ url_for('logout') }}" id="logout"><button class="logout">Logout</button></a></p>
         </header>
         <div class="top-bar"><button id="new-board" class="btn-add"><i class="fas fa-plus"></i> &nbsp;New board</button></div>
         
