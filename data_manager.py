@@ -122,7 +122,7 @@ def insert_board(cursor, title, account_id):
 def insert_card(cursor, board_id, title, status_id):
     board_id = int(board_id)
     cursor.execute("""
-                    INSERT INTO cards 
+                    INSERT INTO cards
                     (title, board_id, status_id)
                     VALUES (%(title)s, %(board_id)s, %(status_id)s);
                     """,
@@ -135,7 +135,7 @@ def share_board(cursor, account_id, board_id):
         account_id = int(account_id)
         board_id = int(board_id)
         cursor.execute("""
-                           SELECT * FROM boards_accounts 
+                           SELECT * FROM boards_accounts
                            WHERE account_id = %(account_id)s AND board_id = %(board_id)s;
                            """,
                        {'account_id': account_id, 'board_id': board_id})
@@ -143,7 +143,7 @@ def share_board(cursor, account_id, board_id):
             return True
         else:
             cursor.execute("""
-                            INSERT INTO boards_accounts 
+                            INSERT INTO boards_accounts
                             (account_id, board_id)
                             VALUES (%(account_id)s, %(board_id)s);
                             """,
