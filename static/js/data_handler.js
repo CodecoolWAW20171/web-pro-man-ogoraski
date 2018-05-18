@@ -32,12 +32,6 @@ let dataHandler = {
         }
     },
 
-    _saveData: function () {
-        // it is not called from outside
-        // saves the data from this._data to local storage
-        localStorage.setItem(this.keyInLocalStorage, JSON.stringify(this._data));
-    },
-
     init: function () {
         this._loadData();
     },
@@ -47,7 +41,6 @@ let dataHandler = {
         let boards = this._data.boards;
 
         if (typeof(boards) === "undefined") {
-            console.log("There's no boards");
             return null;
         } else {
             if (callback) {
@@ -74,7 +67,6 @@ let dataHandler = {
         if (board) {
             return board;
         } else {
-            console.log("There's no board with id " + boardId);
             return null;
         }
     },
@@ -84,7 +76,6 @@ let dataHandler = {
         let statuses = this._data.statuses;
 
         if (typeof(statuses) === "undefined") {
-            console.log("There's no statuses");
             return null;
         } else {
             if (callback) {
@@ -112,7 +103,6 @@ let dataHandler = {
             return status;
         }
         else {
-            console.log("There's no status with id " + statusId);
             return null;
         }
     },
@@ -129,7 +119,6 @@ let dataHandler = {
         }
 
         if (results.length == 0) {
-            console.log("There's no cards in board with id " + boardId);
             return null;
         }
         else {
@@ -157,7 +146,6 @@ let dataHandler = {
             }
         }
 
-        console.log("There's no card with id " + cardId);
         return null;
     },
 
@@ -182,7 +170,6 @@ let dataHandler = {
             "is_active": true
         });
 
-        this._saveData();
         if (callback) {
             return callback(this._data);
         }
@@ -215,7 +202,6 @@ let dataHandler = {
             "order": this.getLastCardsOrder(boardId)
         });
 
-        this._saveData();
         if (callback) {
             return callback(this._data);
         }
@@ -254,7 +240,6 @@ let dataHandler = {
             "status_id": parseInt(newStatus),
             "order": card.order
         };
-        this._saveData();
 
         if (callback) {
             return callback(this._data);
